@@ -6,6 +6,7 @@ import LoginPage from "./pages/login";
 import CropManagement from "./pages/CropManagement";
 import SoilAnalysis from "./pages/SoilAnalysis";
 import FarmerProfile from "./pages/FarmerProfile";
+import Marketplace from "./pages/Marketplace";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/crops" element={<CropManagement />} />
         <Route path="/soil-analysis" element={<SoilAnalysis />} />
         <Route path="/profile" element={<FarmerProfile />} />
+        <Route path="/marketplace" element={<Marketplace />} />
       </Routes>
   
   );
