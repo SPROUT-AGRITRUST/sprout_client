@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Bell, Leaf, Bot, ShoppingCart, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { NavLink } from "react-router-dom";
+import { Bell, Leaf, Bot, ShoppingCart, Search, ChevronLeft, ChevronRight, User } from "lucide-react";
 
 const quickActions = [
-  { label: "Check Soil Health", icon: <Search className="w-6 h-6" /> },
-  { label: "Get Crop Suggestion", icon: <Leaf className="w-6 h-6" /> },
-  { label: "Sell Produce", icon: <ShoppingCart className="w-6 h-6" /> },
-  { label: "Smart Support Bot", icon: <Bot className="w-6 h-6" /> },
+  { label: "Soil Analysis", icon: <Search className="w-6 h-6" />, link: "/soil-analysis" },
+  { label: "Crop Management", icon: <Leaf className="w-6 h-6" />, link: "/crops" },
+  { label: "My Profile", icon: <User className="w-6 h-6" />, link: "/profile" },
+  { label: "Market Place", icon: <ShoppingCart className="w-6 h-6" />, link: "/market" },
 ];
 
 const carouselData = [
@@ -60,18 +61,18 @@ export default function HomePage() {
             Sprout
           </h1>
           <div className="flex items-center space-x-4">
-            <a
-              href="/login"
+            <NavLink
+              to="/login"
               className="px-4 py-2 text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
             >
               Sign In
-            </a>
-            <a
-              href="/signup"
+            </NavLink>
+            <NavLink
+              to="/signup"
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
             >
               Get Started
-            </a>
+            </NavLink>
             <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
               <Bell className="w-5 h-5 text-green-600" />
               <span className="absolute top-2 right-2 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
@@ -119,12 +120,12 @@ export default function HomePage() {
                 Upload your soil report and receive AI-powered recommendations for the best crops to plant, optimal planting times, and yield optimization strategies.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="px-8 py-4 bg-white text-green-600 rounded-xl font-semibold hover:bg-green-50 transition-colors duration-200 shadow-lg">
+                <NavLink to="/soil-analysis" className="px-8 py-4 bg-white text-green-600 rounded-xl font-semibold hover:bg-green-50 transition-colors duration-200 shadow-lg text-center">
                   Upload Soil Report
-                </button>
-                <button className="px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-green-600 transition-colors duration-200">
+                </NavLink>
+                <NavLink to="/soil-analysis" className="px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-green-600 transition-colors duration-200 text-center">
                   Learn More
-                </button>
+                </NavLink>
               </div>
             </div>
             
@@ -327,8 +328,9 @@ export default function HomePage() {
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {quickActions.map((action, idx) => (
-              <button
+              <NavLink
                 key={idx}
+                to={action.link}
                 className="group flex flex-col items-center justify-center p-6 bg-white border border-green-100 rounded-2xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:border-green-200"
               >
                 <div className="bg-gradient-to-br from-green-100 to-emerald-100 p-4 rounded-2xl text-green-600 mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -337,7 +339,7 @@ export default function HomePage() {
                 <span className="text-sm text-center font-semibold text-gray-800 group-hover:text-green-700 transition-colors duration-300">
                   {action.label}
                 </span>
-              </button>
+              </NavLink>
             ))}
           </div>
         </div>
@@ -345,30 +347,30 @@ export default function HomePage() {
 
       {/* Mobile Navigation */}
       <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-green-100 shadow-lg flex justify-around py-4 md:hidden z-50">
-        <button className="flex flex-col items-center text-green-600 font-medium">
+        <NavLink to="/" className="flex flex-col items-center text-green-600 font-medium">
           <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mb-1">
             <Leaf className="w-4 h-4" />
           </div>
           <span className="text-xs">Home</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-500">
+        </NavLink>
+        <NavLink to="/crops" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
           <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mb-1">
-            <ShoppingCart className="w-4 h-4" />
+            <Leaf className="w-4 h-4" />
           </div>
-          <span className="text-xs">Market</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-500">
+          <span className="text-xs">Crops</span>
+        </NavLink>
+        <NavLink to="/soil-analysis" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
           <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mb-1">
             <Search className="w-4 h-4" />
           </div>
-          <span className="text-xs">Community</span>
-        </button>
-        <button className="flex flex-col items-center text-gray-500">
+          <span className="text-xs">Soil</span>
+        </NavLink>
+        <NavLink to="/profile" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
           <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mb-1">
-            <Bot className="w-4 h-4" />
+            <User className="w-4 h-4" />
           </div>
           <span className="text-xs">Profile</span>
-        </button>
+        </NavLink>
       </div>
     </div>
   );
