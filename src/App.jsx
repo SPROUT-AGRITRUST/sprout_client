@@ -1,10 +1,18 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/Home";
+import SignupPage from "./pages/signup";
+import LoginPage from "./pages/login";  
 
 const App = () => {
   return (
-    <div>
-      <h1 className="text-5xl  text-amber-600  text-center ">AgriNext </h1>
-    </div>
+  
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/Login" element={<LoginPage />} />
+      </Routes>
+    
   );
 };
 
