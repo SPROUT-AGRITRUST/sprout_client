@@ -74,7 +74,9 @@ export default function HomePage() {
               Get Started
             </NavLink>
             <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
-              <Bell className="w-5 h-5 text-green-600" />
+              <Bell className="w-5 h-5 text-green-600" onClick={() => {
+                navigate('/notifications');
+              }}/>
               <span className="absolute top-2 right-2 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
             </button>
           </div>

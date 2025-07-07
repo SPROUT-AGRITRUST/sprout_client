@@ -1,0 +1,87 @@
+.sprout-loading-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e6f9e6 0%, #f8fff8 100%);
+}
+
+.sprout-logo {
+  width: 80vw;
+  max-width: 420px;
+  height: 120px;
+  display: block;
+}
+
+.sprout-text {
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  fill: #228B22;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: sproutTextGrow 1.2s cubic-bezier(0.4,1.4,0.4,1) forwards, sproutTextPulse 2.5s 1.2s infinite alternate;
+}
+
+@keyframes sproutTextGrow {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sproutTextPulse {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.15);
+  }
+}
+
+.sprout-t {
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  fill: #228B22;
+  opacity: 0;
+  transform: scale(0.95);
+  animation: sproutTIn 1.3s 0.2s cubic-bezier(0.4,1.4,0.4,1) forwards, sproutTextPulse 2.5s 1.5s infinite alternate;
+}
+
+@keyframes sproutTIn {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sprout-leaf {
+  transform-origin: 200px 54px;
+  opacity: 0;
+  transform: scaleY(0.2) scaleX(0.2) rotate(-30deg);
+  animation: sproutLeafGrow 1.1s 0.8s cubic-bezier(0.4,1.4,0.4,1) forwards, sproutLeafSway 2.5s 2s infinite alternate;
+}
+
+.sprout-leaf ellipse {
+  fill: #6fcf97;
+  stroke: #228B22;
+  stroke-width: 2;
+}
+
+@keyframes sproutLeafGrow {
+  to {
+    opacity: 1;
+    transform: scaleY(1) scaleX(1) rotate(0deg);
+  }
+}
+
+@keyframes sproutLeafSway {
+  from {
+    transform: scaleY(1) scaleX(1) rotate(-2deg);
+  }
+  to {
+    transform: scaleY(1.05) scaleX(1.05) rotate(8deg);
+  }
+} 
