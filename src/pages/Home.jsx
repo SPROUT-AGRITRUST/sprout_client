@@ -88,8 +88,6 @@ export default function HomePage() {
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-gray-400" />
             </div>
-
-            
             <input
               type="text"
               placeholder="Search for crops, farming tips, market prices..."
@@ -217,9 +215,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Seasonal Tips Card */}
-     
-
         {/* Features Section */}
         <div className="mb-16">
           <div className="text-center mb-12">
@@ -327,9 +322,9 @@ export default function HomePage() {
             Quick Actions
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {quickActions.map((action, idx) => (
+            {quickActions.map((action) => (
               <NavLink
-                key={idx}
+                key={action.label}
                 to={action.link}
                 className="group flex flex-col items-center justify-center p-6 bg-white border border-green-100 rounded-2xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:border-green-200"
               >

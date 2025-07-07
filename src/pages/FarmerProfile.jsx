@@ -126,7 +126,7 @@ export default function FarmerProfile() {
       setProfileImage(URL.createObjectURL(file));
     }
   };
-
+  
   // Detect location automatically
   const detectLocation = () => {
     setIsLoadingLocation(true);
@@ -159,6 +159,7 @@ export default function FarmerProfile() {
     }
   };
 
+
   // Save profile changes
   const saveProfile = () => {
     // Here you would typically make an API call to save the data
@@ -185,9 +186,11 @@ export default function FarmerProfile() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Farmer Profile & Dashboard</h1>
-          <p className="text-xl text-gray-600">Manage your profile and track your farming activities</p>
+        <div className="text-center mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Farmer Profile & Dashboard</h1>
+            <p className="text-xl text-gray-600">Manage your profile and track your farming activities</p>
+          </div>
         </div>
 
         {/* Tab Navigation */}
@@ -344,7 +347,7 @@ export default function FarmerProfile() {
                       disabled={!isEditing}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200 disabled:bg-gray-50 bg-white"
                     >
-                      <option value="">Select gender</option>
+                      <option value="">Select Gender</option>
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
                       <option value="Other">Other</option>
@@ -385,7 +388,7 @@ export default function FarmerProfile() {
                   {locationMode === 'auto' ? (
                     <div className="text-center p-6 bg-green-50 rounded-lg">
                       <Navigation className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                      <p className="text-gray-700 mb-4">Click below to detect your current location</p>
+                      <p className="text-gray-700 mb-4">Click below to detect your location</p>
                       <button
                         onClick={detectLocation}
                         disabled={isLoadingLocation}
@@ -451,7 +454,7 @@ export default function FarmerProfile() {
                         <p className="text-gray-500">
                           {profileData.location.coordinates.lat && profileData.location.coordinates.lng
                             ? `GPS: ${profileData.location.coordinates.lat.toFixed(4)}, ${profileData.location.coordinates.lng.toFixed(4)}`
-                            : 'Map preview will appear here'
+                            : 'No location data'
                           }
                         </p>
                       </div>
@@ -477,7 +480,7 @@ export default function FarmerProfile() {
                 {/* Dashboard Header */}
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">Farming Dashboard</h2>
-                  <p className="text-gray-600">Track your transactions and farming activities</p>
+                  <p className="text-gray-600">Track your transactions</p>
                 </div>
 
                 {/* Stats Cards */}

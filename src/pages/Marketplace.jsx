@@ -304,29 +304,15 @@ export default function Marketplace() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white">
-      {/* Header */}
-      <div className="bg-white/80 backdrop-blur-sm sticky top-0 z-40 border-b border-green-100">
-        <div className="flex items-center justify-between px-4 py-4 md:px-8">
-          <div className="flex items-center space-x-4">
-            <NavLink to="/" className="text-green-600 hover:text-green-700 transition-colors duration-200">
-              <ArrowLeft className="w-6 h-6" />
-            </NavLink>
-            <h1 className="text-2xl font-bold text-gray-900">Marketplace</h1>
-          </div>
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => setShowUploadModal(true)}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              List Produce
-            </button>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Marketplace</h1>
           </div>
         </div>
-      </div>
 
-      <div className="px-4 py-6 md:px-8">
         {/* Tab Navigation */}
         <div className="bg-white rounded-2xl shadow-lg border border-green-100 mb-8">
           <div className="flex border-b border-gray-200">
@@ -374,7 +360,7 @@ export default function Marketplace() {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         <input
                           type="text"
-                          placeholder="Search products, farmers, or locations..."
+                          placeholder="Search for products or farmers"
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
                           className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
@@ -398,7 +384,7 @@ export default function Marketplace() {
                       >
                         {statusOptions.map(status => (
                           <option key={status} value={status}>
-                            {status === 'All' ? 'All Status' : status.replace('-', ' ')}
+                            {status === 'All' ? 'All Statuses' : status.replace('-', ' ')}
                           </option>
                         ))}
                       </select>
@@ -411,7 +397,7 @@ export default function Marketplace() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Min Price</label>
                       <input
                         type="number"
-                        placeholder="Min"
+                        placeholder="Min Price"
                         value={priceRange.min}
                         onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))}
                         className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
@@ -421,7 +407,7 @@ export default function Marketplace() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Max Price</label>
                       <input
                         type="number"
-                        placeholder="Max"
+                        placeholder="Max Price"
                         value={priceRange.max}
                         onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))}
                         className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
@@ -538,7 +524,7 @@ export default function Marketplace() {
                   <div className="text-center py-12">
                     <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
-                    <p className="text-gray-600">Try adjusting your search criteria or filters</p>
+                    <p className="text-gray-600">Try adjusting your search</p>
                   </div>
                 )}
               </div>
@@ -548,10 +534,9 @@ export default function Marketplace() {
               /* Sell Produce Section */
               <div className="text-center py-12">
                 <Upload className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Sell Your Produce?</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Sell</h3>
                 <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                  List your agricultural products directly to rice millers and traders. 
-                  Get the best prices without middlemen.
+                  List your produce now
                 </p>
                 <button
                   onClick={() => setShowUploadModal(true)}
@@ -643,7 +628,7 @@ export default function Marketplace() {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder="e.g., Basmati Rice Paddy"
+                    placeholder="e.g. Basmati Rice Paddy"
                   />
                 </div>
 
@@ -658,7 +643,7 @@ export default function Marketplace() {
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
                   >
-                    <option value="">Select crop type</option>
+                    <option value="">Select Crop Type</option>
                     {cropTypes.slice(1).map(type => (
                       <option key={type} value={type}>{type}</option>
                     ))}
@@ -691,16 +676,16 @@ export default function Marketplace() {
                       onChange={handleInputChange}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
                     >
-                      <option value="quintals">Quintals</option>
-                      <option value="kg">Kilograms</option>
-                      <option value="tons">Tons</option>
+                      <option value="quintals">quintals</option>
+                      <option value="kg">kilograms</option>
+                      <option value="tons">tons</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Price per Unit (₹) *
+                    Price Per Unit (₹) *
                   </label>
                   <input
                     type="number"
@@ -738,7 +723,7 @@ export default function Marketplace() {
                     onChange={handleInputChange}
                     rows="3"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200 resize-none"
-                    placeholder="Describe your product quality, farming methods, etc."
+                    placeholder="Describe your product quality and farming methods"
                   />
                 </div>
 
@@ -825,7 +810,7 @@ export default function Marketplace() {
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Make an Offer</h2>
+                <h2 className="text-2xl font-bold text-gray-900">Make An Offer</h2>
                 <button
                   onClick={() => setShowBidModal(false)}
                   className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
@@ -838,7 +823,7 @@ export default function Marketplace() {
                 <div className="p-4 bg-gray-50 rounded-lg">
                   <h3 className="font-semibold text-gray-900 mb-2">{selectedListing.productName}</h3>
                   <p className="text-sm text-gray-600">
-                    Current Price: ₹{selectedListing.pricePerUnit.toLocaleString()} per {selectedListing.unit.slice(0, -1)}
+                    Current Price ₹{selectedListing.pricePerUnit.toLocaleString()} per {selectedListing.unit.slice(0, -1)}
                   </p>
                 </div>
 
@@ -853,7 +838,7 @@ export default function Marketplace() {
                     required
                     min="1"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder="Enter your offer amount"
+                    placeholder="Enter Your Offer Amount"
                   />
                 </div>
 

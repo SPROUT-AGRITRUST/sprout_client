@@ -1,0 +1,87 @@
+{
+  "home": {
+    "title": "Welcome to Sprout",
+    "subtitle": "Empowering Farmers with Technology",
+    "searchPlaceholder": "Search for crops, farming tips, market prices...",
+    "getStarted": "Get Started",
+    "signIn": "Sign In",
+    "soilBannerTitle": "Get Personalized Crop Suggestions",
+    "soilBannerDesc": "Upload your soil report and receive AI-powered recommendations for the best crops to plant, optimal planting times, and yield optimization strategies.",
+    "uploadSoilReport": "Upload Soil Report",
+    "learnMore": "Learn More",
+    "featuresTitle": "Why Choose Sprout?",
+    "featuresDesc": "Empowering farmers with cutting-edge technology and data-driven insights for sustainable agriculture",
+    "quickActions": {
+      "soil": "Soil Analysis",
+      "crops": "Crop Management",
+      "profile": "My Profile",
+      "market": "Market Place"
+    }
+  },
+  "login": {
+    "welcome": "Welcome Back to",
+    "subtitle": "Continue your journey in precision agriculture"
+  },
+  "signup": {
+    "quote": "Cultivating Data, Harvesting Success.",
+    "subtitle": "Join the future of precision agriculture"
+  },
+  "form": {
+    "email": "Email Address",
+    "password": "Password",
+    "login": "Sign In",
+    "signup": "Sign Up"
+  },
+  "dashboard": {
+    "greeting": "Hello, {{name}}!",
+    "overview": "Your Farm Overview"
+  },
+  "cropManagement": {
+    "title": "Crop Management",
+    "subtitle": "Manage your crops and track their growth progress",
+    "addNew": "Add New Crop",
+    "totalCrops": "Total Crops",
+    "growing": "Growing",
+    "nearingHarvest": "Nearing Harvest",
+    "needsAttention": "Needs Attention",
+    "fieldName": "Field/Plot Name",
+    "cropType": "Crop Type",
+    "plantingDate": "Planting Date",
+    "expectedHarvestDate": "Expected Harvest Date",
+    "notes": "Notes",
+    "actions": "Actions"
+  },
+  "soilAnalysis": {
+    "title": "Soil Analysis",
+    "subtitle": "Upload your soil report or manually enter values to get personalized recommendations for your farm"
+  },
+  "farmerProfile": {
+    "title": "Farmer Profile & Dashboard",
+    "subtitle": "Manage your profile and track your farming activities",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "personalInfo": "Personal Information",
+    "editProfile": "Edit Profile",
+    "saveChanges": "Save Changes"
+  },
+  "marketplace": {
+    "title": "Marketplace",
+    "buyProduce": "Buy Produce",
+    "sellProduce": "Sell Produce",
+    "myListings": "My Listings",
+    "listProduce": "List Produce",
+    "searchPlaceholder": "Search products, farmers, or locations..."
+  },
+  "carousel1": {
+    "title": "Smart Farming Solutions",
+    "subtitle": "AI-powered insights for better crop management"
+  },
+  "carousel2": {
+    "title": "Market Connect",
+    "subtitle": "Direct access to buyers and fair pricing"
+  },
+  "carousel3": {
+    "title": "Expert Guidance",
+    "subtitle": "24/7 support from agricultural experts"
+  }
+} 

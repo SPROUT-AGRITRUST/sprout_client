@@ -220,7 +220,6 @@ export default function CropManagement() {
               </div>
             </div>
           </div>
-          
           <div className="bg-white rounded-xl p-6 shadow-sm border border-green-100">
             <div className="flex items-center">
               <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mr-4">
@@ -234,7 +233,6 @@ export default function CropManagement() {
               </div>
             </div>
           </div>
-          
           <div className="bg-white rounded-xl p-6 shadow-sm border border-green-100">
             <div className="flex items-center">
               <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mr-4">
@@ -248,7 +246,6 @@ export default function CropManagement() {
               </div>
             </div>
           </div>
-          
           <div className="bg-white rounded-xl p-6 shadow-sm border border-green-100">
             <div className="flex items-center">
               <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mr-4">

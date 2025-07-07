@@ -23,6 +23,8 @@ export default function SoilAnalysis() {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisComplete, setAnalysisComplete] = useState(false);
+  const [showForm, setShowForm] = useState(false); // controls if the rest of the form is shown
+  const [showExtendedForm, setShowExtendedForm] = useState(false); // controls if the extended form is shown
   
   // Form data for manual input
   const [soilData, setSoilData] = useState({
@@ -82,6 +84,14 @@ export default function SoilAnalysis() {
     setSoilData(prev => ({
       ...prev,
       [name]: value
+    }));
+  };
+
+  // Handle Soil Texture selection and show rest of form
+  const handleSoilTextureChange = (e) => {
+    setSoilData(prev => ({
+      ...prev,
+      soilTexture: e.target.value
     }));
   };
 
@@ -283,18 +293,13 @@ export default function SoilAnalysis() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-              <Leaf className="w-8 h-8 text-green-600" />
-            </div>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Soil Analysis</h1>
+            <p className="text-gray-600">Upload your soil report or manually enter values to get personalized recommendations for your farm</p>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Soil Analysis</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Upload your soil report or manually enter values to get personalized recommendations for your farm
-          </p>
         </div>
 
         {/* Input Tabs */}
@@ -309,7 +314,7 @@ export default function SoilAnalysis() {
               }`}
             >
               <Upload className="w-5 h-5 inline mr-2" />
-              Upload Report
+              Upload
             </button>
             <button
               onClick={() => setActiveTab('manual')}
@@ -323,7 +328,7 @@ export default function SoilAnalysis() {
               Manual Entry
             </button>
           </div>
-
+              
           <div className="p-6">
             {activeTab === 'upload' ? (
               /* Upload Section */
@@ -332,7 +337,7 @@ export default function SoilAnalysis() {
                   <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Upload Soil Report</h3>
                   <p className="text-gray-600 mb-4">
-                    Supported formats: PDF, CSV, JSON
+                    Upload your soil report in PDF, CSV, or JSON format.
                   </p>
                   <input
                     type="file"
@@ -359,128 +364,165 @@ export default function SoilAnalysis() {
               </div>
             ) : (
               /* Manual Entry Section */
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="pH" className="block text-sm font-medium text-gray-700 mb-2">
-                    pH Level
-                  </label>
-                  <input
-                    type="number"
-                    id="pH"
-                    name="pH"
-                    value={soilData.pH}
-                    onChange={handleInputChange}
-                    step="0.1"
-                    min="0"
-                    max="14"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder="6.5"
-                  />
-                </div>
+              <div>
+                {/* Soil Texture Selection (mandatory) */}
+                {(!showForm && !showExtendedForm) && (
+                  <div className="max-w-xs mx-auto">
+                    <label htmlFor="soilTexture" className="block text-sm font-medium text-gray-700 mb-2">
+                      Soil Texture <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      id="soilTexture"
+                      name="soilTexture"
+                      value={soilData.soilTexture}
+                      onChange={handleSoilTextureChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200 bg-white"
+                      required
+                    >
+                      <option value="">Select Soil Texture</option>
+                      {soilTextures.map(texture => (
+                        <option key={texture} value={texture}>{texture}</option>
+                      ))}
+                    </select>
+                    <div className="flex flex-col gap-3 mt-6">
+                      <button
+                        className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
+                        disabled={!soilData.soilTexture}
+                        onClick={() => setShowForm(true)}
+                        type="button"
+                      >
+                        Continue
+                      </button>
+                      <button
+                        className="w-full px-4 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors duration-200 font-medium"
+                        disabled={!soilData.soilTexture}
+                        onClick={() => setShowExtendedForm(true)}
+                        type="button"
+                      >
+                        I can provide more inputs
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {/* Rest of the form, shown only after Soil Texture is selected and Continue is clicked */}
+                {showForm && (
+                  <div className="mt-6 text-center">
+                    <button
+                      onClick={analyzeSoil}
+                      className="px-8 py-4 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-200 font-medium"
+                    >
+                      Analyze Soil
+                    </button>
+                  </div>
+                )}
+                {/* Extended form, shown only after 'I can provide more inputs' is clicked */}
+                {showExtendedForm && (
+                  <>
+                    <div className="grid md:grid-cols-2 gap-6 mt-6">
+                      <div>
+                        <label htmlFor="pH" className="block text-sm font-medium text-gray-700 mb-2">
+                          pH
+                        </label>
+                        <input
+                          type="number"
+                          id="pH"
+                          name="pH"
+                          value={soilData.pH}
+                          onChange={handleInputChange}
+                          step="0.1"
+                          min="0"
+                          max="14"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
+                          placeholder="6.5"
+                        />
+                      </div>
 
-                <div>
-                  <label htmlFor="nitrogen" className="block text-sm font-medium text-gray-700 mb-2">
-                    Nitrogen (ppm)
-                  </label>
-                  <input
-                    type="number"
-                    id="nitrogen"
-                    name="nitrogen"
-                    value={soilData.nitrogen}
-                    onChange={handleInputChange}
-                    min="0"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder="150"
-                  />
-                </div>
+                      <div>
+                        <label htmlFor="nitrogen" className="block text-sm font-medium text-gray-700 mb-2">
+                          Nitrogen (ppm)
+                        </label>
+                        <input
+                          type="number"
+                          id="nitrogen"
+                          name="nitrogen"
+                          value={soilData.nitrogen}
+                          onChange={handleInputChange}
+                          min="0"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
+                          placeholder="150"
+                        />
+                      </div>
 
-                <div>
-                  <label htmlFor="phosphorus" className="block text-sm font-medium text-gray-700 mb-2">
-                    Phosphorus (ppm)
-                  </label>
-                  <input
-                    type="number"
-                    id="phosphorus"
-                    name="phosphorus"
-                    value={soilData.phosphorus}
-                    onChange={handleInputChange}
-                    min="0"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder="50"
-                  />
-                </div>
+                      <div>
+                        <label htmlFor="phosphorus" className="block text-sm font-medium text-gray-700 mb-2">
+                          Phosphorus (ppm)
+                        </label>
+                        <input
+                          type="number"
+                          id="phosphorus"
+                          name="phosphorus"
+                          value={soilData.phosphorus}
+                          onChange={handleInputChange}
+                          min="0"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
+                          placeholder="50"
+                        />
+                      </div>
 
-                <div>
-                  <label htmlFor="potassium" className="block text-sm font-medium text-gray-700 mb-2">
-                    Potassium (ppm)
-                  </label>
-                  <input
-                    type="number"
-                    id="potassium"
-                    name="potassium"
-                    value={soilData.potassium}
-                    onChange={handleInputChange}
-                    min="0"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder="200"
-                  />
-                </div>
+                      <div>
+                        <label htmlFor="potassium" className="block text-sm font-medium text-gray-700 mb-2">
+                          Potassium (ppm)
+                        </label>
+                        <input
+                          type="number"
+                          id="potassium"
+                          name="potassium"
+                          value={soilData.potassium}
+                          onChange={handleInputChange}
+                          min="0"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
+                          placeholder="200"
+                        />
+                      </div>
 
-                <div>
-                  <label htmlFor="organicMatter" className="block text-sm font-medium text-gray-700 mb-2">
-                    Organic Matter (%)
-                  </label>
-                  <input
-                    type="number"
-                    id="organicMatter"
-                    name="organicMatter"
-                    value={soilData.organicMatter}
-                    onChange={handleInputChange}
-                    step="0.1"
-                    min="0"
-                    max="100"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder="3.5"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="soilTexture" className="block text-sm font-medium text-gray-700 mb-2">
-                    Soil Texture
-                  </label>
-                  <select
-                    id="soilTexture"
-                    name="soilTexture"
-                    value={soilData.soilTexture}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200 bg-white"
-                  >
-                    <option value="">Select soil texture</option>
-                    {soilTextures.map(texture => (
-                      <option key={texture} value={texture}>{texture}</option>
-                    ))}
-                  </select>
-                </div>
+                      <div>
+                        <label htmlFor="organicMatter" className="block text-sm font-medium text-gray-700 mb-2">
+                          Organic Matter (%)
+                        </label>
+                        <input
+                          type="number"
+                          id="organicMatter"
+                          name="organicMatter"
+                          value={soilData.organicMatter}
+                          onChange={handleInputChange}
+                          step="0.1"
+                          min="0"
+                          max="100"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
+                          placeholder="3.5"
+                        />
+                      </div>
+                    </div>
+                    <div className="mt-6 text-center">
+                      <button
+                        onClick={analyzeSoil}
+                        disabled={isAnalyzing || (!soilData.pH && !soilData.nitrogen && !soilData.phosphorus && !soilData.potassium && !soilData.organicMatter)}
+                        className="px-8 py-4 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isAnalyzing ? (
+                          <div className="flex items-center">
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                            Analyzing Soil
+                          </div>
+                        ) : (
+                          'Analyze Soil'
+                        )}
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             )}
-
-            {/* Analyze Button */}
-            <div className="mt-6 text-center">
-              <button
-                onClick={analyzeSoil}
-                disabled={isAnalyzing || (!uploadedFile && activeTab === 'upload')}
-                className="px-8 py-4 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isAnalyzing ? (
-                  <div className="flex items-center">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Analyzing Soil...
-                  </div>
-                ) : (
-                  'Analyze Soil'
-                )}
-              </button>
-            </div>
           </div>
         </div>
 
@@ -491,71 +533,83 @@ export default function SoilAnalysis() {
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Soil Analysis Summary</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="p-4 border border-gray-200 rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">pH Level</span>
-                    {analysisResults.pHStatus && (
-                      <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.pHStatus).color}`}>
-                        {getStatusInfo(analysisResults.pHStatus).icon}
-                        <span className="ml-1">{getStatusInfo(analysisResults.pHStatus).text}</span>
-                      </div>
-                    )}
+                {/* Only show if value is present */}
+                {soilData.pH && (
+                  <div className="p-4 border border-gray-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-700">pH Level</span>
+                      {analysisResults.pHStatus && (
+                        <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.pHStatus).color}`}>
+                          {getStatusInfo(analysisResults.pHStatus).icon}
+                          <span className="ml-1">{getStatusInfo(analysisResults.pHStatus).text}</span>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-2xl font-bold text-gray-900">{soilData.pH}</p>
                   </div>
-                  <p className="text-2xl font-bold text-gray-900">{soilData.pH || 'N/A'}</p>
-                </div>
+                )}
 
-                <div className="p-4 border border-gray-200 rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Nitrogen</span>
-                    {analysisResults.nitrogenStatus && (
-                      <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.nitrogenStatus).color}`}>
-                        {getStatusInfo(analysisResults.nitrogenStatus).icon}
-                        <span className="ml-1">{getStatusInfo(analysisResults.nitrogenStatus).text}</span>
-                      </div>
-                    )}
+                {soilData.nitrogen && (
+                  <div className="p-4 border border-gray-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-700">Nitrogen</span>
+                      {analysisResults.nitrogenStatus && (
+                        <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.nitrogenStatus).color}`}>
+                          {getStatusInfo(analysisResults.nitrogenStatus).icon}
+                          <span className="ml-1">{getStatusInfo(analysisResults.nitrogenStatus).text}</span>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-2xl font-bold text-gray-900">{soilData.nitrogen} ppm</p>
                   </div>
-                  <p className="text-2xl font-bold text-gray-900">{soilData.nitrogen || 'N/A'} ppm</p>
-                </div>
+                )}
 
-                <div className="p-4 border border-gray-200 rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Phosphorus</span>
-                    {analysisResults.phosphorusStatus && (
-                      <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.phosphorusStatus).color}`}>
-                        {getStatusInfo(analysisResults.phosphorusStatus).icon}
-                        <span className="ml-1">{getStatusInfo(analysisResults.phosphorusStatus).text}</span>
-                      </div>
-                    )}
+                {soilData.phosphorus && (
+                  <div className="p-4 border border-gray-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-700">Phosphorus</span>
+                      {analysisResults.phosphorusStatus && (
+                        <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.phosphorusStatus).color}`}>
+                          {getStatusInfo(analysisResults.phosphorusStatus).icon}
+                          <span className="ml-1">{getStatusInfo(analysisResults.phosphorusStatus).text}</span>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-2xl font-bold text-gray-900">{soilData.phosphorus} ppm</p>
                   </div>
-                  <p className="text-2xl font-bold text-gray-900">{soilData.phosphorus || 'N/A'} ppm</p>
-                </div>
+                )}
 
-                <div className="p-4 border border-gray-200 rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Potassium</span>
-                    {analysisResults.potassiumStatus && (
-                      <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.potassiumStatus).color}`}>
-                        {getStatusInfo(analysisResults.potassiumStatus).icon}
-                        <span className="ml-1">{getStatusInfo(analysisResults.potassiumStatus).text}</span>
-                      </div>
-                    )}
+                {soilData.potassium && (
+                  <div className="p-4 border border-gray-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-700">Potassium</span>
+                      {analysisResults.potassiumStatus && (
+                        <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.potassiumStatus).color}`}>
+                          {getStatusInfo(analysisResults.potassiumStatus).icon}
+                          <span className="ml-1">{getStatusInfo(analysisResults.potassiumStatus).text}</span>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-2xl font-bold text-gray-900">{soilData.potassium} ppm</p>
                   </div>
-                  <p className="text-2xl font-bold text-gray-900">{soilData.potassium || 'N/A'} ppm</p>
-                </div>
+                )}
 
-                <div className="p-4 border border-gray-200 rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Organic Matter</span>
-                    {analysisResults.organicMatterStatus && (
-                      <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.organicMatterStatus).color}`}>
-                        {getStatusInfo(analysisResults.organicMatterStatus).icon}
-                        <span className="ml-1">{getStatusInfo(analysisResults.organicMatterStatus).text}</span>
-                      </div>
-                    )}
+                {soilData.organicMatter && (
+                  <div className="p-4 border border-gray-200 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-700">Organic Matter</span>
+                      {analysisResults.organicMatterStatus && (
+                        <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.organicMatterStatus).color}`}>
+                          {getStatusInfo(analysisResults.organicMatterStatus).icon}
+                          <span className="ml-1">{getStatusInfo(analysisResults.organicMatterStatus).text}</span>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-2xl font-bold text-gray-900">{soilData.organicMatter}%</p>
                   </div>
-                  <p className="text-2xl font-bold text-gray-900">{soilData.organicMatter || 'N/A'}%</p>
-                </div>
+                )}
 
+                {/* Always show Soil Texture */}
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-gray-700">Soil Texture</span>
@@ -565,71 +619,21 @@ export default function SoilAnalysis() {
               </div>
             </div>
 
-            {/* Recommendations */}
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Crop Suggestions */}
-              <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-                <div className="flex items-center mb-4">
-                  <Leaf className="w-6 h-6 text-green-600 mr-2" />
-                  <h3 className="text-xl font-bold text-gray-900">Recommended Crops</h3>
-                </div>
-                <div className="space-y-2">
-                  {analysisResults.cropSuggestions.map((crop, index) => (
-                    <div key={index} className="flex items-center p-3 bg-green-50 rounded-lg">
-                      <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
-                      <span className="text-gray-800">{crop}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Fertilizer Recommendations */}
-              <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-                <div className="flex items-center mb-4">
-                  <Zap className="w-6 h-6 text-green-600 mr-2" />
-                  <h3 className="text-xl font-bold text-gray-900">Fertilizer Recommendations</h3>
-                </div>
-                <div className="space-y-2">
-                  {analysisResults.fertilizerRecommendations.length > 0 ? (
-                    analysisResults.fertilizerRecommendations.map((fertilizer, index) => (
-                      <div key={index} className="flex items-center p-3 bg-blue-50 rounded-lg">
-                        <Info className="w-4 h-4 text-blue-600 mr-2" />
-                        <span className="text-gray-800">{fertilizer}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-                      <CheckCircle className="w-4 h-4 text-gray-600 mr-2" />
-                      <span className="text-gray-600">No specific fertilizer recommendations needed</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Action Items */}
+            {/* Crop Suggestions */}
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Action Items</h3>
-              <div className="space-y-3">
-                {analysisResults.recommendations.map((recommendation, index) => (
-                  <div key={index} className="flex items-start p-4 bg-yellow-50 rounded-lg">
-                    <AlertTriangle className="w-5 h-5 text-yellow-600 mr-3 mt-0.5" />
-                    <span className="text-gray-800">{recommendation}</span>
+              <div className="flex items-center mb-4">
+                <Leaf className="w-6 h-6 text-green-600 mr-2" />
+                <h3 className="text-xl font-bold text-gray-900">Recommended Crops</h3>
+              </div>
+              <div className="space-y-2">
+                {analysisResults.cropSuggestions.map((crop, index) => (
+                  <div key={index} className="flex items-center p-3 bg-green-50 rounded-lg">
+                    <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
+                    <span className="text-gray-800">{crop}</span>
                   </div>
                 ))}
               </div>
             </div>
-
-            {/* Irrigation Notes */}
-            {analysisResults.irrigationNotes && (
-              <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-                <div className="flex items-center mb-4">
-                  <Droplets className="w-6 h-6 text-green-600 mr-2" />
-                  <h3 className="text-xl font-bold text-gray-900">Irrigation Notes</h3>
-                </div>
-                <p className="text-gray-700 leading-relaxed">{analysisResults.irrigationNotes}</p>
-              </div>
-            )}
 
             {/* Reset Button */}
             <div className="text-center">
