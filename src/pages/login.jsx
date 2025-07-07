@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginForm from '../components/auth/LoginForm';
-
+import { auth } from '../services/firebase';
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex">

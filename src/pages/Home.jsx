@@ -58,7 +58,7 @@ export default function HomePage() {
       <div className="bg-white/80 backdrop-blur-sm sticky top-0 z-40 border-b border-green-100">
         <div className="flex justify-between items-center px-4 py-4 md:px-8">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-            Sprout
+            Sprout <span className="text-green-600">🌱</span>
           </h1>
           <div className="flex items-center space-x-4">
             <NavLink

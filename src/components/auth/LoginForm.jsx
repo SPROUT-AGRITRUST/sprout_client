@@ -2,16 +2,22 @@
 
 import React, { useState } from 'react';
 import { Eye, EyeOff, Leaf, Mail, Lock } from 'lucide-react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
+import { getAuth ,signInWithRedirect,GoogleAuthProvider} from 'firebase/auth';
+import { auth } from '../../services/firebase';
+
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  
+  const provider = new GoogleAuthProvider();
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const navigate = useNavigate();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -26,13 +32,9 @@ export default function LoginForm() {
     
     try {
       // TODO: Implement actual login logic here
-      console.log('Login form submitted:', formData);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Redirect or show success message
-      alert('Login successful!');
+     await signInWithEmailAndPassword(auth, formData.email, formData.password)
+     console.log('Login successful:', userCredential.user);
+     navigate('/');
     } catch (error) {
       console.error('Login error:', error);
       alert('An error occurred during login. Please try again.');
@@ -44,7 +46,16 @@ export default function LoginForm() {
   const handleSocialLogin = (provider) => {
     // TODO: Implement social login logic
     console.log(`Logging in with ${provider}`);
-    alert(`${provider} login will be implemented here`);
+    if (provider === 'Google') {
+      signInWithRedirect(auth, provider)
+      .then((userCredential) => {
+        console.log('Login successful:', userCredential.user);
+      })
+      .catch((error) => {
+        console.error('Login error:', error);
+        alert('An error occurred during login. Please try again.');
+      });
+    }
   };
 
   return (
@@ -124,6 +135,7 @@ export default function LoginForm() {
                 required
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
                 placeholder="Enter your email address"
+                autoComplete="email"
               />
             </div>
           </div>
@@ -146,6 +158,7 @@ export default function LoginForm() {
                 required
                 className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
                 placeholder="Enter your password"
+                autoComplete="current-password"
               />
               <button
                 type="button"

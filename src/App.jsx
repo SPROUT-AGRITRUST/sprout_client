@@ -10,7 +10,6 @@ import Marketplace from "./pages/Marketplace";
 
 const App = () => {
   return (
-  
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignupPage />} />
@@ -19,6 +18,7 @@ const App = () => {
         <Route path="/soil-analysis" element={<SoilAnalysis />} />
         <Route path="/profile" element={<FarmerProfile />} />
         <Route path="/marketplace" element={<Marketplace />} />
+        
       </Routes>
   
   );
