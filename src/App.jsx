@@ -7,10 +7,9 @@ import CropManagement from "./pages/CropManagement";
 import SoilAnalysis from "./pages/SoilAnalysis";
 import FarmerProfile from "./pages/FarmerProfile";
 import Marketplace from "./pages/Marketplace";
-import { NotificationProvider } from './components/NotificationProvider';
+
 import LoadingScreen from './components/LoadingScreen';
-import './components/LoadingScreen.css';
-import './components/Notification.css';
+
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -22,10 +21,10 @@ const App = () => {
 
   if (loading) {
     return <LoadingScreen />;
-  }
+  }   
 
   return (
-    <NotificationProvider>
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignupPage />} />
@@ -35,7 +34,7 @@ const App = () => {
         <Route path="/profile" element={<FarmerProfile />} />
         <Route path="/marketplace" element={<Marketplace />} />
       </Routes>
-    </NotificationProvider>
+
   );
 };
 

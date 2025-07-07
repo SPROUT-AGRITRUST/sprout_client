@@ -4,6 +4,75 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #e6f9e6 0%, #f8fff8 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.sprout-bg-sapling {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 340px;
+  height: 180px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.soil-ellipse {
+  opacity: 0.7;
+  filter: blur(0.5px);
+}
+
+.seed-drop {
+  transform-origin: 160px 120px;
+  opacity: 0;
+  animation: seedDropAnim 2.5s cubic-bezier(0.4,1.4,0.4,1) infinite;
+}
+
+@keyframes seedDropAnim {
+  0% { opacity: 0; transform: translateY(-40px) scale(0.7); }
+  10% { opacity: 1; transform: translateY(0) scale(1); }
+  30% { opacity: 1; }
+  40% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.sprout-stem {
+  transform-origin: 160px 120px;
+  animation: stemGrowAnim 2.5s cubic-bezier(0.4,1.4,0.4,1) infinite;
+}
+
+@keyframes stemGrowAnim {
+  0%, 10% { height: 0; opacity: 0; }
+  20% { height: 0; opacity: 1; }
+  35% { height: 40px; opacity: 1; }
+  60% { height: 40px; opacity: 1; }
+  80%, 100% { height: 0; opacity: 0; }
+}
+
+.sprout-leaf-left {
+  transform-origin: 152px 110px;
+  animation: leafLeftAnim 2.5s cubic-bezier(0.4,1.4,0.4,1) infinite;
+}
+
+@keyframes leafLeftAnim {
+  0%, 35% { rx: 0; ry: 0; opacity: 0; }
+  45% { rx: 7; ry: 13; opacity: 1; }
+  60% { rx: 7; ry: 13; opacity: 1; }
+  80%, 100% { rx: 0; ry: 0; opacity: 0; }
+}
+
+.sprout-leaf-right {
+  transform-origin: 168px 110px;
+  animation: leafRightAnim 2.5s cubic-bezier(0.4,1.4,0.4,1) infinite;
+}
+
+@keyframes leafRightAnim {
+  0%, 38% { rx: 0; ry: 0; opacity: 0; }
+  50% { rx: 7; ry: 13; opacity: 1; }
+  65% { rx: 7; ry: 13; opacity: 1; }
+  80%, 100% { rx: 0; ry: 0; opacity: 0; }
 }
 
 .sprout-logo {
@@ -11,6 +80,8 @@
   max-width: 420px;
   height: 120px;
   display: block;
+  z-index: 1;
+  position: relative;
 }
 
 .sprout-text {
@@ -83,5 +154,124 @@
   }
   to {
     transform: scaleY(1.05) scaleX(1.05) rotate(8deg);
+  }
+}
+
+.sprout-loading-minimal-bg {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e6f9e6 0%, #f8fff8 100%);
+  position: relative;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.sprout-seed-svg {
+  width: 220px;
+  height: 220px;
+  display: block;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+.seed-body {
+  transform-origin: 100px 140px;
+  animation: seedAppear 2.2s cubic-bezier(0.4,1.4,0.4,1) 0s forwards;
+  opacity: 0;
+}
+@keyframes seedAppear {
+  0% { opacity: 0; transform: scale(0.7) translateY(-20px); }
+  20% { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.seed-crack {
+  stroke-dasharray: 28;
+  stroke-dashoffset: 28;
+  opacity: 0;
+  animation: seedCrackAnim 2.2s cubic-bezier(0.4,1.4,0.4,1) 0.7s forwards;
+}
+@keyframes seedCrackAnim {
+  0%, 60% { stroke-dashoffset: 28; opacity: 0; }
+  70% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+.sprout-stem-minimal {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  opacity: 0;
+  animation: sproutStemGrow 2.2s cubic-bezier(0.4,1.4,0.4,1) 1.2s forwards;
+}
+@keyframes sproutStemGrow {
+  0%, 60% { stroke-dashoffset: 30; opacity: 0; }
+  70% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+
+.sprout-leaf-left-minimal {
+  transform-origin: 94px 115px;
+  opacity: 0;
+  rx: 0;
+  ry: 0;
+  animation: leafLeftMinimalAnim 2.2s cubic-bezier(0.4,1.4,0.4,1) 1.7s forwards;
+}
+@keyframes leafLeftMinimalAnim {
+  0%, 70% { opacity: 0; rx: 0; ry: 0; }
+  80% { opacity: 1; rx: 7; ry: 13; }
+  100% { opacity: 1; rx: 7; ry: 13; }
+}
+
+.sprout-leaf-right-minimal {
+  transform-origin: 106px 115px;
+  opacity: 0;
+  rx: 0;
+  ry: 0;
+  animation: leafRightMinimalAnim 2.2s cubic-bezier(0.4,1.4,0.4,1) 1.8s forwards;
+}
+@keyframes leafRightMinimalAnim {
+  0%, 75% { opacity: 0; rx: 0; ry: 0; }
+  85% { opacity: 1; rx: 7; ry: 13; }
+  100% { opacity: 1; rx: 7; ry: 13; }
+}
+
+.sprout-glow {
+  opacity: 0;
+  animation: sproutGlowAnim 2.2s cubic-bezier(0.4,1.4,0.4,1) 2s forwards;
+}
+@keyframes sproutGlowAnim {
+  0%, 85% { opacity: 0; r: 0; }
+  95% { opacity: 0.5; r: 18; }
+  100% { opacity: 0.2; r: 18; }
+}
+
+.sprout-logo-fadein {
+  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #228B22;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  margin-top: 1.5rem;
+  animation: sproutLogoFadeIn 1.2s cubic-bezier(0.4,1.4,0.4,1) 2.2s forwards;
+  text-align: center;
+}
+@keyframes sproutLogoFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .sprout-seed-svg {
+    width: 140px;
+    height: 140px;
+  }
+  .sprout-logo-fadein {
+    font-size: 1.5rem;
+    margin-top: 1rem;
   }
 } 
