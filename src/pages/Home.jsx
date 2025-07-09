@@ -6,7 +6,7 @@ const quickActions = [
   { label: "Soil Analysis", icon: <Search className="w-6 h-6" />, link: "/soil-analysis" },
   { label: "Crop Management", icon: <Leaf className="w-6 h-6" />, link: "/crops" },
   { label: "My Profile", icon: <User className="w-6 h-6" />, link: "/profile" },
-  { label: "Market Place", icon: <ShoppingCart className="w-6 h-6" />, link: "/market" },
+  { label: "Market Place", icon: <ShoppingCart className="w-6 h-6" />, link: "/marketplace" },
 ];
 
 const carouselData = [
