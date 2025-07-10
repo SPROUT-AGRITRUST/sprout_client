@@ -1,277 +1,174 @@
-.sprout-loading-screen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #e6f9e6 0%, #f8fff8 100%);
-  position: relative;
-  overflow: hidden;
-}
-
-.sprout-bg-sapling {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 340px;
-  height: 180px;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.soil-ellipse {
-  opacity: 0.7;
-  filter: blur(0.5px);
-}
-
-.seed-drop {
-  transform-origin: 160px 120px;
-  opacity: 0;
-  animation: seedDropAnim 2.5s cubic-bezier(0.4,1.4,0.4,1) infinite;
-}
-
-@keyframes seedDropAnim {
-  0% { opacity: 0; transform: translateY(-40px) scale(0.7); }
-  10% { opacity: 1; transform: translateY(0) scale(1); }
-  30% { opacity: 1; }
-  40% { opacity: 0; }
-  100% { opacity: 0; }
-}
-
-.sprout-stem {
-  transform-origin: 160px 120px;
-  animation: stemGrowAnim 2.5s cubic-bezier(0.4,1.4,0.4,1) infinite;
-}
-
-@keyframes stemGrowAnim {
-  0%, 10% { height: 0; opacity: 0; }
-  20% { height: 0; opacity: 1; }
-  35% { height: 40px; opacity: 1; }
-  60% { height: 40px; opacity: 1; }
-  80%, 100% { height: 0; opacity: 0; }
-}
-
-.sprout-leaf-left {
-  transform-origin: 152px 110px;
-  animation: leafLeftAnim 2.5s cubic-bezier(0.4,1.4,0.4,1) infinite;
-}
-
-@keyframes leafLeftAnim {
-  0%, 35% { rx: 0; ry: 0; opacity: 0; }
-  45% { rx: 7; ry: 13; opacity: 1; }
-  60% { rx: 7; ry: 13; opacity: 1; }
-  80%, 100% { rx: 0; ry: 0; opacity: 0; }
-}
-
-.sprout-leaf-right {
-  transform-origin: 168px 110px;
-  animation: leafRightAnim 2.5s cubic-bezier(0.4,1.4,0.4,1) infinite;
-}
-
-@keyframes leafRightAnim {
-  0%, 38% { rx: 0; ry: 0; opacity: 0; }
-  50% { rx: 7; ry: 13; opacity: 1; }
-  65% { rx: 7; ry: 13; opacity: 1; }
-  80%, 100% { rx: 0; ry: 0; opacity: 0; }
-}
-
-.sprout-logo {
-  width: 80vw;
-  max-width: 420px;
-  height: 120px;
-  display: block;
-  z-index: 1;
-  position: relative;
-}
-
-.sprout-text {
-  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
-  font-size: 64px;
-  font-weight: 700;
-  fill: #228B22;
-  letter-spacing: 0.04em;
-  opacity: 0;
-  transform: scale(0.95);
-  animation: sproutTextGrow 1.2s cubic-bezier(0.4,1.4,0.4,1) forwards, sproutTextPulse 2.5s 1.2s infinite alternate;
-}
-
-@keyframes sproutTextGrow {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes sproutTextPulse {
+@keyframes fadeIn {
   from {
-    filter: brightness(1);
+    opacity: 0;
   }
-  to {
-    filter: brightness(1.15);
-  }
-}
-
-.sprout-t {
-  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
-  font-size: 64px;
-  font-weight: 700;
-  fill: #228B22;
-  opacity: 0;
-  transform: scale(0.95);
-  animation: sproutTIn 1.3s 0.2s cubic-bezier(0.4,1.4,0.4,1) forwards, sproutTextPulse 2.5s 1.5s infinite alternate;
-}
-
-@keyframes sproutTIn {
   to {
     opacity: 1;
-    transform: scale(1);
   }
 }
-
-.sprout-leaf {
-  transform-origin: 200px 54px;
-  opacity: 0;
-  transform: scaleY(0.2) scaleX(0.2) rotate(-30deg);
-  animation: sproutLeafGrow 1.1s 0.8s cubic-bezier(0.4,1.4,0.4,1) forwards, sproutLeafSway 2.5s 2s infinite alternate;
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in;
 }
 
-.sprout-leaf ellipse {
-  fill: #6fcf97;
-  stroke: #228B22;
-  stroke-width: 2;
-}
-
-@keyframes sproutLeafGrow {
-  to {
-    opacity: 1;
-    transform: scaleY(1) scaleX(1) rotate(0deg);
-  }
-}
-
-@keyframes sproutLeafSway {
-  from {
-    transform: scaleY(1) scaleX(1) rotate(-2deg);
-  }
-  to {
-    transform: scaleY(1.05) scaleX(1.05) rotate(8deg);
-  }
-}
-
-.sprout-loading-minimal-bg {
+.loading-bg {
   min-height: 100vh;
   width: 100vw;
+  background: linear-gradient(135deg, #e0f7fa 0%, #f0fff4 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e6f9e6 0%, #f8fff8 100%);
-  position: relative;
-  overflow: hidden;
+}
+
+.sprout-container {
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  animation: fadeIn 1s ease-in;
 }
 
-.sprout-seed-svg {
-  width: 220px;
-  height: 220px;
-  display: block;
-  margin: 0 auto;
-  z-index: 1;
+.sprout-icon {
+  margin-bottom: 24px;
+  animation: sprout-bounce 1.2s infinite alternate;
 }
 
-.seed-body {
-  transform-origin: 100px 140px;
-  animation: seedAppear 2.2s cubic-bezier(0.4,1.4,0.4,1) 0s forwards;
+@keyframes sprout-bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-12px);
+  }
+}
+
+.sprout-title {
+  font-size: 5rem;           /* Make the title very big */
+  font-weight: bold;
+  letter-spacing: 0.25em;
+  color: #059669;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 0.15em;
+  line-height: 1.05;
+  text-shadow: 0 4px 24px #a7f3d0, 0 1px 0 #fff;
+}
+
+.sprout-letter {
   opacity: 0;
+  transform: translateY(20px);
+  animation: sprout-fadeup 0.7s forwards;
 }
-@keyframes seedAppear {
-  0% { opacity: 0; transform: scale(0.7) translateY(-20px); }
-  20% { opacity: 1; transform: scale(1) translateY(0); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
+.sprout-letter.delay-1 {
+  animation-delay: 0.1s;
 }
-
-.seed-crack {
-  stroke-dasharray: 28;
-  stroke-dashoffset: 28;
-  opacity: 0;
-  animation: seedCrackAnim 2.2s cubic-bezier(0.4,1.4,0.4,1) 0.7s forwards;
+.sprout-letter.delay-2 {
+  animation-delay: 0.2s;
 }
-@keyframes seedCrackAnim {
-  0%, 60% { stroke-dashoffset: 28; opacity: 0; }
-  70% { stroke-dashoffset: 0; opacity: 1; }
-  100% { stroke-dashoffset: 0; opacity: 1; }
+.sprout-letter.delay-3 {
+  animation-delay: 0.3s;
 }
-
-.sprout-stem-minimal {
-  stroke-dasharray: 30;
-  stroke-dashoffset: 30;
-  opacity: 0;
-  animation: sproutStemGrow 2.2s cubic-bezier(0.4,1.4,0.4,1) 1.2s forwards;
+.sprout-letter.delay-4 {
+  animation-delay: 0.4s;
 }
-@keyframes sproutStemGrow {
-  0%, 60% { stroke-dashoffset: 30; opacity: 0; }
-  70% { stroke-dashoffset: 0; opacity: 1; }
-  100% { stroke-dashoffset: 0; opacity: 1; }
+.sprout-letter.delay-5 {
+  animation-delay: 0.5s;
 }
 
-.sprout-leaf-left-minimal {
-  transform-origin: 94px 115px;
-  opacity: 0;
-  rx: 0;
-  ry: 0;
-  animation: leafLeftMinimalAnim 2.2s cubic-bezier(0.4,1.4,0.4,1) 1.7s forwards;
-}
-@keyframes leafLeftMinimalAnim {
-  0%, 70% { opacity: 0; rx: 0; ry: 0; }
-  80% { opacity: 1; rx: 7; ry: 13; }
-  100% { opacity: 1; rx: 7; ry: 13; }
-}
-
-.sprout-leaf-right-minimal {
-  transform-origin: 106px 115px;
-  opacity: 0;
-  rx: 0;
-  ry: 0;
-  animation: leafRightMinimalAnim 2.2s cubic-bezier(0.4,1.4,0.4,1) 1.8s forwards;
-}
-@keyframes leafRightMinimalAnim {
-  0%, 75% { opacity: 0; rx: 0; ry: 0; }
-  85% { opacity: 1; rx: 7; ry: 13; }
-  100% { opacity: 1; rx: 7; ry: 13; }
-}
-
-.sprout-glow {
-  opacity: 0;
-  animation: sproutGlowAnim 2.2s cubic-bezier(0.4,1.4,0.4,1) 2s forwards;
-}
-@keyframes sproutGlowAnim {
-  0%, 85% { opacity: 0; r: 0; }
-  95% { opacity: 0.5; r: 18; }
-  100% { opacity: 0.2; r: 18; }
-}
-
-.sprout-logo-fadein {
-  font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #228B22;
-  letter-spacing: 0.04em;
-  opacity: 0;
-  margin-top: 1.5rem;
-  animation: sproutLogoFadeIn 1.2s cubic-bezier(0.4,1.4,0.4,1) 2.2s forwards;
-  text-align: center;
-}
-@keyframes sproutLogoFadeIn {
+@keyframes sprout-fadeup {
   to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sprout-subtitle {
+  color: #10b981;
+  font-size: 1.2rem;
+  margin-top: 8px;
+  letter-spacing: 0.05em;
+  animation: fadeIn 2s;
+}
+
+/* Optional: subtle leaf wiggle */
+.sprout-leaf,
+.sprout-leaf2 {
+  transform-origin: bottom center;
+  animation: leaf-wiggle 2s infinite alternate;
+}
+.sprout-leaf2 {
+  animation-delay: 1s;
+}
+@keyframes leaf-wiggle {
+  0% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(8deg);
+  }
+}
+
+/* Sprout SVG Animations */
+@keyframes seed-grow {
+  0% {
+    transform: scaleY(0.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0.7;
+  }
+}
+@keyframes stem-grow {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+@keyframes leaf-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
     opacity: 1;
   }
 }
 
-@media (max-width: 600px) {
-  .sprout-seed-svg {
-    width: 140px;
-    height: 140px;
+/* Loader Dots */
+.sprout-loader {
+  display: flex;
+  gap: 0.5em;
+  margin: 18px 0 8px 0;
+  justify-content: center;
+  align-items: center;
+  min-height: 20px;
+}
+.sprout-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #059669;
+  opacity: 0.7;
+  animation: sprout-dot-bounce 1.2s infinite alternate;
+}
+.sprout-dot:nth-child(2) {
+  animation-delay: 0.2s;
+  background: #34d399;
+}
+.sprout-dot:nth-child(3) {
+  animation-delay: 0.4s;
+  background: #a7f3d0;
+}
+
+@keyframes sprout-dot-bounce {
+  0% {
+    transform: translateY(0);
   }
-  .sprout-logo-fadein {
-    font-size: 1.5rem;
-    margin-top: 1rem;
+  100% {
+    transform: translateY(-10px);
   }
-} 
+}

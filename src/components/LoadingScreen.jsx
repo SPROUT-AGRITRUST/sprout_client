@@ -1,30 +1,38 @@
-import React from 'react';
-import './LoadingScreen.css';
+import React from "react";
+import { motion } from "framer-motion";
 
-export default function LoadingScreen() {
+const LoadingScreen = () => {
+  const letters = "Sprout".split("");
+
   return (
-    <div className="sprout-loading-screen">
-      <svg
-        className="sprout-logo"
-        viewBox="0 0 320 80"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-label="Sprout logo animation"
-      >
-        <text
-          x="0"
-          y="60"
-          className="sprout-text"
-        >
-          Sprou
-        </text>
-        <g className="sprout-t-group">
-          <text x="180" y="60" className="sprout-t">t</text>
-          <g className="sprout-leaf">
-            <ellipse cx="200" cy="38" rx="8" ry="16" />
-          </g>
-        </g>
-      </svg>
+    <div className="flex items-center justify-center h-screen bg-white">
+      <div className="text-center">
+        {/* Sprout Animated Title */}
+        <div className="flex justify-center space-x-1 text-5xl font-bold text-green-600">
+          {letters.map((letter, index) => (
+            <motion.span
+              key={index}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2 }}
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </div>
+
+        {/* Sprout pulse or dot animation */}
+        <motion.div
+          className="mt-4 w-3 h-3 mx-auto rounded-full bg-green-500"
+          animate={{ scale: [1, 1.4, 1] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+        />
+
+        {/* Optional Loading Text */}
+        <p className="mt-3 text-sm text-gray-500 animate-pulse">Loading...</p>
+      </div>
     </div>
   );
-} 
+};
+
+export default LoadingScreen;
