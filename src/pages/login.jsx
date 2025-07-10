@@ -32,7 +32,6 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-
       {/* Right Column - Login Form (60% width) */}
       <div className="w-full md:w-3/5 flex items-center justify-center p-6 md:p-12 bg-gradient-to-br from-green-50 to-white">
         <div className="w-full max-w-md">
