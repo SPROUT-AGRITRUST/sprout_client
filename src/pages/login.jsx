@@ -1,6 +1,5 @@
 import React from "react";
 import LoginForm from "../components/auth/LoginForm";
-import { auth } from "../firebase"; // Adjust the import path as necessary
 
 export default function LoginPage() {
   return (
