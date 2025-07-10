@@ -6,7 +6,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { getAuth, signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "../../services/firebase";
+import { auth } from "../../utils/firebase";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
