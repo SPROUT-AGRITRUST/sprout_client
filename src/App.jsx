@@ -9,6 +9,7 @@ import FarmerProfile from "./pages/FarmerProfile";
 import Marketplace from "./pages/Marketplace";
 
 import LoadingScreen from './components/LoadingScreen';
+import BottomNavBar from './components/BottomNavBar';
 
 
 const App = () => {
@@ -24,7 +25,7 @@ const App = () => {
   }   
 
   return (
-
+    <>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signup" element={<SignupPage />} />
@@ -34,7 +35,8 @@ const App = () => {
         <Route path="/profile" element={<FarmerProfile />} />
         <Route path="/marketplace" element={<Marketplace />} />
       </Routes>
-
+      <BottomNavBar />
+    </>
   );
 };
 

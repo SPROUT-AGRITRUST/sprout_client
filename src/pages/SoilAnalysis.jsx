@@ -51,6 +51,12 @@ export default function SoilAnalysis() {
 
   // Handle file upload
   const handleFileUpload = (event) => {
+    //check whether the user is logged in
+    const user = localStorage.getItem('user');
+    if (!user) {
+      alert('Please login to upload a soil report');
+      return;
+    }
     const file = event.target.files[0];
     if (file) {
       setUploadedFile(file);
