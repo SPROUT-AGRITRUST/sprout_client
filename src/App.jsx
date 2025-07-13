@@ -7,9 +7,12 @@ import CropManagement from "./pages/CropManagement";
 import SoilAnalysis from "./pages/SoilAnalysis";
 import FarmerProfile from "./pages/FarmerProfile";
 import Marketplace from "./pages/Marketplace";
+import Notifications from "./pages/Notifications";
 
 import LoadingScreen from './components/LoadingScreen';
 import BottomNavBar from './components/BottomNavBar';
+import { AuthProvider } from './contexts/AuthContext';
+import { ToastProvider } from './contexts/ToastContext';
 
 
 const App = () => {
@@ -25,18 +28,21 @@ const App = () => {
   }   
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/crops" element={<CropManagement />} />
-        <Route path="/soil-analysis" element={<SoilAnalysis />} />
-        <Route path="/profile" element={<FarmerProfile />} />
-        <Route path="/marketplace" element={<Marketplace />} />
-      </Routes>
-      <BottomNavBar />
-    </>
+    <ToastProvider>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/crops" element={<CropManagement />} />
+          <Route path="/soil-analysis" element={<SoilAnalysis />} />
+          <Route path="/profile" element={<FarmerProfile />} />
+          <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/notifications" element={<Notifications />} />
+        </Routes>
+        <BottomNavBar />
+      </AuthProvider>
+    </ToastProvider>
   );
 };
 

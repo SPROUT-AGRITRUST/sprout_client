@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, MapPin, Phone, Mail, Calendar, Download, Filter, Eye, Edit3, Camera, Navigation } from 'lucide-react';
+import { useToast } from '../contexts/ToastContext';
 
 // Mock data for transactions and receipts
 const mockTransactions = [
@@ -75,6 +76,7 @@ export default function FarmerProfile() {
   const [isEditing, setIsEditing] = useState(false);
   const [locationMode, setLocationMode] = useState('manual'); // 'auto' or 'manual'
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  const { showToast } = useToast();
   
   // Profile form state
   const [profileData, setProfileData] = useState(mockFarmerProfile);
@@ -150,12 +152,12 @@ export default function FarmerProfile() {
         (error) => {
           console.error('Error getting location:', error);
           setIsLoadingLocation(false);
-          alert('Unable to detect location. Please enter manually.');
+          showToast('Unable to detect location. Please enter manually.', 'error');
         }
       );
     } else {
       setIsLoadingLocation(false);
-      alert('Geolocation is not supported by this browser.');
+      showToast('Geolocation is not supported by this browser.', 'error');
     }
   };
 
@@ -165,21 +167,21 @@ export default function FarmerProfile() {
     // Here you would typically make an API call to save the data
     console.log('Saving profile:', profileData);
     setIsEditing(false);
-    alert('Profile updated successfully!');
+    showToast('Profile updated successfully!', 'success');
   };
 
   // Download receipt
   const downloadReceipt = (transaction) => {
     // Mock download functionality
     console.log('Downloading receipt for:', transaction.itemName);
-    alert(`Downloading receipt for ${transaction.itemName}`);
+    showToast(`Downloading receipt for ${transaction.itemName}`, 'info');
   };
 
   // View transaction details
   const viewTransactionDetails = (transaction) => {
     // Mock view functionality
     console.log('Viewing details for:', transaction);
-    alert(`Viewing details for ${transaction.itemName}`);
+    showToast(`Viewing details for ${transaction.itemName}`, 'info');
   };
 
   return (

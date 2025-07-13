@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, FileText, Edit3, Leaf, AlertTriangle, CheckCircle, Droplets, Zap, Info } from 'lucide-react';
+import { useToast } from '../contexts/ToastContext';
 
 // Soil texture options
 const soilTextures = [
@@ -25,6 +26,7 @@ export default function SoilAnalysis() {
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [showForm, setShowForm] = useState(false); // controls if the rest of the form is shown
   const [showExtendedForm, setShowExtendedForm] = useState(false); // controls if the extended form is shown
+  const { showToast } = useToast();
   
   // Form data for manual input
   const [soilData, setSoilData] = useState({
@@ -54,7 +56,7 @@ export default function SoilAnalysis() {
     //check whether the user is logged in
     const user = localStorage.getItem('user');
     if (!user) {
-      alert('Please login to upload a soil report');
+      showToast('Please login to upload a soil report', 'warning');
       return;
     }
     const file = event.target.files[0];

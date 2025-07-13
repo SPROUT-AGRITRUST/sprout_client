@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { Bell, Leaf, Bot, ShoppingCart, Search, ChevronLeft, ChevronRight, User } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { Bell, Leaf, Bot, ShoppingCart, Search, ChevronLeft, ChevronRight, User, LogOut } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
 
 const quickActions = [
   { label: "Soil Analysis", icon: <Search className="w-6 h-6" />, link: "/soil-analysis" },
@@ -35,6 +36,8 @@ const carouselData = [
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { user, isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
 
   // Auto-advance carousel
   useEffect(() => {
@@ -43,6 +46,11 @@ export default function HomePage() {
     }, 5000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % carouselData.length);
@@ -61,24 +69,47 @@ export default function HomePage() {
             Sprout <span className="text-green-600">🌱</span>
           </h1>
           <div className="flex items-center space-x-4">
-            <NavLink
-              to="/login"
-              className="px-4 py-2 text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
-            >
-              Sign In
-            </NavLink>
-            <NavLink
-              to="/signup"
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
-            >
-              Get Started
-            </NavLink>
-            <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
-              <Bell className="w-5 h-5 text-green-600" onClick={() => {
-                navigate('/notifications');
-              }}/>
-              <span className="absolute top-2 right-2 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
-            </button>
+            {isAuthenticated ? (
+              <>
+                <span className="text-sm text-gray-600 hidden md:block">
+                  Welcome, {user?.displayName || user?.email}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-red-600 hover:text-red-700 font-medium transition-colors duration-200 flex items-center hidden md:block"
+                >
+                  <LogOut className="w-4 h-4 mr-1 hidden md:block" />
+                  Logout
+                </button>
+                <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
+                  <Bell className="w-5 h-5 text-green-600" onClick={() => {
+                    navigate('/notifications');
+                  }}/>
+                  <span className="absolute top-2 right-2 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className="hidden md:block px-4 py-2 text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
+                >
+                  Sign In
+                </NavLink>
+                <NavLink
+                  to="/signup"
+                  className="hidden md:block px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
+                >
+                  Get Started
+                </NavLink>
+                <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
+                  <Bell className="w-5 h-5 text-green-600" onClick={() => {
+                    navigate('/notifications');
+                  }}/>
+                  <span className="absolute top-2 right-2 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -92,7 +123,7 @@ export default function HomePage() {
             </div>
             <input
               type="text"
-              placeholder="Search for crops, farming tips, market prices..."
+              placeholder="Search for crops"
               className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
             />
             <button className="absolute inset-y-0 right-0 px-6 bg-green-600 text-white rounded-r-2xl hover:bg-green-700 transition-colors duration-200 font-medium">
@@ -316,7 +347,7 @@ export default function HomePage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="mb-20">
+        <div className="mb-20 hidden md:block">
           <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
             <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
               <Leaf className="w-5 h-5 text-green-600" />
@@ -343,28 +374,28 @@ export default function HomePage() {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-green-100 shadow-lg flex justify-around py-4 md:hidden z-50">
+      <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-green-100 shadow-lg flex justify-around py-2 md:hidden z-50">
         <NavLink to="/" className="flex flex-col items-center text-green-600 font-medium">
-          <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mb-1">
-            <Leaf className="w-4 h-4" />
+          <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mb-1">
+            <Leaf className="w-3 h-3" />
           </div>
           <span className="text-xs">Home</span>
         </NavLink>
         <NavLink to="/crops" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
-          <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mb-1">
-            <Leaf className="w-4 h-4" />
+          <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
+            <Leaf className="w-3 h-3" />
           </div>
           <span className="text-xs">Crops</span>
         </NavLink>
         <NavLink to="/soil-analysis" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
-          <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mb-1">
-            <Search className="w-4 h-4" />
+          <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
+            <Search className="w-3 h-3" />
           </div>
           <span className="text-xs">Soil</span>
         </NavLink>
         <NavLink to="/profile" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
-          <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center mb-1">
-            <User className="w-4 h-4" />
+          <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
+            <User className="w-3 h-3" />
           </div>
           <span className="text-xs">Profile</span>
         </NavLink>
