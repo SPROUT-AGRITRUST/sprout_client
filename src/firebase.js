@@ -1,33 +1,32 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {
   getAuth,
   GoogleAuthProvider,
-  FacebookAuthProvider,
+  setPersistence,
+  browserLocalPersistence
 } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// ✅ Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyDpNK-_1d4ohfQJPEO0JKTNDQQFff77GMY",
-  authDomain: "sprout-5148a.firebaseapp.com",
-  projectId: "sprout-5148a",
-  storageBucket: "sprout-5148a.firebasestorage.app",
-  messagingSenderId: "535661460769",
-  appId: "1:535661460769:web:7de39a054bd08fe0795260",
-  measurementId: "G-KSGY7WZ2FZ",
+  apiKey: "AIzaSyDYR4HyRrX39jUqGTViszlN8ngW49w27fI",
+  authDomain: "sprout-55ee6.firebaseapp.com",
+  projectId: "sprout-55ee6",
+  storageBucket: "sprout-55ee6.firebasestorage.app",
+  messagingSenderId: "778031879386",
+  appId: "1:778031879386:web:5cfc3e7af22f323dce81e3",
+  measurementId: "G-0SFCVFDYNE"
 };
 
-// Initialize Firebase
+// ✅ Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-
-// Initialize Firebase Auth
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
-const facebookProvider = new FacebookAuthProvider();
 
-export { auth, googleProvider, facebookProvider };
+// ✅ Ensure session persists
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error("Firebase persistence error:", error);
+});
+
+export { auth, googleProvider, app, analytics };
