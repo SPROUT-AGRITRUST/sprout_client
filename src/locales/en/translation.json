@@ -1,5 +1,8 @@
 {
   "home": {
+    "welcome": "Welcome",
+    "logout": "Logout",
+    "searchButton": "Search",
     "title": "Welcome to Sprout",
     "subtitle": "Empowering Farmers with Technology",
     "searchPlaceholder": "Search for crops, farming tips, market prices...",
@@ -12,11 +15,35 @@
     "featuresTitle": "Why Choose Sprout?",
     "featuresDesc": "Empowering farmers with cutting-edge technology and data-driven insights for sustainable agriculture",
     "quickActions": {
+      "title": "Quick Actions",
       "soil": "Soil Analysis",
       "crops": "Crop Management",
       "profile": "My Profile",
       "market": "Market Place"
-    }
+    },
+    "marketAccess": "Market Access",
+    "marketAccessDescription": "Connect directly with buyers and get real-time market prices for your products.",
+    "smartAnalytics": "Smart Analytics",
+    "smartAnalyticsDescription": "AI-powered crop analysis and soil health monitoring to optimize your farming decisions and maximize yields.",
+    "whyChooseSprout": "Why Choose Sprout?",
+    "whyChooseSproutDescription": "Empowering farmers with cutting-edge technology and data-driven insights for sustainable agriculture",
+    "ourServices": "Our Services",
+    "ourServicesDescription": "Comprehensive solutions designed to modernize and optimize your agricultural operations",
+    "cropPlanning": "Crop Planning",
+    "cropPlanningDescription": "Optimize your crop selection and planting schedule based on soil conditions and market demand.",
+    "soilAnalysis": "Soil Analysis",
+    "soilAnalysisDescription": "Comprehensive soil health assessment with detailed recommendations for improvement.",
+    "aiConsulting": "AI Consulting",
+    "aiConsultingDescription": "Personalized AI recommendations for pest control, irrigation, and crop management.",
+    "expertSupport": "Expert Support",
+    "expertSupportDescription": "24/7 access to agricultural experts and AI-powered recommendations for every farming challenge.",
+    "marketConnect": "Market Connect",
+    "marketConnectDescription": "Direct access to buyers, fair pricing, and transparent market information to get the best value for your produce.",
+    "aiAnalysis": "AI Analysis",
+    "instantResults": "Instant Results",
+    "soilReportDescription": "Upload your soil report and receive AI-powered recommendations for the best crops to plant, optimal planting times, and yield optimization strategies.",
+    "soilAnalysisAlt": "Soil Analysis Image",
+    "soilReportTitle": "Get Personalized Crop Suggestions"
   },
   "login": {
     "welcome": "Welcome Back to",
@@ -49,11 +76,27 @@
     "plantingDate": "Planting Date",
     "expectedHarvestDate": "Expected Harvest Date",
     "notes": "Notes",
-    "actions": "Actions"
+    "actions": "Actions",
+    "emptyTitle": "No crops yet",
+    "emptyDescription": "Start by adding your first crop to track its progress",
+    "addFirstCrop": "Add Your First Crop",
+    "editCrop": "Edit Crop",
+    "unknown": "Unknown",
+    "deleteConfirm": "Are you sure you want to delete this crop?"
   },
   "soilAnalysis": {
     "title": "Soil Analysis",
-    "subtitle": "Upload your soil report or manually enter values to get personalized recommendations for your farm"
+    "subtitle": "Upload your soil report or manually enter values to get personalized recommendations for your farm.",
+    "tabs": {
+      "upload": "Upload",
+      "manualEntry": "Manual Entry"
+    },
+    "manualForm": {
+      "soilTextureLabel": "Soil Texture",
+      "selectSoilTexture": "Select Soil Texture",
+      "continueButton": "Continue",
+      "moreInputsButton": "I can provide more inputs"
+    }
   },
   "farmerProfile": {
     "title": "Farmer Profile & Dashboard",
@@ -83,5 +126,16 @@
   "carousel3": {
     "title": "Expert Guidance",
     "subtitle": "24/7 support from agricultural experts"
+  },
+  "bottomNav": {
+    "home": "Home",
+    "crop": "Crop",
+    "scan": "Scan",
+    "market": "Market",
+    "profile": "Profile"
+  },
+  "language": {
+    "english": "English",
+    "telugu": "Telugu"
   }
 } 

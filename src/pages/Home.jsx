@@ -2,42 +2,46 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Bell, Leaf, Bot, ShoppingCart, Search, ChevronLeft, ChevronRight, User, LogOut } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-
-const quickActions = [
-  { label: "Soil Analysis", icon: <Search className="w-6 h-6" />, link: "/soil-analysis" },
-  { label: "Crop Management", icon: <Leaf className="w-6 h-6" />, link: "/crops" },
-  { label: "My Profile", icon: <User className="w-6 h-6" />, link: "/profile" },
-  { label: "Market Place", icon: <ShoppingCart className="w-6 h-6" />, link: "/marketplace" },
-];
-
-const carouselData = [
-  {
-    id: 1,
-    title: "Smart Farming Solutions",
-    subtitle: "AI-powered insights for better crop management",
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    bgColor: "from-emerald-500 to-green-600"
-  },
-  {
-    id: 2,
-    title: "Market Connect",
-    subtitle: "Direct access to buyers and fair pricing",
-    image: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    bgColor: "from-green-500 to-emerald-600"
-  },
-  {
-    id: 3,
-    title: "Expert Guidance",
-    subtitle: "24/7 support from agricultural experts",
-    image: "https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    bgColor: "from-teal-500 to-green-600"
-  }
-];
+import LanguageSwitcher from '../components/LanguageSwitcher';
+import { useTranslation } from "react-i18next";
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  // Move quickActions and carouselData here so t is defined
+  const quickActions = [
+    { label: t("home.quickActions.soil"), icon: <Search className="w-6 h-6" />, link: "/soil-analysis" },
+    { label: t("home.quickActions.crops"), icon: <Leaf className="w-6 h-6" />, link: "/crops" },
+    { label: t("home.quickActions.profile"), icon: <User className="w-6 h-6" />, link: "/profile" },
+    { label: t("home.quickActions.market"), icon: <ShoppingCart className="w-6 h-6" />, link: "/marketplace" },
+  ];
+
+  const carouselData = [
+    {
+      id: 1,
+      title: t("carousel1.title"),
+      subtitle: t("carousel1.subtitle"),
+      image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-emerald-500 to-green-600"
+    },
+    {
+      id: 2,
+      title: t("carousel2.title"),
+      subtitle: t("carousel2.subtitle"),
+      image: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-green-500 to-emerald-600"
+    },
+    {
+      id: 3,
+      title: t("carousel3.title"),
+      subtitle: t("carousel3.subtitle"),
+      image: "https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-teal-500 to-green-600"
+    }
+  ];
 
   // Auto-advance carousel
   useEffect(() => {
@@ -72,14 +76,14 @@ export default function HomePage() {
             {isAuthenticated ? (
               <>
                 <span className="text-sm text-gray-600 hidden md:block">
-                  Welcome, {user?.displayName || user?.email}
+                  {t('home.welcome')}, {user?.displayName || user?.email}
                 </span>
                 <button
                   onClick={handleLogout}
                   className="px-4 py-2 text-red-600 hover:text-red-700 font-medium transition-colors duration-200 flex items-center hidden md:block"
                 >
                   <LogOut className="w-4 h-4 mr-1 hidden md:block" />
-                  Logout
+                  {t('home.logout')}
                 </button>
                 <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
                   <Bell className="w-5 h-5 text-green-600" onClick={() => {
@@ -94,13 +98,13 @@ export default function HomePage() {
                   to="/login"
                   className="hidden md:block px-4 py-2 text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
                 >
-                  Sign In
+                  {t('home.signIn')}
                 </NavLink>
                 <NavLink
                   to="/signup"
                   className="hidden md:block px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
                 >
-                  Get Started
+                  {t('home.getStarted')}
                 </NavLink>
                 <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
                   <Bell className="w-5 h-5 text-green-600" onClick={() => {
@@ -123,11 +127,11 @@ export default function HomePage() {
             </div>
             <input
               type="text"
-              placeholder="Search for crops"
+              placeholder={t('home.searchPlaceholder')}
               className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
             />
             <button className="absolute inset-y-0 right-0 px-6 bg-green-600 text-white rounded-r-2xl hover:bg-green-700 transition-colors duration-200 font-medium">
-              Search
+              {t('home.searchButton', 'Search')}
             </button>
           </div>
         </div>
@@ -144,18 +148,18 @@ export default function HomePage() {
                   <Search className="w-6 h-6 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold">
-                  Get Personalized Crop Suggestions
+                  {t('home.soilReportTitle')}
                 </h2>
               </div>
               <p className="text-xl text-green-100 mb-6 leading-relaxed">
-                Upload your soil report and receive AI-powered recommendations for the best crops to plant, optimal planting times, and yield optimization strategies.
+                {t('home.soilReportDescription')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <NavLink to="/soil-analysis" className="px-8 py-4 bg-white text-green-600 rounded-xl font-semibold hover:bg-green-50 transition-colors duration-200 shadow-lg text-center">
-                  Upload Soil Report
+                  {t('home.uploadSoilReport')}
                 </NavLink>
                 <NavLink to="/soil-analysis" className="px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-green-600 transition-colors duration-200 text-center">
-                  Learn More
+                  {t('home.learnMore')}
                 </NavLink>
               </div>
             </div>
@@ -165,7 +169,7 @@ export default function HomePage() {
               <div className="relative">
                 <img
                   src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                  alt="Soil Analysis"
+                  alt={t('home.soilAnalysisAlt')}
                   className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-lg"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-green-900/40 to-transparent rounded-2xl"></div>
@@ -175,8 +179,8 @@ export default function HomePage() {
                       <Leaf className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-gray-900">AI Analysis</p>
-                      <p className="text-xs text-gray-600">Instant Results</p>
+                      <p className="text-sm font-semibold text-gray-900">{t('home.aiAnalysis')}</p>
+                      <p className="text-xs text-gray-600">{t('home.instantResults')}</p>
                     </div>
                   </div>
                 </div>
@@ -252,10 +256,10 @@ export default function HomePage() {
         <div className="mb-16">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Why Choose Sprout?
+              {t('home.whyChooseSprout')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Empowering farmers with cutting-edge technology and data-driven insights for sustainable agriculture
+              {t('home.whyChooseSproutDescription')}
             </p>
           </div>
           
@@ -264,9 +268,9 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
                 <Search className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Smart Analytics</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.smartAnalytics')}</h3>
               <p className="text-gray-600 leading-relaxed">
-                AI-powered crop analysis and soil health monitoring to optimize your farming decisions and maximize yields.
+                {t('home.smartAnalyticsDescription')}
               </p>
             </div>
             
@@ -274,9 +278,9 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
                 <ShoppingCart className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Market Connect</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.marketConnect')}</h3>
               <p className="text-gray-600 leading-relaxed">
-                Direct access to buyers, fair pricing, and transparent market information to get the best value for your produce.
+                {t('home.marketConnectDescription')}
               </p>
             </div>
             
@@ -284,9 +288,9 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
                 <Bot className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Expert Support</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.expertSupport')}</h3>
               <p className="text-gray-600 leading-relaxed">
-                24/7 access to agricultural experts and AI-powered recommendations for every farming challenge.
+                {t('home.expertSupportDescription')}
               </p>
             </div>
           </div>
@@ -296,10 +300,10 @@ export default function HomePage() {
         <div className="mb-16">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Our Services
+              {t('home.ourServices')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Comprehensive solutions designed to modernize and optimize your agricultural operations
+              {t('home.ourServicesDescription')}
             </p>
           </div>
           
@@ -308,9 +312,9 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <Leaf className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Crop Planning</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('home.cropPlanning')}</h3>
               <p className="text-gray-600 text-sm">
-                Optimize your crop selection and planting schedule based on soil conditions and market demand.
+                {t('home.cropPlanningDescription')}
               </p>
             </div>
             
@@ -318,9 +322,9 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <Search className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Soil Analysis</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('home.soilAnalysis')}</h3>
               <p className="text-gray-600 text-sm">
-                Comprehensive soil health assessment with detailed recommendations for improvement.
+                {t('home.soilAnalysisDescription')}
               </p>
             </div>
             
@@ -328,9 +332,9 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <ShoppingCart className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Market Access</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('home.marketAccess')}</h3>
               <p className="text-gray-600 text-sm">
-                Connect directly with buyers and get real-time market prices for your products.
+                {t('home.marketAccessDescription')}
               </p>
             </div>
             
@@ -338,9 +342,9 @@ export default function HomePage() {
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <Bot className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">AI Consulting</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('home.aiConsulting')}</h3>
               <p className="text-gray-600 text-sm">
-                Personalized AI recommendations for pest control, irrigation, and crop management.
+                {t('home.aiConsultingDescription')}
               </p>
             </div>
           </div>
@@ -352,7 +356,7 @@ export default function HomePage() {
             <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
               <Leaf className="w-5 h-5 text-green-600" />
             </div>
-            Quick Actions
+            {t('home.quickActions.title')}
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {quickActions.map((action) => (
@@ -379,25 +383,25 @@ export default function HomePage() {
           <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mb-1">
             <Leaf className="w-3 h-3" />
           </div>
-          <span className="text-xs">Home</span>
+          <span className="text-xs">{t('home.mobileNav.home')}</span>
         </NavLink>
         <NavLink to="/crops" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
           <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
             <Leaf className="w-3 h-3" />
           </div>
-          <span className="text-xs">Crops</span>
+          <span className="text-xs">{t('home.mobileNav.crops')}</span>
         </NavLink>
         <NavLink to="/soil-analysis" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
           <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
             <Search className="w-3 h-3" />
           </div>
-          <span className="text-xs">Soil</span>
+          <span className="text-xs">{t('home.mobileNav.soil')}</span>
         </NavLink>
         <NavLink to="/profile" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
           <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
             <User className="w-3 h-3" />
           </div>
-          <span className="text-xs">Profile</span>
+          <span className="text-xs">{t('home.mobileNav.profile')}</span>
         </NavLink>
       </div>
     </div>

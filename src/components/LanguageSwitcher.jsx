@@ -1,13 +1,13 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-const languages = [
-  { code: "en", label: "English" },
-  { code: "te", label: "తెలుగు" }
-];
-
 export default function LanguageSwitcher() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
+
+  const languages = [
+    { code: "en", label: t("language.english") },
+    { code: "te", label: t("language.telugu") }
+  ];
 
   return (
     <select

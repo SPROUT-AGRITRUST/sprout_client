@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit, Trash2, Calendar, MapPin, Leaf, AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Mock data for initial crops
 const mockCrops = [
@@ -38,6 +39,7 @@ const mockCrops = [
 const cropTypes = ['Cereal', 'Vegetable', 'Fruit', 'Legume', 'Root Crop', 'Herb'];
 
 export default function CropManagement() {
+  const { t } = useTranslation();
   const [crops, setCrops] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCrop, setEditingCrop] = useState(null);
@@ -73,25 +75,25 @@ export default function CropManagement() {
         return {
           icon: <CheckCircle className="w-4 h-4" />,
           color: 'bg-green-100 text-green-800 border-green-200',
-          text: 'Growing'
+          text: t('cropManagement.growing')
         };
       case 'nearing':
         return {
           icon: <Clock className="w-4 h-4" />,
           color: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-          text: 'Nearing Harvest'
+          text: t('cropManagement.nearingHarvest')
         };
       case 'overdue':
         return {
           icon: <AlertCircle className="w-4 h-4" />,
           color: 'bg-red-100 text-red-800 border-red-200',
-          text: 'Needs Attention'
+          text: t('cropManagement.needsAttention')
         };
       default:
         return {
           icon: <Leaf className="w-4 h-4" />,
           color: 'bg-gray-100 text-gray-800 border-gray-200',
-          text: 'Unknown'
+          text: t('cropManagement.unknown')
         };
     }
   };
@@ -175,7 +177,7 @@ export default function CropManagement() {
 
   // Delete crop
   const deleteCrop = (cropId) => {
-    if (window.confirm('Are you sure you want to delete this crop?')) {
+    if (window.confirm(t('cropManagement.deleteConfirm'))) {
       setCrops(crops.filter(crop => crop.id !== cropId));
     }
   };
@@ -195,15 +197,15 @@ export default function CropManagement() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Crop Management</h1>
-            <p className="text-gray-600">Manage your crops and track their growth progress</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('cropManagement.title')}</h1>
+            <p className="text-gray-600">{t('cropManagement.subtitle')}</p>
           </div>
           <button
             onClick={openAddModal}
             className="mt-4 md:mt-0 px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-200 font-medium flex items-center"
           >
             <Plus className="w-5 h-5 mr-2" />
-            Add New Crop
+            {t('cropManagement.addNew')}
           </button>
         </div>
 
@@ -215,7 +217,7 @@ export default function CropManagement() {
                 <Leaf className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Total Crops</p>
+                <p className="text-sm text-gray-600">{t('cropManagement.totalCrops')}</p>
                 <p className="text-2xl font-bold text-gray-900">{crops.length}</p>
               </div>
             </div>
@@ -226,7 +228,7 @@ export default function CropManagement() {
                 <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Growing</p>
+                <p className="text-sm text-gray-600">{t('cropManagement.growing')}</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {crops.filter(crop => crop.status === 'growing').length}
                 </p>
@@ -239,7 +241,7 @@ export default function CropManagement() {
                 <Clock className="w-6 h-6 text-yellow-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Nearing Harvest</p>
+                <p className="text-sm text-gray-600">{t('cropManagement.nearingHarvest')}</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {crops.filter(crop => crop.status === 'nearing').length}
                 </p>
@@ -252,7 +254,7 @@ export default function CropManagement() {
                 <AlertCircle className="w-6 h-6 text-red-600" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Needs Attention</p>
+                <p className="text-sm text-gray-600">{t('cropManagement.needsAttention')}</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {crops.filter(crop => crop.status === 'overdue').length}
                 </p>
@@ -288,11 +290,11 @@ export default function CropManagement() {
                     </div>
                     <div className="flex items-center text-sm text-gray-600">
                       <Calendar className="w-4 h-4 mr-2" />
-                      Planted: {formatDate(crop.plantingDate)}
+                      {t('cropManagement.planted')}: {formatDate(crop.plantingDate)}
                     </div>
                     <div className="flex items-center text-sm text-gray-600">
                       <Calendar className="w-4 h-4 mr-2" />
-                      Harvest: {formatDate(crop.expectedHarvestDate)}
+                      {t('cropManagement.harvest')}: {formatDate(crop.expectedHarvestDate)}
                     </div>
                   </div>
 
@@ -312,7 +314,7 @@ export default function CropManagement() {
                       className="flex-1 px-3 py-2 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors duration-200 flex items-center justify-center"
                     >
                       <Edit className="w-4 h-4 mr-1" />
-                      Edit
+                      {t('cropManagement.edit')}
                     </button>
                     <button
                       onClick={() => deleteCrop(crop.id)}
@@ -333,13 +335,13 @@ export default function CropManagement() {
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Leaf className="w-8 h-8 text-green-600" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No crops yet</h3>
-            <p className="text-gray-600 mb-6">Start by adding your first crop to track its progress</p>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">{t('cropManagement.emptyTitle')}</h3>
+            <p className="text-gray-600 mb-6">{t('cropManagement.emptyDescription')}</p>
             <button
               onClick={openAddModal}
               className="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-200 font-medium"
             >
-              Add Your First Crop
+              {t('cropManagement.addFirstCrop')}
             </button>
           </div>
         )}
@@ -352,7 +354,7 @@ export default function CropManagement() {
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">
-                  {editingCrop ? 'Edit Crop' : 'Add New Crop'}
+                  {editingCrop ? t('cropManagement.editCrop') : t('cropManagement.addNew')}
                 </h2>
                 <button
                   onClick={closeModal}
@@ -366,7 +368,7 @@ export default function CropManagement() {
                 {/* Crop Name */}
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Crop Name *
+                    {t('cropManagement.cropName')} *
                   </label>
                   <input
                     type="text"
@@ -376,14 +378,14 @@ export default function CropManagement() {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder="Enter crop name"
+                    placeholder={t('cropManagement.enterCropName')}
                   />
                 </div>
 
                 {/* Field/Plot Name */}
                 <div>
                   <label htmlFor="fieldName" className="block text-sm font-medium text-gray-700 mb-2">
-                    Field/Plot Name *
+                    {t('cropManagement.fieldName')} *
                   </label>
                   <input
                     type="text"
@@ -393,14 +395,14 @@ export default function CropManagement() {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder="Enter field or plot name"
+                    placeholder={t('cropManagement.enterFieldName')}
                   />
                 </div>
 
                 {/* Crop Type */}
                 <div>
                   <label htmlFor="cropType" className="block text-sm font-medium text-gray-700 mb-2">
-                    Crop Type *
+                    {t('cropManagement.cropType')} *
                   </label>
                   <select
                     id="cropType"
@@ -410,7 +412,7 @@ export default function CropManagement() {
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200 bg-white"
                   >
-                    <option value="">Select crop type</option>
+                    <option value="">{t('cropManagement.selectCropType')}</option>
                     {cropTypes.map(type => (
                       <option key={type} value={type}>{type}</option>
                     ))}
@@ -420,7 +422,7 @@ export default function CropManagement() {
                 {/* Planting Date */}
                 <div>
                   <label htmlFor="plantingDate" className="block text-sm font-medium text-gray-700 mb-2">
-                    Planting Date *
+                    {t('cropManagement.plantingDate')} *
                   </label>
                   <input
                     type="date"
@@ -436,7 +438,7 @@ export default function CropManagement() {
                 {/* Expected Harvest Date */}
                 <div>
                   <label htmlFor="expectedHarvestDate" className="block text-sm font-medium text-gray-700 mb-2">
-                    Expected Harvest Date *
+                    {t('cropManagement.expectedHarvestDate')} *
                   </label>
                   <input
                     type="date"
@@ -452,7 +454,7 @@ export default function CropManagement() {
                 {/* Notes */}
                 <div>
                   <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-2">
-                    Notes
+                    {t('cropManagement.notes')}
                   </label>
                   <textarea
                     id="notes"
@@ -461,7 +463,7 @@ export default function CropManagement() {
                     onChange={handleInputChange}
                     rows="3"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200 resize-none"
-                    placeholder="Add any additional notes about this crop..."
+                    placeholder={t('cropManagement.addNotes')}
                   />
                 </div>
 
@@ -472,13 +474,13 @@ export default function CropManagement() {
                     onClick={closeModal}
                     className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium"
                   >
-                    Cancel
+                    {t('cropManagement.cancel')}
                   </button>
                   <button
                     type="submit"
                     className="flex-1 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
                   >
-                    {editingCrop ? 'Update Crop' : 'Add Crop'}
+                    {editingCrop ? t('cropManagement.updateCrop') : t('cropManagement.addCrop')}
                   </button>
                 </div>
               </form>

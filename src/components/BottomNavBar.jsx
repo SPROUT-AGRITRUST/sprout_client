@@ -3,8 +3,10 @@ import { NavLink } from 'react-router-dom';
 import { FaHome, FaSeedling, FaStore, FaUser } from 'react-icons/fa';
 import { MdQrCodeScanner } from 'react-icons/md';
 import './BottomNavBar.css';
+import { useTranslation } from 'react-i18next';
 
 const BottomNavBar = () => {
+  const { t } = useTranslation();
   return (
     <nav className="fixed bottom-4 left-4 right-4 z-50 bg-white/90 glass-nav shadow-2xl rounded-3xl md:hidden border border-gray-100">
       <div className="flex justify-around items-center px-2 py-4 relative">
@@ -20,7 +22,7 @@ const BottomNavBar = () => {
           }
         >
           <FaHome className="w-6 h-6 mb-1" />
-          <span className="text-xs font-medium">Home</span>
+          <span className="text-xs font-medium">{t('bottomNav.home')}</span>
         </NavLink>
 
         <NavLink 
@@ -34,7 +36,7 @@ const BottomNavBar = () => {
           }
         >
           <FaSeedling className="w-6 h-6 mb-1" />
-          <span className="text-xs font-medium">Crop</span>
+          <span className="text-xs font-medium">{t('bottomNav.crop')}</span>
         </NavLink>
 
         {/* Floating Scanner Button */}
@@ -63,7 +65,7 @@ const BottomNavBar = () => {
           {/* Floating Label */}
           <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
             <span className="text-xs font-semibold text-green-600 bg-white px-2 py-1 rounded-full shadow-sm">
-              Scan
+              {t('bottomNav.scan')}
             </span>
           </div>
         </div>
@@ -79,7 +81,7 @@ const BottomNavBar = () => {
           }
         >
           <FaStore className="w-6 h-6 mb-1" />
-          <span className="text-xs font-medium">Market</span>
+          <span className="text-xs font-medium">{t('bottomNav.market')}</span>
         </NavLink>
 
         <NavLink 
@@ -93,7 +95,7 @@ const BottomNavBar = () => {
           }
         >
           <FaUser className="w-6 h-6 mb-1" />
-          <span className="text-xs font-medium">Profile</span>
+          <span className="text-xs font-medium">{t('bottomNav.profile')}</span>
         </NavLink>
       </div>
     </nav>

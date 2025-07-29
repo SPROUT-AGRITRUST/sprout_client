@@ -11,6 +11,7 @@ import Notifications from "./pages/Notifications";
 
 import LoadingScreen from './components/LoadingScreen';
 import BottomNavBar from './components/BottomNavBar';
+import LanguageSwitcher from './components/LanguageSwitcher';
 import { AuthProvider } from './contexts/AuthContext';
 import { ToastProvider } from './contexts/ToastContext';
 
@@ -30,6 +31,12 @@ const App = () => {
   return (
     <ToastProvider>
       <AuthProvider>
+        {/* Global Language Switcher Floating Button */}
+        <div className="fixed z-50 bg-white rounded-full shadow-lg p-2 border border-gray-200 flex items-center justify-center"
+          style={{ minWidth: 44, minHeight: 44, top: '1.5rem', right: '0.5rem' }}
+        >
+          <LanguageSwitcher />
+        </div>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/signup" element={<SignupPage />} />

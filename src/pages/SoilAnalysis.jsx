@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, FileText, Edit3, Leaf, AlertTriangle, CheckCircle, Droplets, Zap, Info } from 'lucide-react';
 import { useToast } from '../contexts/ToastContext';
+import { useTranslation } from 'react-i18next';
 
 // Soil texture options
 const soilTextures = [
@@ -20,6 +21,7 @@ const cropRecommendations = {
 };
 
 export default function SoilAnalysis() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('upload'); // 'upload' or 'manual'
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -56,7 +58,7 @@ export default function SoilAnalysis() {
     //check whether the user is logged in
     const user = localStorage.getItem('user');
     if (!user) {
-      showToast('Please login to upload a soil report', 'warning');
+      showToast(t('soilAnalysis.loginWarning'), 'warning');
       return;
     }
     const file = event.target.files[0];
@@ -129,11 +131,11 @@ export default function SoilAnalysis() {
       const pH = parseFloat(data.pH);
       if (pH < 6.0) {
         pHStatus = 'low';
-        recommendations.push('Add lime to raise pH levels');
+        recommendations.push(t('soilAnalysis.pH.lowRecommendation'));
         cropSuggestions.push(...cropRecommendations.acidic);
       } else if (pH > 7.5) {
         pHStatus = 'high';
-        recommendations.push('Add sulfur or organic matter to lower pH');
+        recommendations.push(t('soilAnalysis.pH.highRecommendation'));
         cropSuggestions.push(...cropRecommendations.alkaline);
       } else {
         pHStatus = 'optimal';
@@ -147,11 +149,11 @@ export default function SoilAnalysis() {
       const nitrogen = parseFloat(data.nitrogen);
       if (nitrogen < 50) {
         nitrogenStatus = 'low';
-        recommendations.push('Apply urea or compost to increase nitrogen levels');
+        recommendations.push(t('soilAnalysis.nitrogen.lowRecommendation'));
         cropSuggestions.push(...cropRecommendations.lowNitrogen);
       } else if (nitrogen > 200) {
         nitrogenStatus = 'high';
-        recommendations.push('Reduce nitrogen application, focus on phosphorus and potassium');
+        recommendations.push(t('soilAnalysis.nitrogen.highRecommendation'));
         cropSuggestions.push(...cropRecommendations.highNitrogen);
       } else {
         nitrogenStatus = 'optimal';
@@ -164,10 +166,10 @@ export default function SoilAnalysis() {
       const phosphorus = parseFloat(data.phosphorus);
       if (phosphorus < 20) {
         phosphorusStatus = 'low';
-        recommendations.push('Apply phosphate fertilizer or bone meal');
+        recommendations.push(t('soilAnalysis.phosphorus.lowRecommendation'));
       } else if (phosphorus > 100) {
         phosphorusStatus = 'high';
-        recommendations.push('Reduce phosphorus application');
+        recommendations.push(t('soilAnalysis.phosphorus.highRecommendation'));
       } else {
         phosphorusStatus = 'optimal';
       }
@@ -179,10 +181,10 @@ export default function SoilAnalysis() {
       const potassium = parseFloat(data.potassium);
       if (potassium < 100) {
         potassiumStatus = 'low';
-        recommendations.push('Apply potash fertilizer or wood ash');
+        recommendations.push(t('soilAnalysis.potassium.lowRecommendation'));
       } else if (potassium > 300) {
         potassiumStatus = 'high';
-        recommendations.push('Reduce potassium application');
+        recommendations.push(t('soilAnalysis.potassium.highRecommendation'));
       } else {
         potassiumStatus = 'optimal';
       }
@@ -194,10 +196,10 @@ export default function SoilAnalysis() {
       const organicMatter = parseFloat(data.organicMatter);
       if (organicMatter < 2) {
         organicMatterStatus = 'low';
-        recommendations.push('Add compost, manure, or cover crops to increase organic matter');
+        recommendations.push(t('soilAnalysis.organicMatter.lowRecommendation'));
       } else if (organicMatter > 8) {
         organicMatterStatus = 'high';
-        recommendations.push('Organic matter levels are excellent');
+        recommendations.push(t('soilAnalysis.organicMatter.highRecommendation'));
       } else {
         organicMatterStatus = 'optimal';
       }
@@ -207,25 +209,25 @@ export default function SoilAnalysis() {
     if (data.soilTexture) {
       if (data.soilTexture.toLowerCase().includes('sandy')) {
         cropSuggestions.push(...cropRecommendations.sandy);
-        irrigationNotes = 'Sandy soil requires frequent but light irrigation. Water retention is low.';
+        irrigationNotes = t('soilAnalysis.irrigation.sandyNotes');
       } else if (data.soilTexture.toLowerCase().includes('clay')) {
         cropSuggestions.push(...cropRecommendations.clay);
-        irrigationNotes = 'Clay soil has high water retention. Avoid overwatering and ensure good drainage.';
+        irrigationNotes = t('soilAnalysis.irrigation.clayNotes');
       } else {
         cropSuggestions.push(...cropRecommendations.loamy);
-        irrigationNotes = 'Loamy soil has good water retention and drainage. Standard irrigation practices apply.';
+        irrigationNotes = t('soilAnalysis.irrigation.loamyNotes');
       }
     }
 
     // Fertilizer recommendations based on deficiencies
     if (nitrogenStatus === 'low') {
-      fertilizerRecommendations.push('Urea (46-0-0) - 100-150 kg/ha');
+      fertilizerRecommendations.push(t('soilAnalysis.fertilizer.urea'));
     }
     if (phosphorusStatus === 'low') {
-      fertilizerRecommendations.push('DAP (18-46-0) - 50-75 kg/ha');
+      fertilizerRecommendations.push(t('soilAnalysis.fertilizer.dap'));
     }
     if (potassiumStatus === 'low') {
-      fertilizerRecommendations.push('MOP (0-0-60) - 50-75 kg/ha');
+      fertilizerRecommendations.push(t('soilAnalysis.fertilizer.mop'));
     }
 
     // Remove duplicates from crop suggestions
@@ -251,25 +253,25 @@ export default function SoilAnalysis() {
         return {
           icon: <AlertTriangle className="w-4 h-4" />,
           color: 'bg-red-100 text-red-800 border-red-200',
-          text: 'Low'
+          text: t('soilAnalysis.status.low')
         };
       case 'high':
         return {
           icon: <AlertTriangle className="w-4 h-4" />,
           color: 'bg-orange-100 text-orange-800 border-orange-200',
-          text: 'High'
+          text: t('soilAnalysis.status.high')
         };
       case 'optimal':
         return {
           icon: <CheckCircle className="w-4 h-4" />,
           color: 'bg-green-100 text-green-800 border-green-200',
-          text: 'Optimal'
+          text: t('soilAnalysis.status.optimal')
         };
       default:
         return {
           icon: <Info className="w-4 h-4" />,
           color: 'bg-gray-100 text-gray-800 border-gray-200',
-          text: 'Not Analyzed'
+          text: t('soilAnalysis.status.notAnalyzed')
         };
     }
   };
@@ -305,8 +307,8 @@ export default function SoilAnalysis() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Soil Analysis</h1>
-            <p className="text-gray-600">Upload your soil report or manually enter values to get personalized recommendations for your farm</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('soilAnalysis.title')}</h1>
+            <p className="text-gray-600">{t('soilAnalysis.subtitle')}</p>
           </div>
         </div>
 
@@ -322,7 +324,7 @@ export default function SoilAnalysis() {
               }`}
             >
               <Upload className="w-5 h-5 inline mr-2" />
-              Upload
+              {t('soilAnalysis.tabs.upload')}
             </button>
             <button
               onClick={() => setActiveTab('manual')}
@@ -333,7 +335,7 @@ export default function SoilAnalysis() {
               }`}
             >
               <Edit3 className="w-5 h-5 inline mr-2" />
-              Manual Entry
+              {t('soilAnalysis.tabs.manualEntry')}
             </button>
           </div>
               
@@ -343,10 +345,8 @@ export default function SoilAnalysis() {
               <div className="text-center">
                 <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 hover:border-green-400 transition-colors duration-200">
                   <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Upload Soil Report</h3>
-                  <p className="text-gray-600 mb-4">
-                    Upload your soil report in PDF, CSV, or JSON format.
-                  </p>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('soilAnalysis.uploadSection.title')}</h3>
+                  <p className="text-gray-600 mb-4">{t('soilAnalysis.uploadSection.description')}</p>
                   <input
                     type="file"
                     accept=".pdf,.csv,.json"
@@ -358,7 +358,7 @@ export default function SoilAnalysis() {
                     htmlFor="file-upload"
                     className="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 cursor-pointer"
                   >
-                    Choose File
+                    {t('soilAnalysis.uploadSection.chooseFileButton')}
                   </label>
                 </div>
                 {uploadedFile && (
@@ -376,9 +376,7 @@ export default function SoilAnalysis() {
                 {/* Soil Texture Selection (mandatory) */}
                 {(!showForm && !showExtendedForm) && (
                   <div className="max-w-xs mx-auto">
-                    <label htmlFor="soilTexture" className="block text-sm font-medium text-gray-700 mb-2">
-                      Soil Texture <span className="text-red-500">*</span>
-                    </label>
+                    <label htmlFor="soilTexture" className="block text-sm font-medium text-gray-700 mb-2">{t('soilAnalysis.manualForm.soilTextureLabel')}<span className="text-red-500">*</span></label>
                     <select
                       id="soilTexture"
                       name="soilTexture"
@@ -387,7 +385,7 @@ export default function SoilAnalysis() {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200 bg-white"
                       required
                     >
-                      <option value="">Select Soil Texture</option>
+                      <option value="">{t('soilAnalysis.manualForm.selectSoilTexture')}</option>
                       {soilTextures.map(texture => (
                         <option key={texture} value={texture}>{texture}</option>
                       ))}
@@ -399,7 +397,7 @@ export default function SoilAnalysis() {
                         onClick={() => setShowForm(true)}
                         type="button"
                       >
-                        Continue
+                        {t('soilAnalysis.manualForm.continueButton')}
                       </button>
                       <button
                         className="w-full px-4 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors duration-200 font-medium"
@@ -407,7 +405,7 @@ export default function SoilAnalysis() {
                         onClick={() => setShowExtendedForm(true)}
                         type="button"
                       >
-                        I can provide more inputs
+                        {t('soilAnalysis.manualForm.moreInputsButton')}
                       </button>
                     </div>
                   </div>
@@ -419,7 +417,7 @@ export default function SoilAnalysis() {
                       onClick={analyzeSoil}
                       className="px-8 py-4 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-200 font-medium"
                     >
-                      Analyze Soil
+                      {t('soilAnalysis.manualForm.analyzeSoilButton')}
                     </button>
                   </div>
                 )}
@@ -428,9 +426,7 @@ export default function SoilAnalysis() {
                   <>
                     <div className="grid md:grid-cols-2 gap-6 mt-6">
                       <div>
-                        <label htmlFor="pH" className="block text-sm font-medium text-gray-700 mb-2">
-                          pH
-                        </label>
+                        <label htmlFor="pH" className="block text-sm font-medium text-gray-700 mb-2">{t('soilAnalysis.manualForm.pHLabel')}</label>
                         <input
                           type="number"
                           id="pH"
@@ -441,14 +437,12 @@ export default function SoilAnalysis() {
                           min="0"
                           max="14"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                          placeholder="6.5"
+                          placeholder={t('soilAnalysis.manualForm.pHPlaceholder')}
                         />
                       </div>
 
                       <div>
-                        <label htmlFor="nitrogen" className="block text-sm font-medium text-gray-700 mb-2">
-                          Nitrogen (ppm)
-                        </label>
+                        <label htmlFor="nitrogen" className="block text-sm font-medium text-gray-700 mb-2">{t('soilAnalysis.manualForm.nitrogenLabel')}</label>
                         <input
                           type="number"
                           id="nitrogen"
@@ -457,14 +451,12 @@ export default function SoilAnalysis() {
                           onChange={handleInputChange}
                           min="0"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                          placeholder="150"
+                          placeholder={t('soilAnalysis.manualForm.nitrogenPlaceholder')}
                         />
                       </div>
 
                       <div>
-                        <label htmlFor="phosphorus" className="block text-sm font-medium text-gray-700 mb-2">
-                          Phosphorus (ppm)
-                        </label>
+                        <label htmlFor="phosphorus" className="block text-sm font-medium text-gray-700 mb-2">{t('soilAnalysis.manualForm.phosphorusLabel')}</label>
                         <input
                           type="number"
                           id="phosphorus"
@@ -473,14 +465,12 @@ export default function SoilAnalysis() {
                           onChange={handleInputChange}
                           min="0"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                          placeholder="50"
+                          placeholder={t('soilAnalysis.manualForm.phosphorusPlaceholder')}
                         />
                       </div>
 
                       <div>
-                        <label htmlFor="potassium" className="block text-sm font-medium text-gray-700 mb-2">
-                          Potassium (ppm)
-                        </label>
+                        <label htmlFor="potassium" className="block text-sm font-medium text-gray-700 mb-2">{t('soilAnalysis.manualForm.potassiumLabel')}</label>
                         <input
                           type="number"
                           id="potassium"
@@ -489,14 +479,12 @@ export default function SoilAnalysis() {
                           onChange={handleInputChange}
                           min="0"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                          placeholder="200"
+                          placeholder={t('soilAnalysis.manualForm.potassiumPlaceholder')}
                         />
                       </div>
 
                       <div>
-                        <label htmlFor="organicMatter" className="block text-sm font-medium text-gray-700 mb-2">
-                          Organic Matter (%)
-                        </label>
+                        <label htmlFor="organicMatter" className="block text-sm font-medium text-gray-700 mb-2">{t('soilAnalysis.manualForm.organicMatterLabel')}</label>
                         <input
                           type="number"
                           id="organicMatter"
@@ -507,7 +495,7 @@ export default function SoilAnalysis() {
                           min="0"
                           max="100"
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                          placeholder="3.5"
+                          placeholder={t('soilAnalysis.manualForm.organicMatterPlaceholder')}
                         />
                       </div>
                     </div>
@@ -520,10 +508,10 @@ export default function SoilAnalysis() {
                         {isAnalyzing ? (
                           <div className="flex items-center">
                             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                            Analyzing Soil
+                            {t('soilAnalysis.manualForm.analyzingSoil')}
                           </div>
                         ) : (
-                          'Analyze Soil'
+                          t('soilAnalysis.manualForm.analyzeSoilButton')
                         )}
                       </button>
                     </div>
@@ -539,13 +527,13 @@ export default function SoilAnalysis() {
           <div className="space-y-8">
             {/* Soil Parameters Summary */}
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Soil Analysis Summary</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('soilAnalysis.results.summaryTitle')}</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* Only show if value is present */}
                 {soilData.pH && (
                   <div className="p-4 border border-gray-200 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">pH Level</span>
+                      <span className="text-sm font-medium text-gray-700">{t('soilAnalysis.results.pHLevel')}</span>
                       {analysisResults.pHStatus && (
                         <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.pHStatus).color}`}>
                           {getStatusInfo(analysisResults.pHStatus).icon}
@@ -560,7 +548,7 @@ export default function SoilAnalysis() {
                 {soilData.nitrogen && (
                   <div className="p-4 border border-gray-200 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Nitrogen</span>
+                      <span className="text-sm font-medium text-gray-700">{t('soilAnalysis.results.nitrogen')}</span>
                       {analysisResults.nitrogenStatus && (
                         <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.nitrogenStatus).color}`}>
                           {getStatusInfo(analysisResults.nitrogenStatus).icon}
@@ -568,14 +556,14 @@ export default function SoilAnalysis() {
                         </div>
                       )}
                     </div>
-                    <p className="text-2xl font-bold text-gray-900">{soilData.nitrogen} ppm</p>
+                    <p className="text-2xl font-bold text-gray-900">{soilData.nitrogen} {t('soilAnalysis.results.ppm')}</p>
                   </div>
                 )}
 
                 {soilData.phosphorus && (
                   <div className="p-4 border border-gray-200 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Phosphorus</span>
+                      <span className="text-sm font-medium text-gray-700">{t('soilAnalysis.results.phosphorus')}</span>
                       {analysisResults.phosphorusStatus && (
                         <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.phosphorusStatus).color}`}>
                           {getStatusInfo(analysisResults.phosphorusStatus).icon}
@@ -583,14 +571,14 @@ export default function SoilAnalysis() {
                         </div>
                       )}
                     </div>
-                    <p className="text-2xl font-bold text-gray-900">{soilData.phosphorus} ppm</p>
+                    <p className="text-2xl font-bold text-gray-900">{soilData.phosphorus} {t('soilAnalysis.results.ppm')}</p>
                   </div>
                 )}
 
                 {soilData.potassium && (
                   <div className="p-4 border border-gray-200 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Potassium</span>
+                      <span className="text-sm font-medium text-gray-700">{t('soilAnalysis.results.potassium')}</span>
                       {analysisResults.potassiumStatus && (
                         <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.potassiumStatus).color}`}>
                           {getStatusInfo(analysisResults.potassiumStatus).icon}
@@ -598,14 +586,14 @@ export default function SoilAnalysis() {
                         </div>
                       )}
                     </div>
-                    <p className="text-2xl font-bold text-gray-900">{soilData.potassium} ppm</p>
+                    <p className="text-2xl font-bold text-gray-900">{soilData.potassium} {t('soilAnalysis.results.ppm')}</p>
                   </div>
                 )}
 
                 {soilData.organicMatter && (
                   <div className="p-4 border border-gray-200 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Organic Matter</span>
+                      <span className="text-sm font-medium text-gray-700">{t('soilAnalysis.results.organicMatter')}</span>
                       {analysisResults.organicMatterStatus && (
                         <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${getStatusInfo(analysisResults.organicMatterStatus).color}`}>
                           {getStatusInfo(analysisResults.organicMatterStatus).icon}
@@ -620,9 +608,9 @@ export default function SoilAnalysis() {
                 {/* Always show Soil Texture */}
                 <div className="p-4 border border-gray-200 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Soil Texture</span>
+                    <span className="text-sm font-medium text-gray-700">{t('soilAnalysis.results.soilTexture')}</span>
                   </div>
-                  <p className="text-2xl font-bold text-gray-900">{soilData.soilTexture || 'N/A'}</p>
+                  <p className="text-2xl font-bold text-gray-900">{soilData.soilTexture || t('soilAnalysis.results.na')}</p>
                 </div>
               </div>
             </div>
@@ -631,7 +619,7 @@ export default function SoilAnalysis() {
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
               <div className="flex items-center mb-4">
                 <Leaf className="w-6 h-6 text-green-600 mr-2" />
-                <h3 className="text-xl font-bold text-gray-900">Recommended Crops</h3>
+                <h3 className="text-xl font-bold text-gray-900">{t('soilAnalysis.results.recommendedCropsTitle')}</h3>
               </div>
               <div className="space-y-2">
                 {analysisResults.cropSuggestions.map((crop, index) => (
@@ -643,13 +631,54 @@ export default function SoilAnalysis() {
               </div>
             </div>
 
+            {/* Fertilizer Recommendations */}
+            {analysisResults.fertilizerRecommendations.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
+                <div className="flex items-center mb-4">
+                  <Droplets className="w-6 h-6 text-green-600 mr-2" />
+                  <h3 className="text-xl font-bold text-gray-900">{t('soilAnalysis.results.fertilizerTitle')}</h3>
+                </div>
+                <ul className="list-disc list-inside text-gray-800">
+                  {analysisResults.fertilizerRecommendations.map((recommendation, index) => (
+                    <li key={index}>{recommendation}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Irrigation Notes */}
+            {analysisResults.irrigationNotes && (
+              <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
+                <div className="flex items-center mb-4">
+                  <Zap className="w-6 h-6 text-green-600 mr-2" />
+                  <h3 className="text-xl font-bold text-gray-900">{t('soilAnalysis.results.irrigationTitle')}</h3>
+                </div>
+                <p className="text-gray-800">{analysisResults.irrigationNotes}</p>
+              </div>
+            )}
+
+            {/* Recommendations */}
+            {analysisResults.recommendations.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
+                <div className="flex items-center mb-4">
+                  <Info className="w-6 h-6 text-green-600 mr-2" />
+                  <h3 className="text-xl font-bold text-gray-900">{t('soilAnalysis.results.recommendationsTitle')}</h3>
+                </div>
+                <ul className="list-disc list-inside text-gray-800">
+                  {analysisResults.recommendations.map((recommendation, index) => (
+                    <li key={index}>{recommendation}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {/* Reset Button */}
             <div className="text-center">
               <button
                 onClick={resetForm}
                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium"
               >
-                Start New Analysis
+                {t('soilAnalysis.results.startNewAnalysisButton')}
               </button>
             </div>
           </div>
