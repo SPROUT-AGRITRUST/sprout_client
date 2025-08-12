@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Bell, Leaf, Bot, ShoppingCart, Search, ChevronLeft, ChevronRight, User, LogOut } from "lucide-react";
+import {
+  Bell,
+  Leaf,
+  Bot,
+  ShoppingCart,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+  User,
+  LogOut,
+} from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-import LanguageSwitcher from '../components/LanguageSwitcher';
+import LanguageSwitcher from "../components/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
 export default function HomePage() {
@@ -13,10 +23,26 @@ export default function HomePage() {
 
   // Move quickActions and carouselData here so t is defined
   const quickActions = [
-    { label: t("home.quickActions.soil"), icon: <Search className="w-6 h-6" />, link: "/soil-analysis" },
-    { label: t("home.quickActions.crops"), icon: <Leaf className="w-6 h-6" />, link: "/crops" },
-    { label: t("home.quickActions.profile"), icon: <User className="w-6 h-6" />, link: "/profile" },
-    { label: t("home.quickActions.market"), icon: <ShoppingCart className="w-6 h-6" />, link: "/marketplace" },
+    {
+      label: t("home.quickActions.soil"),
+      icon: <Search className="w-6 h-6" />,
+      link: "/soil-analysis",
+    },
+    {
+      label: t("home.quickActions.crops"),
+      icon: <Leaf className="w-6 h-6" />,
+      link: "/crops",
+    },
+    {
+      label: t("home.quickActions.profile"),
+      icon: <User className="w-6 h-6" />,
+      link: "/profile",
+    },
+    {
+      label: t("home.quickActions.market"),
+      icon: <ShoppingCart className="w-6 h-6" />,
+      link: "/marketplace",
+    },
   ];
 
   const carouselData = [
@@ -24,23 +50,26 @@ export default function HomePage() {
       id: 1,
       title: t("carousel1.title"),
       subtitle: t("carousel1.subtitle"),
-      image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      bgColor: "from-emerald-500 to-green-600"
+      image:
+        "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-emerald-500 to-green-600",
     },
     {
       id: 2,
       title: t("carousel2.title"),
       subtitle: t("carousel2.subtitle"),
-      image: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      bgColor: "from-green-500 to-emerald-600"
+      image:
+        "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-green-500 to-emerald-600",
     },
     {
       id: 3,
       title: t("carousel3.title"),
       subtitle: t("carousel3.subtitle"),
-      image: "https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      bgColor: "from-teal-500 to-green-600"
-    }
+      image:
+        "https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      bgColor: "from-teal-500 to-green-600",
+    },
   ];
 
   // Auto-advance carousel
@@ -61,7 +90,9 @@ export default function HomePage() {
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + carouselData.length) % carouselData.length);
+    setCurrentSlide(
+      (prev) => (prev - 1 + carouselData.length) % carouselData.length
+    );
   };
 
   return (
@@ -76,19 +107,22 @@ export default function HomePage() {
             {isAuthenticated ? (
               <>
                 <span className="text-sm text-gray-600 hidden md:block">
-                  {t('home.welcome')}, {user?.displayName || user?.email}
+                  {t("home.welcome")}, {user?.displayName || user?.email}
                 </span>
                 <button
                   onClick={handleLogout}
                   className="px-4 py-2 text-red-600 hover:text-red-700 font-medium transition-colors duration-200 flex items-center hidden md:block"
                 >
                   <LogOut className="w-4 h-4 mr-1 hidden md:block" />
-                  {t('home.logout')}
+                  {t("home.logout")}
                 </button>
                 <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
-                  <Bell className="w-5 h-5 text-green-600" onClick={() => {
-                    navigate('/notifications');
-                  }}/>
+                  <Bell
+                    className="w-5 h-5 text-green-600"
+                    onClick={() => {
+                      navigate("/notifications");
+                    }}
+                  />
                   <span className="absolute top-2 right-2 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
                 </button>
               </>
@@ -98,18 +132,21 @@ export default function HomePage() {
                   to="/login"
                   className="hidden md:block px-4 py-2 text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
                 >
-                  {t('home.signIn')}
+                  {t("home.signIn")}
                 </NavLink>
                 <NavLink
                   to="/signup"
                   className="hidden md:block px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
                 >
-                  {t('home.getStarted')}
+                  {t("home.getStarted")}
                 </NavLink>
                 <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
-                  <Bell className="w-5 h-5 text-green-600" onClick={() => {
-                    navigate('/notifications');
-                  }}/>
+                  <Bell
+                    className="w-5 h-5 text-green-600"
+                    onClick={() => {
+                      navigate("/notifications");
+                    }}
+                  />
                   <span className="absolute top-2 right-2 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
                 </button>
               </>
@@ -127,11 +164,11 @@ export default function HomePage() {
             </div>
             <input
               type="text"
-              placeholder={t('home.searchPlaceholder')}
+              placeholder={t("home.searchPlaceholder")}
               className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
             />
             <button className="absolute inset-y-0 right-0 px-6 bg-green-600 text-white rounded-r-2xl hover:bg-green-700 transition-colors duration-200 font-medium">
-              {t('home.searchButton', 'Search')}
+              {t("home.searchButton", "Search")}
             </button>
           </div>
         </div>
@@ -148,42 +185,61 @@ export default function HomePage() {
                   <Search className="w-6 h-6 text-white" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold">
-                  {t('home.soilReportTitle')}
+                  {t("home.soilReportTitle")}
                 </h2>
               </div>
               <p className="text-xl text-green-100 mb-6 leading-relaxed">
-                {t('home.soilReportDescription')}
+                {t("home.soilReportDescription")}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <NavLink to="/soil-analysis" className="px-8 py-4 bg-white text-green-600 rounded-xl font-semibold hover:bg-green-50 transition-colors duration-200 shadow-lg text-center">
-                  {t('home.uploadSoilReport')}
+                <NavLink
+                  to="/soil-analysis"
+                  className="px-8 py-4 bg-white text-green-600 rounded-xl font-semibold hover:bg-green-50 transition-colors duration-200 shadow-lg text-center"
+                >
+                  {t("home.uploadSoilReport")}
                 </NavLink>
-                <NavLink to="/soil-analysis" className="px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-green-600 transition-colors duration-200 text-center">
-                  {t('home.learnMore')}
+                <NavLink
+                  to="/soil-analysis"
+                  className="px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-green-600 transition-colors duration-200 text-center"
+                >
+                  {t("home.learnMore")}
                 </NavLink>
               </div>
             </div>
-            
-            {/* Image */}
             <div className="flex-1 p-8 md:p-12">
-              <div className="relative">
-                <img
-                  src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                  alt={t('home.soilAnalysisAlt')}
-                  className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-lg"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-green-900/40 to-transparent rounded-2xl"></div>
-                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-3">
-                  <div className="flex items-center">
-                    <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-2">
-                      <Leaf className="w-4 h-4 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">{t('home.aiAnalysis')}</p>
-                      <p className="text-xs text-gray-600">{t('home.instantResults')}</p>
+              <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-lg">
+                {carouselData.map((slide, index) => (
+                  <div
+                    key={slide.id}
+                    className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+                      index === currentSlide
+                        ? "opacity-100 z-10"
+                        : "opacity-0 z-0"
+                    }`}
+                  >
+                    <img
+                      src={slide.image}
+                      alt={slide.title}
+                      className="w-full h-full object-cover rounded-2xl"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-green-900/40 to-transparent rounded-2xl"></div>
+                    <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-3">
+                      <div className="flex items-center">
+                        <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-2">
+                          <Leaf className="w-4 h-4 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-gray-900">
+                            {slide.title}
+                          </p>
+                          <p className="text-xs text-gray-600">
+                            {slide.subtitle}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
@@ -191,106 +247,51 @@ export default function HomePage() {
       </div>
 
       <div className="px-4 py-6 md:px-8">
-        {/* Hero Carousel */}
-        <div className="relative mb-8 rounded-3xl overflow-hidden shadow-2xl">
-          <div className="relative h-64 md:h-80">
-            {carouselData.map((slide, index) => (
-              <div
-                key={slide.id}
-                className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-                  index === currentSlide ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-r ${slide.bgColor} opacity-90`} />
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/20" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center text-white px-6">
-                    <h2 className="text-2xl md:text-4xl font-bold mb-2 drop-shadow-lg">
-                      {slide.title}
-                    </h2>
-                    <p className="text-lg md:text-xl opacity-90 drop-shadow-md">
-                      {slide.subtitle}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Carousel Navigation */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-300"
-          >
-            <ChevronLeft className="w-6 h-6 text-green-600" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-300"
-          >
-            <ChevronRight className="w-6 h-6 text-green-600" />
-          </button>
-
-          {/* Carousel Indicators */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-            {carouselData.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentSlide
-                    ? "bg-white scale-125"
-                    : "bg-white/50 hover:bg-white/75"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-
         {/* Features Section */}
         <div className="mb-16">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              {t('home.whyChooseSprout')}
+              {t("home.whyChooseSprout")}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t('home.whyChooseSproutDescription')}
+              {t("home.whyChooseSproutDescription")}
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
                 <Search className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.smartAnalytics')}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                {t("home.smartAnalytics")}
+              </h3>
               <p className="text-gray-600 leading-relaxed">
-                {t('home.smartAnalyticsDescription')}
+                {t("home.smartAnalyticsDescription")}
               </p>
             </div>
-            
+
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
                 <ShoppingCart className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.marketConnect')}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                {t("home.marketConnect")}
+              </h3>
               <p className="text-gray-600 leading-relaxed">
-                {t('home.marketConnectDescription')}
+                {t("home.marketConnectDescription")}
               </p>
             </div>
-            
+
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300">
               <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
                 <Bot className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('home.expertSupport')}</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                {t("home.expertSupport")}
+              </h3>
               <p className="text-gray-600 leading-relaxed">
-                {t('home.expertSupportDescription')}
+                {t("home.expertSupportDescription")}
               </p>
             </div>
           </div>
@@ -300,51 +301,59 @@ export default function HomePage() {
         <div className="mb-16">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              {t('home.ourServices')}
+              {t("home.ourServices")}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t('home.ourServicesDescription')}
+              {t("home.ourServicesDescription")}
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <Leaf className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('home.cropPlanning')}</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {t("home.cropPlanning")}
+              </h3>
               <p className="text-gray-600 text-sm">
-                {t('home.cropPlanningDescription')}
+                {t("home.cropPlanningDescription")}
               </p>
             </div>
-            
+
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <Search className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('home.soilAnalysis')}</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {t("home.soilAnalysis")}
+              </h3>
               <p className="text-gray-600 text-sm">
-                {t('home.soilAnalysisDescription')}
+                {t("home.soilAnalysisDescription")}
               </p>
             </div>
-            
+
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <ShoppingCart className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('home.marketAccess')}</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {t("home.marketAccess")}
+              </h3>
               <p className="text-gray-600 text-sm">
-                {t('home.marketAccessDescription')}
+                {t("home.marketAccessDescription")}
               </p>
             </div>
-            
+
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <Bot className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('home.aiConsulting')}</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {t("home.aiConsulting")}
+              </h3>
               <p className="text-gray-600 text-sm">
-                {t('home.aiConsultingDescription')}
+                {t("home.aiConsultingDescription")}
               </p>
             </div>
           </div>
@@ -356,7 +365,7 @@ export default function HomePage() {
             <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
               <Leaf className="w-5 h-5 text-green-600" />
             </div>
-            {t('home.quickActions.title')}
+            {t("home.quickActions.title")}
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {quickActions.map((action) => (
@@ -379,29 +388,41 @@ export default function HomePage() {
 
       {/* Mobile Navigation */}
       <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-green-100 shadow-lg flex justify-around py-2 md:hidden z-50">
-        <NavLink to="/" className="flex flex-col items-center text-green-600 font-medium">
+        <NavLink
+          to="/"
+          className="flex flex-col items-center text-green-600 font-medium"
+        >
           <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mb-1">
             <Leaf className="w-3 h-3" />
           </div>
-          <span className="text-xs">{t('home.mobileNav.home')}</span>
+          <span className="text-xs">{t("home.mobileNav.home")}</span>
         </NavLink>
-        <NavLink to="/crops" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
+        <NavLink
+          to="/crops"
+          className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200"
+        >
           <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
             <Leaf className="w-3 h-3" />
           </div>
-          <span className="text-xs">{t('home.mobileNav.crops')}</span>
+          <span className="text-xs">{t("home.mobileNav.crops")}</span>
         </NavLink>
-        <NavLink to="/soil-analysis" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
+        <NavLink
+          to="/soil-analysis"
+          className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200"
+        >
           <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
             <Search className="w-3 h-3" />
           </div>
-          <span className="text-xs">{t('home.mobileNav.soil')}</span>
+          <span className="text-xs">{t("home.mobileNav.soil")}</span>
         </NavLink>
-        <NavLink to="/profile" className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200">
+        <NavLink
+          to="/profile"
+          className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200"
+        >
           <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
             <User className="w-3 h-3" />
           </div>
-          <span className="text-xs">{t('home.mobileNav.profile')}</span>
+          <span className="text-xs">{t("home.mobileNav.profile")}</span>
         </NavLink>
       </div>
     </div>

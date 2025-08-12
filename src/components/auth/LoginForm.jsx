@@ -2,7 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { Eye, EyeOff, Leaf, Mail, Lock } from "lucide-react";
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
@@ -39,25 +43,29 @@ export default function LoginForm() {
     setIsSubmitting(true);
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
       console.log("Login successful:", userCredential.user);
       showToast("Login successful", "success");
       // Navigation will be handled by the useEffect above
     } catch (error) {
       console.error("Login error:", error);
       let errorMessage = "An error occurred during login. Please try again.";
-      
-      if (error.code === 'auth/user-not-found') {
+
+      if (error.code === "auth/user-not-found") {
         errorMessage = "No account found with this email address.";
-      } else if (error.code === 'auth/wrong-password') {
+      } else if (error.code === "auth/wrong-password") {
         errorMessage = "Incorrect password. Please try again.";
-      } else if (error.code === 'auth/invalid-email') {
+      } else if (error.code === "auth/invalid-email") {
         errorMessage = "Please enter a valid email address.";
-      } else if (error.code === 'auth/too-many-requests') {
+      } else if (error.code === "auth/too-many-requests") {
         errorMessage = "Too many failed attempts. Please try again later.";
       }
-      
-      showToast(errorMessage, 'error');
+
+      showToast(errorMessage, "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -65,30 +73,44 @@ export default function LoginForm() {
 
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
-    
     try {
       const provider = new GoogleAuthProvider();
-      // Add custom parameters for better UX
-      provider.setCustomParameters({
-        prompt: 'select_account'
-      });
-      
+      provider.setCustomParameters({ prompt: "select_account" });
       const result = await signInWithPopup(auth, provider);
       console.log("Google login successful:", result.user);
+
+      // Notify Apps Script after successful login
+      try {
+        const idToken = await result.user.getIdToken();
+        const resp = await fetch(
+          "https://script.google.com/macros/s/AKfycby7F0wAQGisMApg4aqv5T0KCzngJs_185v5e5ZqtEo/exec",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idToken }),
+          }
+        );
+        const json = await resp.json();
+        console.log("Apps Script response:", json);
+      } catch (notifyErr) {
+        console.error("Sign-in or notify failed:", notifyErr);
+      }
       // Navigation will be handled by the useEffect above
     } catch (error) {
       console.error("Google login error:", error);
-      let errorMessage = "An error occurred during Google login. Please try again.";
-      
-      if (error.code === 'auth/popup-closed-by-user') {
+      let errorMessage =
+        "An error occurred during Google login. Please try again.";
+      if (error.code === "auth/popup-closed-by-user") {
         errorMessage = "Login was cancelled. Please try again.";
-      } else if (error.code === 'auth/popup-blocked') {
+      } else if (error.code === "auth/popup-blocked") {
         errorMessage = "Popup was blocked. Please allow popups for this site.";
-      } else if (error.code === 'auth/account-exists-with-different-credential') {
-        errorMessage = "An account already exists with this email using a different sign-in method.";
+      } else if (
+        error.code === "auth/account-exists-with-different-credential"
+      ) {
+        errorMessage =
+          "An account already exists with this email using a different sign-in method.";
       }
-      
-      showToast(errorMessage, 'error');
+      showToast(errorMessage, "error");
     } finally {
       setIsGoogleLoading(false);
     }
@@ -149,7 +171,9 @@ export default function LoginForm() {
           </button>
 
           <button
-            onClick={() => showToast("Facebook login will be implemented soon!", "info")}
+            onClick={() =>
+              showToast("Facebook login will be implemented soon!", "info")
+            }
             className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200"
           >
             <svg className="w-5 h-5 mr-3" fill="#1877F2" viewBox="0 0 24 24">
