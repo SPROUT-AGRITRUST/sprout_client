@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import { 
-  ArrowLeft, 
-  Plus, 
-  Search, 
-  Filter, 
-  MapPin, 
-  Calendar, 
-  Phone, 
-  MessageCircle, 
-  Star, 
+import React, { useState, useEffect } from "react";
+import BackToHomeButton from "../components/BackToHomeButton";
+import { NavLink } from "react-router-dom";
+import {
+  ArrowLeft,
+  Plus,
+  Search,
+  Filter,
+  MapPin,
+  Calendar,
+  Phone,
+  MessageCircle,
+  Star,
   Eye,
   Upload,
   DollarSign,
@@ -17,136 +18,147 @@ import {
   User,
   Clock,
   CheckCircle,
-  AlertCircle
-} from 'lucide-react';
+  AlertCircle,
+} from "lucide-react";
 
 // Mock data for product listings
 const mockListings = [
   {
     id: 1,
-    productName: 'Basmati Rice Paddy',
-    cropType: 'Cereal',
+    productName: "Basmati Rice Paddy",
+    cropType: "Cereal",
     quantity: 50,
-    unit: 'quintals',
+    unit: "quintals",
     pricePerUnit: 2500,
-    farmerName: 'Rajesh Kumar',
-    location: { village: 'Mohanpur', district: 'Punjab' },
-    harvestDate: '2024-02-15',
-    image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-    status: 'freshly-harvested',
-    description: 'Premium quality basmati paddy, freshly harvested and ready for milling.',
+    farmerName: "Rajesh Kumar",
+    location: { village: "Mohanpur", district: "Punjab" },
+    harvestDate: "2024-02-15",
+    image:
+      "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    status: "freshly-harvested",
+    description:
+      "Premium quality basmati paddy, freshly harvested and ready for milling.",
     verifiedFarmer: true,
     offers: [
-      { trader: 'ABC Rice Mills', amount: 2400, date: '2024-02-20' },
-      { trader: 'Punjab Agro', amount: 2350, date: '2024-02-19' }
-    ]
+      { trader: "ABC Rice Mills", amount: 2400, date: "2024-02-20" },
+      { trader: "Punjab Agro", amount: 2350, date: "2024-02-19" },
+    ],
   },
   {
     id: 2,
-    productName: 'Yellow Maize',
-    cropType: 'Cereal',
+    productName: "Yellow Maize",
+    cropType: "Cereal",
     quantity: 75,
-    unit: 'quintals',
+    unit: "quintals",
     pricePerUnit: 1800,
-    farmerName: 'Sukhwinder Singh',
-    location: { village: 'Ludhiana', district: 'Punjab' },
-    harvestDate: '2024-02-10',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-    status: 'ready-to-ship',
-    description: 'High-quality yellow maize, perfect for animal feed and industrial use.',
+    farmerName: "Sukhwinder Singh",
+    location: { village: "Ludhiana", district: "Punjab" },
+    harvestDate: "2024-02-10",
+    image:
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    status: "ready-to-ship",
+    description:
+      "High-quality yellow maize, perfect for animal feed and industrial use.",
     verifiedFarmer: false,
-    offers: [
-      { trader: 'FeedCorp Ltd', amount: 1750, date: '2024-02-18' }
-    ]
+    offers: [{ trader: "FeedCorp Ltd", amount: 1750, date: "2024-02-18" }],
   },
   {
     id: 3,
-    productName: 'Green Gram (Moong)',
-    cropType: 'Pulse',
+    productName: "Green Gram (Moong)",
+    cropType: "Pulse",
     quantity: 25,
-    unit: 'quintals',
+    unit: "quintals",
     pricePerUnit: 8500,
-    farmerName: 'Priya Sharma',
-    location: { village: 'Haryana', district: 'Haryana' },
-    harvestDate: '2024-02-12',
-    image: 'https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-    status: 'freshly-harvested',
-    description: 'Organic green gram, chemical-free farming, premium quality.',
+    farmerName: "Priya Sharma",
+    location: { village: "Haryana", district: "Haryana" },
+    harvestDate: "2024-02-12",
+    image:
+      "https://images.unsplash.com/photo-1523741543316-beb7fc7023d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    status: "freshly-harvested",
+    description: "Organic green gram, chemical-free farming, premium quality.",
     verifiedFarmer: true,
-    offers: []
+    offers: [],
   },
   {
     id: 4,
-    productName: 'Mustard Seeds',
-    cropType: 'Oilseed',
+    productName: "Mustard Seeds",
+    cropType: "Oilseed",
     quantity: 30,
-    unit: 'quintals',
+    unit: "quintals",
     pricePerUnit: 5200,
-    farmerName: 'Amarjeet Kaur',
-    location: { village: 'Bathinda', district: 'Punjab' },
-    harvestDate: '2024-02-08',
-    image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-    status: 'ready-to-ship',
-    description: 'High oil content mustard seeds, suitable for oil extraction.',
+    farmerName: "Amarjeet Kaur",
+    location: { village: "Bathinda", district: "Punjab" },
+    harvestDate: "2024-02-08",
+    image:
+      "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    status: "ready-to-ship",
+    description: "High oil content mustard seeds, suitable for oil extraction.",
     verifiedFarmer: true,
     offers: [
-      { trader: 'OilCo Industries', amount: 5100, date: '2024-02-17' },
-      { trader: 'Agro Oil Mills', amount: 5050, date: '2024-02-16' }
-    ]
+      { trader: "OilCo Industries", amount: 5100, date: "2024-02-17" },
+      { trader: "Agro Oil Mills", amount: 5050, date: "2024-02-16" },
+    ],
   },
   {
     id: 5,
-    productName: 'Wheat',
-    cropType: 'Cereal',
+    productName: "Wheat",
+    cropType: "Cereal",
     quantity: 100,
-    unit: 'quintals',
+    unit: "quintals",
     pricePerUnit: 2200,
-    farmerName: 'Gurpreet Singh',
-    location: { village: 'Amritsar', district: 'Punjab' },
-    harvestDate: '2024-02-05',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
-    status: 'freshly-harvested',
-    description: 'Premium quality wheat, high protein content, suitable for bread making.',
+    farmerName: "Gurpreet Singh",
+    location: { village: "Amritsar", district: "Punjab" },
+    harvestDate: "2024-02-05",
+    image:
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+    status: "freshly-harvested",
+    description:
+      "Premium quality wheat, high protein content, suitable for bread making.",
     verifiedFarmer: false,
-    offers: []
-  }
+    offers: [],
+  },
 ];
 
 // Crop types for filtering
-const cropTypes = ['All', 'Cereal', 'Pulse', 'Oilseed', 'Vegetable', 'Fruit'];
+const cropTypes = ["All", "Cereal", "Pulse", "Oilseed", "Vegetable", "Fruit"];
 
 // Status options
-const statusOptions = ['All', 'freshly-harvested', 'ready-to-ship', 'in-storage'];
+const statusOptions = [
+  "All",
+  "freshly-harvested",
+  "ready-to-ship",
+  "in-storage",
+];
 
 export default function Marketplace() {
-  const [activeTab, setActiveTab] = useState('buy'); // 'buy', 'sell', 'my-listings'
+  const [activeTab, setActiveTab] = useState("buy"); // 'buy', 'sell', 'my-listings'
   const [listings, setListings] = useState(mockListings);
   const [filteredListings, setFilteredListings] = useState(mockListings);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
   const [showBidModal, setShowBidModal] = useState(false);
   const [selectedListing, setSelectedListing] = useState(null);
-  
+
   // Filter states
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCropType, setSelectedCropType] = useState('All');
-  const [selectedStatus, setSelectedStatus] = useState('All');
-  const [priceRange, setPriceRange] = useState({ min: '', max: '' });
-  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCropType, setSelectedCropType] = useState("All");
+  const [selectedStatus, setSelectedStatus] = useState("All");
+  const [priceRange, setPriceRange] = useState({ min: "", max: "" });
+
   // Form states
   const [uploadForm, setUploadForm] = useState({
-    productName: '',
-    cropType: '',
-    quantity: '',
-    unit: 'quintals',
-    pricePerUnit: '',
-    harvestDate: '',
-    description: '',
-    image: null
+    productName: "",
+    cropType: "",
+    quantity: "",
+    unit: "quintals",
+    pricePerUnit: "",
+    harvestDate: "",
+    description: "",
+    image: null,
   });
 
   // Bid form state
-  const [bidAmount, setBidAmount] = useState('');
+  const [bidAmount, setBidAmount] = useState("");
 
   // Filter listings based on search and filters
   useEffect(() => {
@@ -154,29 +166,42 @@ export default function Marketplace() {
 
     // Search filter
     if (searchTerm) {
-      filtered = filtered.filter(listing =>
-        listing.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        listing.farmerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        listing.location.village.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (listing) =>
+          listing.productName
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          listing.farmerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          listing.location.village
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
       );
     }
 
     // Crop type filter
-    if (selectedCropType !== 'All') {
-      filtered = filtered.filter(listing => listing.cropType === selectedCropType);
+    if (selectedCropType !== "All") {
+      filtered = filtered.filter(
+        (listing) => listing.cropType === selectedCropType
+      );
     }
 
     // Status filter
-    if (selectedStatus !== 'All') {
-      filtered = filtered.filter(listing => listing.status === selectedStatus);
+    if (selectedStatus !== "All") {
+      filtered = filtered.filter(
+        (listing) => listing.status === selectedStatus
+      );
     }
 
     // Price range filter
     if (priceRange.min) {
-      filtered = filtered.filter(listing => listing.pricePerUnit >= parseInt(priceRange.min));
+      filtered = filtered.filter(
+        (listing) => listing.pricePerUnit >= parseInt(priceRange.min)
+      );
     }
     if (priceRange.max) {
-      filtered = filtered.filter(listing => listing.pricePerUnit <= parseInt(priceRange.max));
+      filtered = filtered.filter(
+        (listing) => listing.pricePerUnit <= parseInt(priceRange.max)
+      );
     }
 
     setFilteredListings(filtered);
@@ -185,9 +210,9 @@ export default function Marketplace() {
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUploadForm(prev => ({
+    setUploadForm((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -195,9 +220,9 @@ export default function Marketplace() {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setUploadForm(prev => ({
+      setUploadForm((prev) => ({
         ...prev,
-        image: URL.createObjectURL(file)
+        image: URL.createObjectURL(file),
       }));
     }
   };
@@ -205,44 +230,46 @@ export default function Marketplace() {
   // Submit new listing
   const handleSubmitListing = (e) => {
     e.preventDefault();
-    
+
     const newListing = {
       id: Date.now(),
       ...uploadForm,
-      farmerName: 'Current User', // In real app, get from auth context
-      location: { village: 'Current Village', district: 'Current District' }, // In real app, get from user profile
-      status: 'freshly-harvested',
+      farmerName: "Current User", // In real app, get from auth context
+      location: { village: "Current Village", district: "Current District" }, // In real app, get from user profile
+      status: "freshly-harvested",
       verifiedFarmer: false,
       offers: [],
-      image: uploadForm.image || 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+      image:
+        uploadForm.image ||
+        "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
     };
 
     setListings([newListing, ...listings]);
     setShowUploadModal(false);
     setUploadForm({
-      productName: '',
-      cropType: '',
-      quantity: '',
-      unit: 'quintals',
-      pricePerUnit: '',
-      harvestDate: '',
-      description: '',
-      image: null
+      productName: "",
+      cropType: "",
+      quantity: "",
+      unit: "quintals",
+      pricePerUnit: "",
+      harvestDate: "",
+      description: "",
+      image: null,
     });
   };
 
   // Submit bid
   const handleSubmitBid = (e) => {
     e.preventDefault();
-    
+
     if (selectedListing) {
       const newOffer = {
-        trader: 'Your Company', // In real app, get from auth context
+        trader: "Your Company", // In real app, get from auth context
         amount: parseInt(bidAmount),
-        date: new Date().toISOString().split('T')[0]
+        date: new Date().toISOString().split("T")[0],
       };
 
-      const updatedListings = listings.map(listing =>
+      const updatedListings = listings.map((listing) =>
         listing.id === selectedListing.id
           ? { ...listing, offers: [...listing.offers, newOffer] }
           : listing
@@ -250,7 +277,7 @@ export default function Marketplace() {
 
       setListings(updatedListings);
       setShowBidModal(false);
-      setBidAmount('');
+      setBidAmount("");
       setSelectedListing(null);
     }
   };
@@ -258,29 +285,29 @@ export default function Marketplace() {
   // Get status info
   const getStatusInfo = (status) => {
     switch (status) {
-      case 'freshly-harvested':
+      case "freshly-harvested":
         return {
-          color: 'bg-green-100 text-green-800 border-green-200',
-          text: 'Freshly Harvested',
-          icon: <CheckCircle className="w-4 h-4" />
+          color: "bg-green-100 text-green-800 border-green-200",
+          text: "Freshly Harvested",
+          icon: <CheckCircle className="w-4 h-4" />,
         };
-      case 'ready-to-ship':
+      case "ready-to-ship":
         return {
-          color: 'bg-blue-100 text-blue-800 border-blue-200',
-          text: 'Ready to Ship',
-          icon: <Package className="w-4 h-4" />
+          color: "bg-blue-100 text-blue-800 border-blue-200",
+          text: "Ready to Ship",
+          icon: <Package className="w-4 h-4" />,
         };
-      case 'in-storage':
+      case "in-storage":
         return {
-          color: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-          text: 'In Storage',
-          icon: <Clock className="w-4 h-4" />
+          color: "bg-yellow-100 text-yellow-800 border-yellow-200",
+          text: "In Storage",
+          icon: <Clock className="w-4 h-4" />,
         };
       default:
         return {
-          color: 'bg-gray-100 text-gray-800 border-gray-200',
-          text: 'Unknown',
-          icon: <AlertCircle className="w-4 h-4" />
+          color: "bg-gray-100 text-gray-800 border-gray-200",
+          text: "Unknown",
+          icon: <AlertCircle className="w-4 h-4" />,
         };
     }
   };
@@ -288,28 +315,31 @@ export default function Marketplace() {
   // Get crop type color
   const getCropTypeColor = (type) => {
     switch (type) {
-      case 'Cereal':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Pulse':
-        return 'bg-green-100 text-green-800';
-      case 'Oilseed':
-        return 'bg-orange-100 text-orange-800';
-      case 'Vegetable':
-        return 'bg-blue-100 text-blue-800';
-      case 'Fruit':
-        return 'bg-purple-100 text-purple-800';
+      case "Cereal":
+        return "bg-yellow-100 text-yellow-800";
+      case "Pulse":
+        return "bg-green-100 text-green-800";
+      case "Oilseed":
+        return "bg-orange-100 text-orange-800";
+      case "Vegetable":
+        return "bg-blue-100 text-blue-800";
+      case "Fruit":
+        return "bg-purple-100 text-purple-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8 pb-16">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8 pb-16 relative">
+      <BackToHomeButton />
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Marketplace</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Marketplace
+            </h1>
           </div>
         </div>
 
@@ -317,31 +347,31 @@ export default function Marketplace() {
         <div className="bg-white rounded-2xl shadow-lg border border-green-100 mb-8">
           <div className="flex border-b border-gray-200">
             <button
-              onClick={() => setActiveTab('buy')}
+              onClick={() => setActiveTab("buy")}
               className={`flex-1 px-6 py-4 text-center font-medium transition-colors duration-200 ${
-                activeTab === 'buy'
-                  ? 'text-green-600 border-b-2 border-green-600 bg-green-50'
-                  : 'text-gray-500 hover:text-gray-700'
+                activeTab === "buy"
+                  ? "text-green-600 border-b-2 border-green-600 bg-green-50"
+                  : "text-gray-500 hover:text-gray-700"
               }`}
             >
               Buy Produce
             </button>
             <button
-              onClick={() => setActiveTab('sell')}
+              onClick={() => setActiveTab("sell")}
               className={`flex-1 px-6 py-4 text-center font-medium transition-colors duration-200 ${
-                activeTab === 'sell'
-                  ? 'text-green-600 border-b-2 border-green-600 bg-green-50'
-                  : 'text-gray-500 hover:text-gray-700'
+                activeTab === "sell"
+                  ? "text-green-600 border-b-2 border-green-600 bg-green-50"
+                  : "text-gray-500 hover:text-gray-700"
               }`}
             >
               Sell Produce
             </button>
             <button
-              onClick={() => setActiveTab('my-listings')}
+              onClick={() => setActiveTab("my-listings")}
               className={`flex-1 px-6 py-4 text-center font-medium transition-colors duration-200 ${
-                activeTab === 'my-listings'
-                  ? 'text-green-600 border-b-2 border-green-600 bg-green-50'
-                  : 'text-gray-500 hover:text-gray-700'
+                activeTab === "my-listings"
+                  ? "text-green-600 border-b-2 border-green-600 bg-green-50"
+                  : "text-gray-500 hover:text-gray-700"
               }`}
             >
               My Listings
@@ -349,7 +379,7 @@ export default function Marketplace() {
           </div>
 
           <div className="p-6">
-            {activeTab === 'buy' && (
+            {activeTab === "buy" && (
               /* Buy Produce Section */
               <div>
                 {/* Search and Filters */}
@@ -373,8 +403,10 @@ export default function Marketplace() {
                         onChange={(e) => setSelectedCropType(e.target.value)}
                         className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
                       >
-                        {cropTypes.map(type => (
-                          <option key={type} value={type}>{type}</option>
+                        {cropTypes.map((type) => (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
                         ))}
                       </select>
                       <select
@@ -382,34 +414,50 @@ export default function Marketplace() {
                         onChange={(e) => setSelectedStatus(e.target.value)}
                         className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
                       >
-                        {statusOptions.map(status => (
+                        {statusOptions.map((status) => (
                           <option key={status} value={status}>
-                            {status === 'All' ? 'All Statuses' : status.replace('-', ' ')}
+                            {status === "All"
+                              ? "All Statuses"
+                              : status.replace("-", " ")}
                           </option>
                         ))}
                       </select>
                     </div>
                   </div>
-                  
+
                   {/* Price Range Filter */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Min Price</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Min Price
+                      </label>
                       <input
                         type="number"
                         placeholder="Min Price"
                         value={priceRange.min}
-                        onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))}
+                        onChange={(e) =>
+                          setPriceRange((prev) => ({
+                            ...prev,
+                            min: e.target.value,
+                          }))
+                        }
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Max Price</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Max Price
+                      </label>
                       <input
                         type="number"
                         placeholder="Max Price"
                         value={priceRange.max}
-                        onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))}
+                        onChange={(e) =>
+                          setPriceRange((prev) => ({
+                            ...prev,
+                            max: e.target.value,
+                          }))
+                        }
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
                       />
                     </div>
@@ -421,7 +469,10 @@ export default function Marketplace() {
                   {filteredListings.map((listing) => {
                     const statusInfo = getStatusInfo(listing.status);
                     return (
-                      <div key={listing.id} className="bg-white rounded-2xl shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300">
+                      <div
+                        key={listing.id}
+                        className="bg-white rounded-2xl shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300"
+                      >
                         {/* Product Image */}
                         <div className="relative">
                           <img
@@ -430,12 +481,18 @@ export default function Marketplace() {
                             className="w-full h-48 object-cover rounded-t-2xl"
                           />
                           <div className="absolute top-3 left-3">
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCropTypeColor(listing.cropType)}`}>
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-medium ${getCropTypeColor(
+                                listing.cropType
+                              )}`}
+                            >
                               {listing.cropType}
                             </span>
                           </div>
                           <div className="absolute top-3 right-3">
-                            <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${statusInfo.color}`}>
+                            <div
+                              className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${statusInfo.color}`}
+                            >
                               {statusInfo.icon}
                               <span className="ml-1">{statusInfo.text}</span>
                             </div>
@@ -452,17 +509,22 @@ export default function Marketplace() {
 
                         {/* Product Details */}
                         <div className="p-6">
-                          <h3 className="text-xl font-bold text-gray-900 mb-2">{listing.productName}</h3>
-                          <p className="text-gray-600 text-sm mb-4">{listing.description}</p>
-                          
+                          <h3 className="text-xl font-bold text-gray-900 mb-2">
+                            {listing.productName}
+                          </h3>
+                          <p className="text-gray-600 text-sm mb-4">
+                            {listing.description}
+                          </p>
+
                           <div className="space-y-2 mb-4">
                             <div className="flex items-center text-sm text-gray-600">
                               <Package className="w-4 h-4 mr-2" />
                               {listing.quantity} {listing.unit}
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
-                              <DollarSign className="w-4 h-4 mr-2" />
-                              ₹{listing.pricePerUnit.toLocaleString()} per {listing.unit.slice(0, -1)}
+                              <DollarSign className="w-4 h-4 mr-2" />₹
+                              {listing.pricePerUnit.toLocaleString()} per{" "}
+                              {listing.unit.slice(0, -1)}
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <User className="w-4 h-4 mr-2" />
@@ -470,11 +532,15 @@ export default function Marketplace() {
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <MapPin className="w-4 h-4 mr-2" />
-                              {listing.location.village}, {listing.location.district}
+                              {listing.location.village},{" "}
+                              {listing.location.district}
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <Calendar className="w-4 h-4 mr-2" />
-                              Harvested: {new Date(listing.harvestDate).toLocaleDateString()}
+                              Harvested:{" "}
+                              {new Date(
+                                listing.harvestDate
+                              ).toLocaleDateString()}
                             </div>
                           </div>
 
@@ -482,10 +548,14 @@ export default function Marketplace() {
                           {listing.offers.length > 0 && (
                             <div className="mb-4 p-3 bg-blue-50 rounded-lg">
                               <p className="text-sm text-blue-800">
-                                {listing.offers.length} offer{listing.offers.length > 1 ? 's' : ''} received
+                                {listing.offers.length} offer
+                                {listing.offers.length > 1 ? "s" : ""} received
                               </p>
                               <p className="text-xs text-blue-600">
-                                Highest: ₹{Math.max(...listing.offers.map(o => o.amount)).toLocaleString()}
+                                Highest: ₹
+                                {Math.max(
+                                  ...listing.offers.map((o) => o.amount)
+                                ).toLocaleString()}
                               </p>
                             </div>
                           )}
@@ -523,18 +593,22 @@ export default function Marketplace() {
                 {filteredListings.length === 0 && (
                   <div className="text-center py-12">
                     <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">No products found</h3>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      No products found
+                    </h3>
                     <p className="text-gray-600">Try adjusting your search</p>
                   </div>
                 )}
               </div>
             )}
 
-            {activeTab === 'sell' && (
+            {activeTab === "sell" && (
               /* Sell Produce Section */
               <div className="text-center py-12">
                 <Upload className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Sell</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Ready to Sell
+                </h3>
                 <p className="text-gray-600 mb-6 max-w-md mx-auto">
                   List your produce now
                 </p>
@@ -547,53 +621,71 @@ export default function Marketplace() {
               </div>
             )}
 
-            {activeTab === 'my-listings' && (
+            {activeTab === "my-listings" && (
               /* My Listings Section */
               <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">My Product Listings</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                  My Product Listings
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {listings.filter(listing => listing.farmerName === 'Current User').map((listing) => {
-                    const statusInfo = getStatusInfo(listing.status);
-                    return (
-                      <div key={listing.id} className="bg-white rounded-2xl shadow-lg border border-green-100">
-                        <img
-                          src={listing.image}
-                          alt={listing.productName}
-                          className="w-full h-32 object-cover rounded-t-2xl"
-                        />
-                        <div className="p-4">
-                          <h4 className="font-semibold text-gray-900 mb-2">{listing.productName}</h4>
-                          <div className="flex items-center justify-between mb-2">
-                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCropTypeColor(listing.cropType)}`}>
-                              {listing.cropType}
-                            </span>
-                            <div className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${statusInfo.color}`}>
-                              {statusInfo.icon}
-                              <span className="ml-1">{statusInfo.text}</span>
+                  {listings
+                    .filter((listing) => listing.farmerName === "Current User")
+                    .map((listing) => {
+                      const statusInfo = getStatusInfo(listing.status);
+                      return (
+                        <div
+                          key={listing.id}
+                          className="bg-white rounded-2xl shadow-lg border border-green-100"
+                        >
+                          <img
+                            src={listing.image}
+                            alt={listing.productName}
+                            className="w-full h-32 object-cover rounded-t-2xl"
+                          />
+                          <div className="p-4">
+                            <h4 className="font-semibold text-gray-900 mb-2">
+                              {listing.productName}
+                            </h4>
+                            <div className="flex items-center justify-between mb-2">
+                              <span
+                                className={`px-2 py-1 rounded-full text-xs font-medium ${getCropTypeColor(
+                                  listing.cropType
+                                )}`}
+                              >
+                                {listing.cropType}
+                              </span>
+                              <div
+                                className={`flex items-center px-2 py-1 rounded-full border text-xs font-medium ${statusInfo.color}`}
+                              >
+                                {statusInfo.icon}
+                                <span className="ml-1">{statusInfo.text}</span>
+                              </div>
                             </div>
-                          </div>
-                          <p className="text-sm text-gray-600 mb-2">
-                            {listing.quantity} {listing.unit} • ₹{listing.pricePerUnit.toLocaleString()}
-                          </p>
-                          {listing.offers.length > 0 && (
-                            <div className="p-2 bg-blue-50 rounded-lg mb-2">
-                              <p className="text-xs text-blue-800">
-                                {listing.offers.length} offer{listing.offers.length > 1 ? 's' : ''} received
-                              </p>
+                            <p className="text-sm text-gray-600 mb-2">
+                              {listing.quantity} {listing.unit} • ₹
+                              {listing.pricePerUnit.toLocaleString()}
+                            </p>
+                            {listing.offers.length > 0 && (
+                              <div className="p-2 bg-blue-50 rounded-lg mb-2">
+                                <p className="text-xs text-blue-800">
+                                  {listing.offers.length} offer
+                                  {listing.offers.length > 1 ? "s" : ""}{" "}
+                                  received
+                                </p>
+                              </div>
+                            )}
+                            <div className="flex space-x-2">
+                              <button className="flex-1 px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700 transition-colors duration-200">
+                                View Offers
+                              </button>
+                              <button className="flex-1 px-3 py-1 border border-gray-300 text-gray-700 rounded text-xs hover:bg-gray-50 transition-colors duration-200">
+                                Edit
+                              </button>
                             </div>
-                          )}
-                          <div className="flex space-x-2">
-                            <button className="flex-1 px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700 transition-colors duration-200">
-                              View Offers
-                            </button>
-                            <button className="flex-1 px-3 py-1 border border-gray-300 text-gray-700 rounded text-xs hover:bg-gray-50 transition-colors duration-200">
-                              Edit
-                            </button>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
                 </div>
               </div>
             )}
@@ -607,7 +699,9 @@ export default function Marketplace() {
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">List Your Produce</h2>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  List Your Produce
+                </h2>
                 <button
                   onClick={() => setShowUploadModal(false)}
                   className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
@@ -644,8 +738,10 @@ export default function Marketplace() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
                   >
                     <option value="">Select Crop Type</option>
-                    {cropTypes.slice(1).map(type => (
-                      <option key={type} value={type}>{type}</option>
+                    {cropTypes.slice(1).map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -766,7 +862,9 @@ export default function Marketplace() {
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Contact Farmer</h2>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Contact Farmer
+                </h2>
                 <button
                   onClick={() => setShowContactModal(false)}
                   className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
@@ -777,8 +875,12 @@ export default function Marketplace() {
 
               <div className="space-y-4">
                 <div className="p-4 bg-gray-50 rounded-lg">
-                  <h3 className="font-semibold text-gray-900 mb-2">{selectedListing.productName}</h3>
-                  <p className="text-sm text-gray-600">by {selectedListing.farmerName}</p>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    {selectedListing.productName}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    by {selectedListing.farmerName}
+                  </p>
                 </div>
 
                 <div className="space-y-3">
@@ -810,7 +912,9 @@ export default function Marketplace() {
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Make An Offer</h2>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Make An Offer
+                </h2>
                 <button
                   onClick={() => setShowBidModal(false)}
                   className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
@@ -821,9 +925,13 @@ export default function Marketplace() {
 
               <form onSubmit={handleSubmitBid} className="space-y-4">
                 <div className="p-4 bg-gray-50 rounded-lg">
-                  <h3 className="font-semibold text-gray-900 mb-2">{selectedListing.productName}</h3>
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    {selectedListing.productName}
+                  </h3>
                   <p className="text-sm text-gray-600">
-                    Current Price ₹{selectedListing.pricePerUnit.toLocaleString()} per {selectedListing.unit.slice(0, -1)}
+                    Current Price ₹
+                    {selectedListing.pricePerUnit.toLocaleString()} per{" "}
+                    {selectedListing.unit.slice(0, -1)}
                   </p>
                 </div>
 
@@ -864,4 +972,4 @@ export default function Marketplace() {
       )}
     </div>
   );
-} 
+}

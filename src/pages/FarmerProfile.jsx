@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import BackToHomeButton from "../components/BackToHomeButton";
 import { User, MapPin, Phone, Mail, Calendar, Download, Filter, Eye, Edit3, Camera, Navigation } from 'lucide-react';
 import { useToast } from '../contexts/ToastContext';
 
@@ -185,7 +186,8 @@ export default function FarmerProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8 relative">
+      <BackToHomeButton />
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8 flex flex-col md:flex-row md:items-center md:justify-between">

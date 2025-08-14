@@ -49,7 +49,7 @@ export default function LoginForm() {
         formData.password
       );
       console.log("Login successful:", userCredential.user);
-      showToast("Login successful", "success");
+      showInfo("Login successful");
       // Navigation will be handled by the useEffect above
     } catch (error) {
       console.error("Login error:", error);
@@ -65,7 +65,7 @@ export default function LoginForm() {
         errorMessage = "Too many failed attempts. Please try again later.";
       }
 
-      showToast(errorMessage, "error");
+      showError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -110,7 +110,7 @@ export default function LoginForm() {
         errorMessage =
           "An account already exists with this email using a different sign-in method.";
       }
-      showToast(errorMessage, "error");
+      showError(errorMessage);
     } finally {
       setIsGoogleLoading(false);
     }
@@ -171,9 +171,7 @@ export default function LoginForm() {
           </button>
 
           <button
-            onClick={() =>
-              showToast("Facebook login will be implemented soon!", "info")
-            }
+            onClick={() => showInfo("Facebook login will be implemented soon!")}
             className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200"
           >
             <svg className="w-5 h-5 mr-3" fill="#1877F2" viewBox="0 0 24 24">

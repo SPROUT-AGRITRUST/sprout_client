@@ -4,15 +4,17 @@ import {
   Bell,
   Leaf,
   Bot,
+
   ShoppingCart,
   Search,
   ChevronLeft,
   ChevronRight,
   User,
-  LogOut,
+  Users,
+  
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-import LanguageSwitcher from "../components/LanguageSwitcher";
+
 import { useTranslation } from "react-i18next";
 
 export default function HomePage() {
@@ -106,16 +108,6 @@ export default function HomePage() {
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
               <>
-                <span className="text-sm text-gray-600 hidden md:block">
-                  {t("home.welcome")}, {user?.displayName || user?.email}
-                </span>
-                <button
-                  onClick={handleLogout}
-                  className="px-4 py-2 text-red-600 hover:text-red-700 font-medium transition-colors duration-200 flex items-center hidden md:block"
-                >
-                  <LogOut className="w-4 h-4 mr-1 hidden md:block" />
-                  {t("home.logout")}
-                </button>
                 <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
                   <Bell
                     className="w-5 h-5 text-green-600"
@@ -124,6 +116,15 @@ export default function HomePage() {
                     }}
                   />
                   <span className="absolute top-2 right-2 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
+                </button>
+                <button className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100 ml-2">
+                  <User
+                    className="w-6 h-6 text-green-700"
+                    title="Profile"
+                    onClick={() => {
+                      navigate("/profile");
+                    }}
+                  />
                 </button>
               </>
             ) : (
@@ -247,55 +248,7 @@ export default function HomePage() {
       </div>
 
       <div className="px-4 py-6 md:px-8">
-        {/* Features Section */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              {t("home.whyChooseSprout")}
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t("home.whyChooseSproutDescription")}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
-                <Search className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {t("home.smartAnalytics")}
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {t("home.smartAnalyticsDescription")}
-              </p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
-                <ShoppingCart className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {t("home.marketConnect")}
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {t("home.marketConnectDescription")}
-              </p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 shadow-lg border border-green-100 hover:shadow-xl transition-all duration-300">
-              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6">
-                <Bot className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                {t("home.expertSupport")}
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {t("home.expertSupportDescription")}
-              </p>
-            </div>
-          </div>
-        </div>
+        
 
         {/* Services Section */}
         <div className="mb-16">
@@ -303,12 +256,26 @@ export default function HomePage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               {t("home.ourServices")}
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t("home.ourServicesDescription")}
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto *:">
+              <span className="hidden md:inline">
+                {t("home.ourServicesDescription")}
+              </span>
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 gap-6">
+             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
+              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
+             
+                <ShoppingCart className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+               Affordable Quality Seeds
+              </h3>
+              <p className="text-gray-600 text-sm hidden md:inline">
+                High-quality seeds at competitive prices to ensure a bountiful harvest.
+              </p>
+            </div>
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <Leaf className="w-6 h-6 text-white" />
@@ -316,7 +283,7 @@ export default function HomePage() {
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 {t("home.cropPlanning")}
               </h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-sm hidden md:inline">
                 {t("home.cropPlanningDescription")}
               </p>
             </div>
@@ -328,11 +295,22 @@ export default function HomePage() {
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 {t("home.soilAnalysis")}
               </h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-sm hidden md:inline">
                 {t("home.soilAnalysisDescription")}
               </p>
             </div>
-
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
+              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Community & Resource
+              </h3>
+              <p className="text-gray-600 text-sm hidden md:inline">
+                Connect with local agricultural communities and resources, share
+                knowledge, and access support networks.
+              </p>
+            </div>
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                 <ShoppingCart className="w-6 h-6 text-white" />
@@ -340,7 +318,7 @@ export default function HomePage() {
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 {t("home.marketAccess")}
               </h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-sm hidden md:inline">
                 {t("home.marketAccessDescription")}
               </p>
             </div>
@@ -352,7 +330,7 @@ export default function HomePage() {
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
                 {t("home.aiConsulting")}
               </h3>
-              <p className="text-gray-600 text-sm">
+              <p className="text-gray-600 text-sm hidden md:inline">
                 {t("home.aiConsultingDescription")}
               </p>
             </div>
