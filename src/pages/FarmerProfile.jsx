@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import BackToHomeButton from "../components/BackToHomeButton";
 
 // Google Maps API Key (replace with env variable in production)
-const GOOGLE_API_KEY = "AIzaSyD2du39jUj5SsBNyTNyxFzSf6nckeDvQ9Q";
+// const GOOGLE_API_KEY = "AIzaSyD2du39jUj5SsBNyTNyxFzSf6nckeDvQ9Q";
 import {
   User,
   MapPin,
