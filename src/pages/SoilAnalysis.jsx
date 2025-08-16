@@ -46,6 +46,7 @@ export default function SoilAnalysis() {
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [showForm, setShowForm] = useState(false); // controls if the rest of the form is shown
   const [showExtendedForm, setShowExtendedForm] = useState(false); // controls if the extended form is shown
+  const [aiResult, setAiResult] = useState("");
   const { showToast } = useToast();
 
   // Form data for manual input
@@ -843,19 +844,28 @@ export default function SoilAnalysis() {
               </div>
             )}
 
+            {/* AI Result (if available) */}
+            {aiResult && (
+              <div className="bg-white rounded-2xl shadow-lg border border-blue-100 p-6">
+                <h3 className="text-xl font-bold text-blue-700 mb-4">
+                  AI Recommendations
+                </h3>
+                <pre className="whitespace-pre-wrap text-gray-800">
+                  {aiResult}
+                </pre>
+              </div>
+            )}
             {/* Reset Button */}
             <div className="text-center">
               <button
                 onClick={resetForm}
                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium"
               >
-                Start New Analysis /************* ✨ Windsurf Command 🌟
-                *************/
+                Start New Analysis
               </button>
               <p className="mt-2 text-xs text-gray-600">
                 Reset all form fields and start a new analysis.
               </p>
-              /******* ad426211-9cda-4779-9a07-c15dca63b83f *******/
             </div>
           </div>
         )}
