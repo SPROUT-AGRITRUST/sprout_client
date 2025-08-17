@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { sendTextToGemini, GEMINI_API_KEY } from "../gemini";
 import {
   Upload,
   FileText,
@@ -38,6 +39,10 @@ const cropRecommendations = {
 };
 
 export default function SoilAnalysis() {
+  // Gemini integration states for result
+  const [geminiResult, setGeminiResult] = useState("");
+  const [geminiLoading, setGeminiLoading] = useState(false);
+  const [geminiError, setGeminiError] = useState("");
   // Removed i18n translation
 
   const [activeTab, setActiveTab] = useState("upload"); // 'upload' or 'manual'
@@ -124,15 +129,28 @@ export default function SoilAnalysis() {
   };
 
   // Analyze soil data and generate recommendations
-  const analyzeSoil = () => {
+  const analyzeSoil = async () => {
     setIsAnalyzing(true);
-
-    // Simulate analysis delay
-    setTimeout(() => {
+    setGeminiLoading(true);
+    setGeminiError("");
+    // Simulate analysis delay for local analysis
+    setTimeout(async () => {
       const results = generateAnalysis(soilData);
       setAnalysisResults(results);
       setAnalysisComplete(true);
       setIsAnalyzing(false);
+      // Send to Gemini
+      try {
+        // Prepare prompt from soilData
+        const prompt = `Analyze this soil data and provide recommendations. Data: ${JSON.stringify(
+          soilData
+        )}`;
+        const result = await sendTextToGemini(prompt);
+        setGeminiResult(result);
+      } catch (err) {
+        setGeminiError("Error: " + err.message);
+      }
+      setGeminiLoading(false);
     }, 2000);
   };
 
@@ -331,10 +349,13 @@ export default function SoilAnalysis() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8">
+      {/* ...existing code... */}
       <div className="max-w-7xl mx-auto">
         {/* Sticky Header with Home button, titles, and Profile Icon */}
         <div className="flex items-center gap-4 mb-8 sticky top-0 bg-gradient-to-br from-green-50 to-white z-40 py-4">
-          <BackToHomeButton />
+          <div className="hidden md:block">
+            <BackToHomeButton />
+          </div>
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               Soil Analysis
@@ -609,6 +630,31 @@ export default function SoilAnalysis() {
         {/* Analysis Results */}
         {analysisComplete && (
           <div className="space-y-8">
+            {/* Gemini Result */}
+            {(geminiLoading || geminiResult || geminiError) && (
+              <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">
+                  AI-Powered Recommendations (Gemini)
+                </h2>
+                {geminiLoading && (
+                  <div className="text-green-600">Loading Gemini result...</div>
+                )}
+                {geminiResult && (
+                  <div className="mt-2 p-4 bg-green-50 rounded-lg">
+                    <h3 className="font-semibold mb-2">Gemini Response:</h3>
+                    <pre className="whitespace-pre-wrap text-gray-800">
+                      {geminiResult}
+                    </pre>
+                  </div>
+                )}
+                {geminiError && (
+                  <div className="mt-2 text-red-600">{geminiError}</div>
+                )}
+                <div className="mt-2 text-xs text-gray-500">
+                  Set your Gemini API key in <code>src/gemini.js</code>
+                </div>
+              </div>
+            )}
             {/* Soil Parameters Summary */}
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
@@ -847,15 +893,13 @@ export default function SoilAnalysis() {
             <div className="text-center">
               <button
                 onClick={resetForm}
-                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium"
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium bg-green-500"
               >
-                Start New Analysis /************* ✨ Windsurf Command 🌟
-                *************/
+                Start New Analysis
               </button>
               <p className="mt-2 text-xs text-gray-600">
                 Reset all form fields and start a new analysis.
               </p>
-              /******* ad426211-9cda-4779-9a07-c15dca63b83f *******/
             </div>
           </div>
         )}

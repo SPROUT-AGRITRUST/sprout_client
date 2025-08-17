@@ -4,14 +4,12 @@ import {
   Bell,
   Leaf,
   Bot,
-
   ShoppingCart,
   Search,
   ChevronLeft,
   ChevronRight,
   User,
   Users,
-  
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -141,15 +139,6 @@ export default function HomePage() {
                 >
                   {t("home.getStarted")}
                 </NavLink>
-                <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
-                  <Bell
-                    className="w-5 h-5 text-green-600"
-                    onClick={() => {
-                      navigate("/notifications");
-                    }}
-                  />
-                  <span className="absolute top-2 right-2 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
-                </button>
               </>
             )}
           </div>
@@ -180,7 +169,7 @@ export default function HomePage() {
         <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-3xl overflow-hidden shadow-2xl">
           <div className="flex flex-col md:flex-row items-center">
             {/* Content */}
-            <div className="flex-1 p-8 md:p-12 text-white">
+            <div className="flex-1 p-4 md:p-12 text-white">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
                   <Search className="w-6 h-6 text-white" />
@@ -207,7 +196,7 @@ export default function HomePage() {
                 </NavLink>
               </div>
             </div>
-            <div className="flex-1 p-8 md:p-12">
+            <div className="flex-1 p-8 md:p-12 hidden md:block">
               <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-lg">
                 {carouselData.map((slide, index) => (
                   <div
@@ -248,8 +237,6 @@ export default function HomePage() {
       </div>
 
       <div className="px-4 py-6 md:px-8">
-        
-
         {/* Services Section */}
         <div className="mb-16">
           <div className="text-center mb-12">
@@ -264,16 +251,16 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 gap-6">
-             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
               <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-             
                 <ShoppingCart className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-               Affordable Quality Seeds
+                Affordable Quality Seeds
               </h3>
               <p className="text-gray-600 text-sm hidden md:inline">
-                High-quality seeds at competitive prices to ensure a bountiful harvest.
+                High-quality seeds at competitive prices to ensure a bountiful
+                harvest.
               </p>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
