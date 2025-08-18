@@ -145,21 +145,28 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Search Bar */}
+      {/* Search Bar with Welcome */}
       <div className="px-4 py-6 md:px-8">
         <div className="max-w-2xl mx-auto">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
+          <div className="flex flex-col md:flex-row md:items-center md:gap-6">
+            <div className="mb-2 md:mb-0 md:w-1/3 flex-shrink-0">
+              <h2 className="text-5xl md:text-xl font-bold text-gray-900">
+                Welcome {user?.name || "Farmer"}
+              </h2>
             </div>
-            <input
-              type="text"
-              placeholder={t("home.searchPlaceholder")}
-              className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
-            />
-            <button className="absolute inset-y-0 right-0 px-6 bg-green-600 text-white rounded-r-2xl hover:bg-green-700 transition-colors duration-200 font-medium">
-              {t("home.searchButton", "Search")}
-            </button>
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder={t("home.searchPlaceholder")}
+                className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
+              />
+              <button className="absolute inset-y-0 right-0 px-6 bg-green-600 text-white rounded-r-2xl hover:bg-green-700 transition-colors duration-200 font-medium">
+                {t("home.searchButton", "Search")}
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { sendTextToGemini, GEMINI_API_KEY } from "../gemini";
 import {
   Upload,
   FileText,
@@ -14,7 +13,6 @@ import {
 } from "lucide-react";
 import { useToast } from "../contexts/ToastContext";
 import BackToHomeButton from "../components/BackToHomeButton";
-
 // Soil texture options
 const soilTextures = [
   "Sandy",
@@ -39,10 +37,7 @@ const cropRecommendations = {
 };
 
 export default function SoilAnalysis() {
-  // Gemini integration states for result
-  const [geminiResult, setGeminiResult] = useState("");
-  const [geminiLoading, setGeminiLoading] = useState(false);
-  const [geminiError, setGeminiError] = useState("");
+  // ...existing code...
   // Removed i18n translation
 
   const [activeTab, setActiveTab] = useState("upload"); // 'upload' or 'manual'
@@ -51,6 +46,7 @@ export default function SoilAnalysis() {
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [showForm, setShowForm] = useState(false); // controls if the rest of the form is shown
   const [showExtendedForm, setShowExtendedForm] = useState(false); // controls if the extended form is shown
+  const [aiResult, setAiResult] = useState("");
   const { showToast } = useToast();
 
   // Form data for manual input
@@ -131,26 +127,12 @@ export default function SoilAnalysis() {
   // Analyze soil data and generate recommendations
   const analyzeSoil = async () => {
     setIsAnalyzing(true);
-    setGeminiLoading(true);
-    setGeminiError("");
     // Simulate analysis delay for local analysis
-    setTimeout(async () => {
+    setTimeout(() => {
       const results = generateAnalysis(soilData);
       setAnalysisResults(results);
       setAnalysisComplete(true);
       setIsAnalyzing(false);
-      // Send to Gemini
-      try {
-        // Prepare prompt from soilData
-        const prompt = `Analyze this soil data and provide recommendations. Data: ${JSON.stringify(
-          soilData
-        )}`;
-        const result = await sendTextToGemini(prompt);
-        setGeminiResult(result);
-      } catch (err) {
-        setGeminiError("Error: " + err.message);
-      }
-      setGeminiLoading(false);
     }, 2000);
   };
 
@@ -630,31 +612,6 @@ export default function SoilAnalysis() {
         {/* Analysis Results */}
         {analysisComplete && (
           <div className="space-y-8">
-            {/* Gemini Result */}
-            {(geminiLoading || geminiResult || geminiError) && (
-              <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">
-                  AI-Powered Recommendations (Gemini)
-                </h2>
-                {geminiLoading && (
-                  <div className="text-green-600">Loading Gemini result...</div>
-                )}
-                {geminiResult && (
-                  <div className="mt-2 p-4 bg-green-50 rounded-lg">
-                    <h3 className="font-semibold mb-2">Gemini Response:</h3>
-                    <pre className="whitespace-pre-wrap text-gray-800">
-                      {geminiResult}
-                    </pre>
-                  </div>
-                )}
-                {geminiError && (
-                  <div className="mt-2 text-red-600">{geminiError}</div>
-                )}
-                <div className="mt-2 text-xs text-gray-500">
-                  Set your Gemini API key in <code>src/gemini.js</code>
-                </div>
-              </div>
-            )}
             {/* Soil Parameters Summary */}
             <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
@@ -889,6 +846,7 @@ export default function SoilAnalysis() {
               </div>
             )}
 
+            {/* ...existing code... */}
             {/* Reset Button */}
             <div className="text-center">
               <button

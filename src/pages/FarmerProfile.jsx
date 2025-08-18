@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import BackToHomeButton from "../components/BackToHomeButton";
 import {
   User,
@@ -208,17 +210,27 @@ export default function FarmerProfile() {
         <BackToHomeButton />
       </div>
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              Farmer Profile & Dashboard
-            </h1>
-            <p className="text-xl text-gray-600">
-              Manage your profile and track your farming activities
-            </p>
+        {/* Welcome and Search Bar */}
+        <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex-shrink-0">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+              Welcome {profileData.fullName}
+            </h2>
+          </div>
+          <div className="w-full md:w-2/3">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
+              />
+              <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <User className="h-5 w-5 text-gray-400" />
+              </span>
+            </div>
           </div>
         </div>
+        {/* ...existing code... */}
 
         {/* Tab Navigation */}
         <div className="bg-white rounded-2xl shadow-lg border border-green-100 mb-8">
@@ -439,6 +451,7 @@ export default function FarmerProfile() {
                         <input
                           type="text"
                           name="village"
+                          id="locationField"
                           value={profileData.location.village}
                           onChange={handleLocationChange}
                           disabled={!isEditing}
@@ -476,25 +489,41 @@ export default function FarmerProfile() {
                     </div>
                   )}
 
-                  {/* Map Preview */}
+                  {/* Map & Address Preview */}
                   <div className="mt-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Location Preview
                     </label>
-                    <div className="w-full h-48 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                      <div className="text-center">
-                        <MapPin className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                        <p className="text-gray-500">
-                          {profileData.location.coordinates.lat &&
-                          profileData.location.coordinates.lng
-                            ? `GPS: ${profileData.location.coordinates.lat.toFixed(
-                                4
-                              )}, ${profileData.location.coordinates.lng.toFixed(
-                                4
-                              )}`
-                            : "No location data"}
-                        </p>
-                      </div>
+                    <div className="w-full h-48 rounded-lg border-2 border-dashed border-gray-300 overflow-hidden">
+                      {profileData.location.coordinates.lat &&
+                      profileData.location.coordinates.lng ? (
+                        <MapContainer
+                          center={[
+                            profileData.location.coordinates.lat,
+                            profileData.location.coordinates.lng,
+                          ]}
+                          zoom={13}
+                          style={{ height: "100%", width: "100%" }}
+                        >
+                          <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution="&copy; OpenStreetMap contributors"
+                          />
+                          <Marker
+                            position={[
+                              profileData.location.coordinates.lat,
+                              profileData.location.coordinates.lng,
+                            ]}
+                          >
+                            <Popup>Farmer's Location</Popup>
+                          </Marker>
+                        </MapContainer>
+                      ) : (
+                        <div className="text-center flex flex-col items-center justify-center h-full">
+                          <MapPin className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                          <p className="text-gray-500">No location data</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
