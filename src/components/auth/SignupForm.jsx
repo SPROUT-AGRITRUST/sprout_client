@@ -63,7 +63,7 @@ export default function SignupForm() {
       body: JSON.stringify({ name, email, subject, bodyMessage }),
     })
       .then(() => {
-        alert("Email sent successfully");
+        // Email sent successfully
       })
       .catch((error) => {
         console.error("Error sending email:", error);
