@@ -106,36 +106,33 @@ export default function HomePage() {
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
               <>
-                <button className="relative p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100">
-                  <Bell
-                    className="w-5 h-5 text-green-600"
-                    onClick={() => {
-                      navigate("/notifications");
-                    }}
-                  />
-                  <span className="absolute top-2 right-2 h-3 w-3 bg-red-500 rounded-full animate-pulse" />
+                {/* Notification Icon */}
+                <button
+                  className="relative p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100"
+                  onClick={() => navigate("/notifications")}
+                >
+                  <Bell className="w-5 h-5 text-white" />
+                  <span className="absolute top-2 right-2 h-3 w-3 bg-white rounded-full animate-pulse border border-green-600" />
                 </button>
-                <button className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100 ml-2">
-                  <User
-                    className="w-6 h-6 text-green-700"
-                    title="Profile"
-                    onClick={() => {
-                      navigate("/profile");
-                    }}
-                  />
+                {/* Profile Icon */}
+                <button
+                  className="p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100 ml-2"
+                  onClick={() => navigate("/profile")}
+                >
+                  <User className="w-6 h-6 text-white" title="Profile" />
                 </button>
               </>
             ) : (
               <>
                 <NavLink
                   to="/login"
-                  className="hidden md:block px-4 py-2 text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
+                  className="px-4 py-2 text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
                 >
                   {t("home.signIn")}
                 </NavLink>
                 <NavLink
                   to="/signup"
-                  className="hidden md:block px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
                 >
                   {t("home.getStarted")}
                 </NavLink>
@@ -360,42 +357,43 @@ export default function HomePage() {
 
       {/* Mobile Navigation */}
       <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-green-100 shadow-lg flex justify-around py-2 md:hidden z-50">
-        <NavLink
-          to="/"
-          className="flex flex-col items-center text-green-600 font-medium"
-        >
-          <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center mb-1">
-            <Leaf className="w-3 h-3" />
-          </div>
-          <span className="text-xs">{t("home.mobileNav.home")}</span>
-        </NavLink>
-        <NavLink
-          to="/crops"
-          className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200"
-        >
-          <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
-            <Leaf className="w-3 h-3" />
-          </div>
-          <span className="text-xs">{t("home.mobileNav.crops")}</span>
-        </NavLink>
-        <NavLink
-          to="/soil-analysis"
-          className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200"
-        >
-          <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
-            <Search className="w-3 h-3" />
-          </div>
-          <span className="text-xs">{t("home.mobileNav.soil")}</span>
-        </NavLink>
-        <NavLink
-          to="/profile"
-          className="flex flex-col items-center text-gray-500 hover:text-green-600 transition-colors duration-200"
-        >
-          <div className="w-5 h-5 bg-gray-100 rounded-full flex items-center justify-center mb-1">
-            <User className="w-3 h-3" />
-          </div>
-          <span className="text-xs">{t("home.mobileNav.profile")}</span>
-        </NavLink>
+        {isAuthenticated ? (
+          <>
+            <button
+              className="flex flex-col items-center font-medium"
+              onClick={() => navigate("/profile")}
+            >
+              <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center mb-1">
+                <User className="w-3 h-3 text-white" />
+              </div>
+              <span className="text-xs text-green-600">Profile</span>
+            </button>
+            <button
+              className="flex flex-col items-center font-medium"
+              onClick={() => navigate("/notifications")}
+            >
+              <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center mb-1">
+                <Bell className="w-3 h-3 text-white" />
+              </div>
+              <span className="text-xs text-green-600">Notifications</span>
+            </button>
+          </>
+        ) : (
+          <>
+            <NavLink
+              to="/login"
+              className="flex flex-col items-center text-green-600 font-medium"
+            >
+              <span className="text-xs">Sign In</span>
+            </NavLink>
+            <NavLink
+              to="/signup"
+              className="flex flex-col items-center text-green-600 font-medium"
+            >
+              <span className="text-xs">Get Started</span>
+            </NavLink>
+          </>
+        )}
       </div>
     </div>
   );

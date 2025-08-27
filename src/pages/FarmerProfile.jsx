@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { getAuth } from "firebase/auth";
+import { app } from "../firebase";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import BackToHomeButton from "../components/BackToHomeButton";
@@ -16,6 +18,8 @@ import {
   Navigation,
 } from "lucide-react";
 import { useToast } from "../contexts/ToastContext";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 // Mock data for transactions and receipts
 const mockTransactions = [
@@ -66,36 +70,54 @@ const mockTransactions = [
   },
 ];
 
-// Mock farmer profile data
-const mockFarmerProfile = {
-  fullName: "Rajesh Kumar",
-  phoneNumber: "+91 98765 43210",
-  email: "rajesh.kumar@email.com",
-  farmName: "Kumar Farms",
-  age: 45,
-  gender: "Male",
+// Initial empty profile data
+const initialProfile = {
+  fullName: "",
+  phoneNumber: "",
+  email: "",
+  farmName: "",
+  age: "",
+  gender: "",
   profilePicture: null,
   location: {
-    village: "Mohanpur",
-    district: "Punjab",
-    state: "Punjab",
+    village: "",
+    district: "",
+    state: "",
     coordinates: {
-      lat: 30.7333,
-      lng: 76.7794,
+      lat: null,
+      lng: null,
     },
   },
 };
 
 export default function FarmerProfile() {
-  const [activeTab, setActiveTab] = useState("profile"); // 'profile' or 'dashboard'
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("profile");
   const [isEditing, setIsEditing] = useState(false);
-  const [locationMode, setLocationMode] = useState("manual"); // 'auto' or 'manual'
+  const [locationMode, setLocationMode] = useState("manual");
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const { showToast } = useToast();
 
   // Profile form state
-  const [profileData, setProfileData] = useState(mockFarmerProfile);
+  const [profileData, setProfileData] = useState(initialProfile);
   const [profileImage, setProfileImage] = useState(null);
+
+  // Fetch user details from Firebase Auth
+  useEffect(() => {
+    const auth = getAuth(app);
+    const user = auth.currentUser;
+    if (user) {
+      setProfileData((prev) => ({
+        ...prev,
+        fullName: user.displayName || "",
+        email: user.email || "",
+        profilePicture: user.photoURL || null,
+        // phoneNumber is not always available in Firebase Auth
+        phoneNumber: user.phoneNumber || "",
+      }));
+    }
+  }, []);
 
   // Dashboard state
   const [transactions, setTransactions] = useState(mockTransactions);
@@ -539,6 +561,18 @@ export default function FarmerProfile() {
                     </button>
                   </div>
                 )}
+                {/* Logout Button */}
+                <div className="text-center pt-6 pb-24 md:pb-6">
+                  <button
+                    onClick={async () => {
+                      await logout();
+                      navigate("/login");
+                    }}
+                    className="px-8 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium "
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             ) : (
               /* Dashboard Section */

@@ -1,16 +1,17 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { Eye, EyeOff, Leaf, Mail, Lock } from "lucide-react";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../contexts/ToastContext";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { app, db } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function LoginForm() {
   const [formData, setFormData] = useState({
@@ -21,7 +22,7 @@ export default function LoginForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, login } = useAuth();
   const { showError, showInfo } = useToast();
 
   // Redirect if already logged in
@@ -30,6 +31,7 @@ export default function LoginForm() {
       navigate("/");
     }
   }, [isAuthenticated, navigate]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -38,81 +40,114 @@ export default function LoginForm() {
     }));
   };
 
+  const handleGoogleLogin = async () => {
+    setIsGoogleLoading(true);
+    try {
+      const auth = getAuth(app);
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      // Save user info to AuthContext
+      const user = result.user;
+      login({
+        uid: user.uid,
+        name: user.displayName || "",
+        email: user.email || "",
+        photoURL: user.photoURL || null,
+        phoneNumber: user.phoneNumber || "",
+        provider: "google",
+      });
+      // Save user to Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        fullName: user.displayName || "",
+        email: user.email || "",
+        profilePicture: user.photoURL || null,
+        phoneNumber: user.phoneNumber || "",
+        provider: "google",
+        createdAt: new Date().toISOString(),
+      });
+      showInfo("Google login successful!");
+      // saving the info for the local storage
+      localStorage.setItem("user", JSON.stringify({
+        uid: user.uid,
+        name: user.displayName || "",
+        email: user.email || "",
+        photoURL: user.photoURL || null,
+        phoneNumber: user.phoneNumber || "",
+        provider: "google",
+      }));
+      // apps script code to send the mail : Welcome back to the sprout
+      sendWelcomeEmail(user.email);
+      navigate("/");
+    } catch (error) {
+      showInfo(error.message || "Google login failed");
+    } finally {
+      setIsGoogleLoading(false);
+    }
+  };
+  // function to implement app script logic to send emails
+const sendWelcomeEmail = (email) => {
+  // get the direct username
+  const name = email.split("@")[0];
+  const subject = "Welcome back to Sprout!";
+  const bodyMessage = `Hi ${name},\n\nWelcome back to Sprout! We're glad to see you again.\n\nBest,\nThe Sprout Team`;
+
+  const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwf-kN50dYFevosIzY49ghWsgS8E-X3xHVfo5ySWBvIQshKsrhqS3dcv7hhVjvDkmzM0g/exec";
+
+  fetch(APP_SCRIPT_URL, {
+    method: "POST",
+    mode: "no-cors", // prevents CORS errors
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, email, subject, bodyMessage }),
+  })
+  .then(() => {
+    alert("Email sent successfully");
+  })
+  .catch((error) => {
+    console.error("Error sending email:", error);
+    alert("Error sending email. Check console for details.");
+  });
+};
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
+      const auth = getAuth(app);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
       );
-      console.log("Login successful:", userCredential.user);
-      showInfo("Login successful");
-      // Navigation will be handled by the useEffect above
+      // Save user info to AuthContext
+      const user = userCredential.user;
+      login({
+        uid: user.uid,
+        name: user.displayName || "",
+        email: user.email || "",
+        photoURL: user.photoURL || null,
+        phoneNumber: user.phoneNumber || "",
+        provider: "email",
+      });
+      showInfo("Login successful!");
+      sendWelcomeEmail(formData.email);
+      // saving the info for the local storage
+      localStorage.setItem("user", JSON.stringify({
+        uid: user.uid,
+        name: user.displayName || "",
+        email: user.email || "",
+        photoURL: user.photoURL || null,
+        phoneNumber: user.phoneNumber || "",
+        provider: "email",
+      }));
+      navigate("/");
     } catch (error) {
-      console.error("Login error:", error);
-      let errorMessage = "An error occurred during login. Please try again.";
-
-      if (error.code === "auth/user-not-found") {
-        errorMessage = "No account found with this email address.";
-      } else if (error.code === "auth/wrong-password") {
-        errorMessage = "Incorrect password. Please try again.";
-      } else if (error.code === "auth/invalid-email") {
-        errorMessage = "Please enter a valid email address.";
-      } else if (error.code === "auth/too-many-requests") {
-        errorMessage = "Too many failed attempts. Please try again later.";
-      }
-
-      showError(errorMessage);
+      showInfo(error.message || "Login failed");
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    setIsGoogleLoading(true);
-    try {
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: "select_account" });
-      const result = await signInWithPopup(auth, provider);
-      console.log("Google login successful:", result.user);
-
-      // Notify Apps Script after successful login
-      try {
-        const idToken = await result.user.getIdToken();
-        const resp = await fetch(
-          "https://script.google.com/macros/s/AKfycby7F0wAQGisMApg4aqv5T0KCzngJs_185v5e5ZqtEo/exec",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ idToken }),
-          }
-        );
-        const json = await resp.json();
-        console.log("Apps Script response:", json);
-      } catch (notifyErr) {
-        console.error("Sign-in or notify failed:", notifyErr);
-      }
-      // Navigation will be handled by the useEffect above
-    } catch (error) {
-      console.error("Google login error:", error);
-      let errorMessage =
-        "An error occurred during Google login. Please try again.";
-      if (error.code === "auth/popup-closed-by-user") {
-        errorMessage = "Login was cancelled. Please try again.";
-      } else if (error.code === "auth/popup-blocked") {
-        errorMessage = "Popup was blocked. Please allow popups for this site.";
-      } else if (
-        error.code === "auth/account-exists-with-different-credential"
-      ) {
-        errorMessage =
-          "An account already exists with this email using a different sign-in method.";
-      }
-      showError(errorMessage);
-    } finally {
-      setIsGoogleLoading(false);
     }
   };
 

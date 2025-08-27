@@ -1,6 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth } from '../firebase';
 import { useToast } from './ToastContext';
 
 const AuthContext = createContext();
@@ -18,34 +16,33 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const { showToast } = useToast();
 
+  // Simulate loading user from localStorage on mount
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // Store user data in localStorage
-        const userData = {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL
-        };
-        localStorage.setItem('user', JSON.stringify(userData));
-        setUser(userData);
-      } else {
-        // Clear user data from localStorage
-        localStorage.removeItem('user');
-        setUser(null);
-      }
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setLoading(false);
   }, []);
+
+  // Example login function (you can replace with API calls)
+  const login = async (userData) => {
+    try {
+      // Simulate API success
+      localStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData);
+      showToast('Logged in successfully!', 'success');
+    } catch (error) {
+      console.error('Login error:', error);
+      showToast('An error occurred during login. Please try again.', 'error');
+    }
+  };
 
   const logout = async () => {
     try {
-      await signOut(auth);
-      setUser(null);
       localStorage.removeItem('user');
+      setUser(null);
+      showToast('Logged out successfully!', 'success');
     } catch (error) {
       console.error('Logout error:', error);
       showToast('An error occurred during logout. Please try again.', 'error');
@@ -55,6 +52,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     loading,
+    login,
     logout,
     isAuthenticated: !!user
   };
@@ -64,4 +62,4 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-}; 
+};
