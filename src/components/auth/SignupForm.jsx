@@ -1,16 +1,18 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 import { Eye, EyeOff, Leaf } from "lucide-react";
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+// Firebase authentication removed
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase";
+// Firebase authentication removed
 import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../contexts/ToastContext";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+import { app, db } from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -26,7 +28,7 @@ export default function SignupForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, login } = useAuth();
   const { showToast } = useToast();
 
   // Redirect if already logged in
@@ -43,39 +45,66 @@ export default function SignupForm() {
       [name]: value,
     }));
   };
+  const sendWelcomeEmail = (email) => {
+    // get the direct username
+    const name = email.split("@")[0];
+    const subject = "Welcome  to Sprout!";
+    const bodyMessage = `Hi ${name},\n\nWelcome  to Sprout! We're glad to see you here .\n\nBest regards ,\nThe Sprout Team`;
 
+    const APP_SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbxg1Msq0rQWa1Rheg64Q2KNKQ13V064BDxRnHnE-BVoX2XyHjBFzy97eMKSE8reC7QK_w/exec";
+
+    fetch(APP_SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors", // prevents CORS errors
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, subject, bodyMessage }),
+    })
+      .then(() => {
+        alert("Email sent successfully");
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+        alert("Error sending email. Check console for details.");
+      });
+  };
   const handleGoogleSignup = async () => {
     setIsGoogleLoading(true);
-
     try {
+      const auth = getAuth(app);
       const provider = new GoogleAuthProvider();
-      // Add custom parameters for better UX
-      provider.setCustomParameters({
-        prompt: "select_account",
-      });
-
       const result = await signInWithPopup(auth, provider);
-      console.log("Google signup successful:", result.user);
-      navigate("/");
-      // Notify Apps Script after successful signup
-      // Navigation will be handled by the useEffect above
-    } catch (error) {
-      console.error("Google signup error:", error);
-      let errorMessage =
-        "An error occurred during Google signup. Please try again.";
-
-      if (error.code === "auth/popup-closed-by-user") {
-        errorMessage = "Signup was cancelled. Please try again.";
-      } else if (error.code === "auth/popup-blocked") {
-        errorMessage = "Popup was blocked. Please allow popups for this site.";
-      } else if (
-        error.code === "auth/account-exists-with-different-credential"
-      ) {
-        errorMessage =
-          "An account already exists with this email using a different sign-in method.";
+      // Save user to Firestore
+      const user = result.user;
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        fullName: user.displayName || "",
+        email: user.email || "",
+        profilePicture: user.photoURL || null,
+        phoneNumber: user.phoneNumber || "",
+        provider: "google",
+        createdAt: new Date().toISOString(),
+      });
+      // Update AuthContext so navbar reflects authentication
+      if (user) {
+        login({
+          uid: user.uid,
+          fullName: user.displayName || "",
+          email: user.email || "",
+          farmName: "",
+          primaryRole: "",
+          profilePicture: user.photoURL || null,
+          phoneNumber: user.phoneNumber || "",
+          provider: "google",
+        });
       }
-
-      showToast(errorMessage, "error");
+      showToast("Google signup successful!", "info");
+      navigate("/");
+      sendWelcomeEmail(user.email);
+    } catch (error) {
+      showToast(error.message || "Google signup failed", "error");
     } finally {
       setIsGoogleLoading(false);
     }
@@ -94,28 +123,46 @@ export default function SignupForm() {
       );
       return;
     }
+    setIsSubmitting(true);
     try {
-      // Create user with Firebase Auth
+      const auth = getAuth(app);
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
       );
-      console.log("Signup successful:", userCredential.user);
-      showToast("Account created successfully!", "success");
-      navigate("/");
-      // Optionally, you can also notify your backend or Apps Script here
-    } catch (error) {
-      console.error("Signup error:", error);
-      let errorMessage = "An error occurred during signup. Please try again.";
-      if (error.code === "auth/email-already-in-use") {
-        errorMessage = "This email is already in use.";
-      } else if (error.code === "auth/invalid-email") {
-        errorMessage = "Please enter a valid email address.";
-      } else if (error.code === "auth/weak-password") {
-        errorMessage = "Password should be at least 6 characters.";
+      // Save user to Firestore
+      const user = userCredential.user;
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        fullName: formData.fullName,
+        email: user.email,
+        farmName: formData.farmName,
+        primaryRole: formData.primaryRole,
+        profilePicture: user.photoURL || null,
+        phoneNumber: user.phoneNumber || "",
+        provider: "email",
+        createdAt: new Date().toISOString(),
+      });
+      sendWelcomeEmail(user.email);
+
+      // Update AuthContext so navbar reflects authentication
+      if (user) {
+        login({
+          uid: user.uid,
+          fullName: formData.fullName,
+          email: user.email,
+          farmName: formData.farmName,
+          primaryRole: formData.primaryRole,
+          profilePicture: user.photoURL || null,
+          phoneNumber: user.phoneNumber || "",
+          provider: "email",
+        });
       }
-      showToast(errorMessage, "error");
+      showToast("Signup successful!", "info");
+      navigate("/");
+    } catch (error) {
+      showToast(error.message || "Signup failed", "error");
     } finally {
       setIsSubmitting(false);
     }
