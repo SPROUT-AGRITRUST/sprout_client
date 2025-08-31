@@ -25,22 +25,22 @@ export default function HomePage() {
   const quickActions = [
     {
       label: t("home.quickActions.soil"),
-      icon: <Search className="w-6 h-6" />,
+      icon: <Search className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9" />,
       link: "/soil-analysis",
     },
     {
       label: t("home.quickActions.crops"),
-      icon: <Leaf className="w-6 h-6" />,
+      icon: <Leaf className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9" />,
       link: "/crops",
     },
     {
       label: t("home.quickActions.profile"),
-      icon: <User className="w-6 h-6" />,
+      icon: <User className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9" />,
       link: "/profile",
     },
     {
       label: t("home.quickActions.market"),
-      icon: <ShoppingCart className="w-6 h-6" />,
+      icon: <ShoppingCart className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9" />,
       link: "/marketplace",
     },
   ];
@@ -100,7 +100,7 @@ export default function HomePage() {
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm sticky top-0 z-40 border-b border-green-100">
         <div className="flex justify-between items-center px-4 py-4 md:px-8">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
             Sprout <span className="text-green-600">🌱</span>
           </h1>
           <div className="flex items-center space-x-4">
@@ -108,18 +108,18 @@ export default function HomePage() {
               <>
                 {/* Notification Icon */}
                 <button
-                  className="relative p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100"
+                  className="relative p-4 sm:p-5 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100"
                   onClick={() => navigate("/notifications")}
                 >
-                  <Bell className="w-5 h-5 text-white" />
+                  <Bell className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 text-white" />
                   <span className="absolute top-2 right-2 h-3 w-3 bg-white rounded-full animate-pulse border border-green-600" />
                 </button>
                 {/* Profile Icon */}
                 <button
-                  className="p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100 ml-2"
+                  className="p-4 sm:p-5 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100 ml-2"
                   onClick={() => navigate("/profile")}
                 >
-                  <User className="w-6 h-6 text-white" title="Profile" />
+                  <User className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 text-white" title="Profile" />
                 </button>
               </>
             ) : (
@@ -147,20 +147,20 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:gap-6">
             <div className="mb-2 md:mb-0 md:w-1/3 flex-shrink-0">
-              <h2 className="text-5xl md:text-xl font-bold text-gray-900">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900">
                 Welcome {user?.name || "Farmer"}
               </h2>
             </div>
             <div className="relative w-full">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+                <Search className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-gray-400" />
               </div>
               <input
                 type="text"
                 placeholder={t("home.searchPlaceholder")}
-                className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
+                className="w-full pl-14 pr-4 py-4 sm:py-5 md:py-6 text-lg sm:text-xl md:text-2xl border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
               />
-              <button className="absolute inset-y-0 right-0 px-6 bg-green-600 text-white rounded-r-2xl hover:bg-green-700 transition-colors duration-200 font-medium">
+              <button className="absolute inset-y-0 right-0 px-6 sm:px-8 md:px-10 bg-green-600 text-white rounded-r-2xl hover:bg-green-700 transition-colors duration-200 font-medium text-base sm:text-lg md:text-xl">
                 {t("home.searchButton", "Search")}
               </button>
             </div>
@@ -178,23 +178,23 @@ export default function HomePage() {
                 <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
                   <Search className="w-6 h-6 text-white" />
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold">
                   {t("home.soilReportTitle")}
                 </h2>
               </div>
-              <p className="text-xl text-green-100 mb-6 leading-relaxed">
+              <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-green-100 mb-6 leading-relaxed">
                 {t("home.soilReportDescription")}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <NavLink
                   to="/soil-analysis"
-                  className="px-8 py-4 bg-white text-green-600 rounded-xl font-semibold hover:bg-green-50 transition-colors duration-200 shadow-lg text-center"
+                  className="px-8 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 bg-white text-green-600 rounded-xl font-semibold hover:bg-green-50 transition-colors duration-200 shadow-lg text-center text-base sm:text-lg md:text-xl"
                 >
                   {t("home.uploadSoilReport")}
                 </NavLink>
                 <NavLink
                   to="/soil-analysis"
-                  className="px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-green-600 transition-colors duration-200 text-center"
+                  className="px-8 sm:px-10 md:px-12 py-4 sm:py-5 md:py-6 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-green-600 transition-colors duration-200 text-center text-base sm:text-lg md:text-xl"
                 >
                   {t("home.learnMore")}
                 </NavLink>
@@ -244,84 +244,84 @@ export default function HomePage() {
         {/* Services Section */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 mb-4">
               {t("home.ourServices")}
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto *:">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 max-w-3xl mx-auto">
               <span className="hidden md:inline">
                 {t("home.ourServicesDescription")}
               </span>
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <ShoppingCart className="w-6 h-6 text-white" />
+              <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-green-600 rounded-xl flex items-center justify-center mb-4">
+                <ShoppingCart className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">
                 Affordable Quality Seeds
               </h3>
-              <p className="text-gray-600 text-sm hidden md:inline">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl hidden md:inline">
                 High-quality seeds at competitive prices to ensure a bountiful
                 harvest.
               </p>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <Leaf className="w-6 h-6 text-white" />
+              <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-green-600 rounded-xl flex items-center justify-center mb-4">
+                <Leaf className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">
                 {t("home.cropPlanning")}
               </h3>
-              <p className="text-gray-600 text-sm hidden md:inline">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl hidden md:inline">
                 {t("home.cropPlanningDescription")}
               </p>
             </div>
 
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <Search className="w-6 h-6 text-white" />
+              <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-green-600 rounded-xl flex items-center justify-center mb-4">
+                <Search className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">
                 {t("home.soilAnalysis")}
               </h3>
-              <p className="text-gray-600 text-sm hidden md:inline">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl hidden md:inline">
                 {t("home.soilAnalysisDescription")}
               </p>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-white" />
+              <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-green-600 rounded-xl flex items-center justify-center mb-4">
+                <Users className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">
                 Community & Resource
               </h3>
-              <p className="text-gray-600 text-sm hidden md:inline">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl hidden md:inline">
                 Connect with local agricultural communities and resources, share
                 knowledge, and access support networks.
               </p>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <ShoppingCart className="w-6 h-6 text-white" />
+              <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-green-600 rounded-xl flex items-center justify-center mb-4">
+                <ShoppingCart className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">
                 {t("home.marketAccess")}
               </h3>
-              <p className="text-gray-600 text-sm hidden md:inline">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl hidden md:inline">
                 {t("home.marketAccessDescription")}
               </p>
             </div>
 
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <Bot className="w-6 h-6 text-white" />
+              <div className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 bg-green-600 rounded-xl flex items-center justify-center mb-4">
+                <Bot className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">
                 {t("home.aiConsulting")}
               </h3>
-              <p className="text-gray-600 text-sm hidden md:inline">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl hidden md:inline">
                 {t("home.aiConsultingDescription")}
               </p>
             </div>
@@ -330,9 +330,9 @@ export default function HomePage() {
 
         {/* Quick Actions */}
         <div className="mb-20 hidden md:block">
-          <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
-              <Leaf className="w-5 h-5 text-green-600" />
+          <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-6 flex items-center">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-green-100 rounded-full flex items-center justify-center mr-3">
+              <Leaf className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-green-600" />
             </div>
             {t("home.quickActions.title")}
           </h3>
@@ -346,7 +346,7 @@ export default function HomePage() {
                 <div className="bg-gradient-to-br from-green-100 to-emerald-100 p-4 rounded-2xl text-green-600 mb-4 group-hover:scale-110 transition-transform duration-300">
                   {action.icon}
                 </div>
-                <span className="text-sm text-center font-semibold text-gray-800 group-hover:text-green-700 transition-colors duration-300">
+                <span className="text-sm sm:text-base md:text-lg lg:text-xl text-center font-semibold text-gray-800 group-hover:text-green-700 transition-colors duration-300">
                   {action.label}
                 </span>
               </NavLink>
@@ -363,19 +363,19 @@ export default function HomePage() {
               className="flex flex-col items-center font-medium"
               onClick={() => navigate("/profile")}
             >
-              <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center mb-1">
-                <User className="w-3 h-3 text-white" />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-green-600 rounded-full flex items-center justify-center mb-1">
+                <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <span className="text-xs text-green-600">Profile</span>
+              <span className="text-sm sm:text-base text-green-600">Profile</span>
             </button>
             <button
               className="flex flex-col items-center font-medium"
               onClick={() => navigate("/notifications")}
             >
-              <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center mb-1">
-                <Bell className="w-3 h-3 text-white" />
+              <div className="w-8 h-8 sm:w-9 sm:h-9 bg-green-600 rounded-full flex items-center justify-center mb-1">
+                <Bell className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </div>
-              <span className="text-xs text-green-600">Notifications</span>
+              <span className="text-sm sm:text-base text-green-600">Notifications</span>
             </button>
           </>
         ) : (
@@ -384,13 +384,13 @@ export default function HomePage() {
               to="/login"
               className="flex flex-col items-center text-green-600 font-medium"
             >
-              <span className="text-xs">Sign In</span>
+              <span className="text-sm sm:text-base">Sign In</span>
             </NavLink>
             <NavLink
               to="/signup"
               className="flex flex-col items-center text-green-600 font-medium"
             >
-              <span className="text-xs">Get Started</span>
+              <span className="text-sm sm:text-base">Get Started</span>
             </NavLink>
           </>
         )}

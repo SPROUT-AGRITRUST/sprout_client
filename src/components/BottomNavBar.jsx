@@ -23,8 +23,8 @@ const BottomNavBar = () => {
               }`
             }
           >
-            <FaHome className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Home</span>
+            <FaHome className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 mb-1" />
+            <span className="text-sm sm:text-base md:text-lg font-medium">Home</span>
           </NavLink>
 
           <NavLink
@@ -37,8 +37,8 @@ const BottomNavBar = () => {
               }`
             }
           >
-            <FaSeedling className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Crops</span>
+            <FaSeedling className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 mb-1" />
+            <span className="text-sm sm:text-base md:text-lg font-medium">Crops</span>
           </NavLink>
 
           {/* Floating Scanner Button */}
@@ -56,14 +56,14 @@ const BottomNavBar = () => {
               {/* Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 via-green-500/20 to-green-600/20 rounded-full animate-ping"></div>
               {/* Scanner Icon */}
-              <MdQrCodeScanner className="w-8 h-8 text-white relative z-10" />
+              <MdQrCodeScanner className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 text-white relative z-10" />
               {/* Scan Ripple Animation */}
               <div className="absolute inset-0 rounded-full border-2 border-green-300/50 scan-ripple"></div>
               <div className="absolute inset-0 rounded-full border-2 border-green-200/30 scan-ripple-delayed"></div>
             </NavLink>
             {/* Floating Label */}
             <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
-              <span className="text-xs font-semibold text-green-600 bg-white px-2 py-1 rounded-full shadow-sm">
+              <span className="text-sm sm:text-base md:text-lg font-semibold text-green-600 bg-white px-2 py-1 rounded-full shadow-sm">
                 Scan
               </span>
             </div>
@@ -79,8 +79,8 @@ const BottomNavBar = () => {
               }`
             }
           >
-            <FaStore className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Marketplace</span>
+            <FaStore className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 mb-1" />
+            <span className="text-sm sm:text-base md:text-lg font-medium">Marketplace</span>
           </NavLink>
 
           <NavLink
@@ -93,8 +93,8 @@ const BottomNavBar = () => {
               }`
             }
           >
-            <FaUser className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Profile</span>
+            <FaUser className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 mb-1" />
+            <span className="text-sm sm:text-base md:text-lg font-medium">Profile</span>
           </NavLink>
         </div>
         {/* Language Switcher at the end, spaced with extra margin */}
