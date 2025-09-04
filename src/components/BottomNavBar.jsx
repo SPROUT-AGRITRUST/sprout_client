@@ -24,7 +24,7 @@ const BottomNavBar = () => {
             }
           >
             <FaHome className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Home</span>
+            <span className="text-[8px] font-medium">Home</span>
           </NavLink>
 
           <NavLink
@@ -38,7 +38,7 @@ const BottomNavBar = () => {
             }
           >
             <FaSeedling className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Crops</span>
+            <span className="text-[8px] font-medium">Crops</span>
           </NavLink>
 
           {/* Floating Scanner Button */}
@@ -80,7 +80,7 @@ const BottomNavBar = () => {
             }
           >
             <FaStore className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Marketplace</span>
+            <span className="text-[8px] font-medium">Market</span>
           </NavLink>
 
           <NavLink
@@ -94,7 +94,7 @@ const BottomNavBar = () => {
             }
           >
             <FaUser className="w-6 h-6 mb-1" />
-            <span className="text-xs font-medium">Profile</span>
+            <span className="text-[8px] font-medium">Profile</span>
           </NavLink>
         </div>
         {/* Language Switcher at the end, spaced with extra margin */}

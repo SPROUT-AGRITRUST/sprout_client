@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
-import { app } from "../firebase";
+import { app, db } from "../firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import BackToHomeButton from "../components/BackToHomeButton";
@@ -103,19 +104,35 @@ export default function FarmerProfile() {
   const [profileData, setProfileData] = useState(initialProfile);
   const [profileImage, setProfileImage] = useState(null);
 
-  // Fetch user details from Firebase Auth
+  // Fetch user details from Firebase Auth and Firestore
   useEffect(() => {
     const auth = getAuth(app);
     const user = auth.currentUser;
     if (user) {
+      // First, set basic info from Auth
       setProfileData((prev) => ({
         ...prev,
         fullName: user.displayName || "",
         email: user.email || "",
         profilePicture: user.photoURL || null,
-        // phoneNumber is not always available in Firebase Auth
         phoneNumber: user.phoneNumber || "",
       }));
+      // Then, fetch profile from Firestore
+      const fetchProfile = async () => {
+        try {
+          const profileRef = doc(db, "farmers", user.uid);
+          const profileSnap = await getDoc(profileRef);
+          if (profileSnap.exists()) {
+            setProfileData((prev) => ({
+              ...prev,
+              ...profileSnap.data(),
+            }));
+          }
+        } catch (err) {
+          console.error("Error fetching profile from Firestore:", err);
+        }
+      };
+      fetchProfile();
     }
   }, []);
 
@@ -204,15 +221,25 @@ export default function FarmerProfile() {
     }
   };
 
-  // Save profile changes
-  const saveProfile = () => {
-    // Here you would typically make an API call to save the data
-    console.log("Saving profile:", profileData);
-    setIsEditing(false);
-    showToast("Profile updated successfully!", "success");
+  // Save profile changes to Firestore
+  const saveProfile = async () => {
+    try {
+      const auth = getAuth(app);
+      const user = auth.currentUser;
+      if (!user) {
+        showToast("User not authenticated.", "error");
+        return;
+      }
+      const profileRef = doc(db, "farmers", user.uid);
+      await setDoc(profileRef, profileData, { merge: true });
+      setIsEditing(false);
+      showToast("Profile updated successfully!", "success");
+    } catch (err) {
+      console.error("Error saving profile to Firestore:", err);
+      showToast("Failed to update profile.", "error");
+    }
   };
 
-  // Download receipt
   const downloadReceipt = (transaction) => {
     // Mock download functionality
     console.log("Downloading receipt for:", transaction.itemName);
@@ -227,30 +254,16 @@ export default function FarmerProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8 relative">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8 pb-16 relative">
       <div className="hidden md:block">
         <BackToHomeButton />
       </div>
       <div className="max-w-7xl mx-auto">
-        {/* Welcome and Search Bar */}
-        <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="flex-shrink-0">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-              Welcome {profileData.fullName}
-            </h2>
-          </div>
-          <div className="w-full md:w-2/3">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
-              />
-              <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <User className="h-5 w-5 text-gray-400" />
-              </span>
-            </div>
-          </div>
+        {/* Welcome Header Only */}
+        <div className="mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+            Welcome {profileData.fullName}
+          </h2>
         </div>
         {/* ...existing code... */}
 
@@ -280,7 +293,6 @@ export default function FarmerProfile() {
               Dashboard
             </button>
           </div>
-
           <div className="p-6">
             {activeTab === "profile" ? (
               /* Profile Section */
@@ -295,10 +307,9 @@ export default function FarmerProfile() {
                     className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center"
                   >
                     <Edit3 className="w-4 h-4 mr-2" />
-                    {isEditing ? "Cancel" : "Edit Profile"}
+                    {isEditing ? "Cancel" : "Edit"}
                   </button>
                 </div>
-
                 {/* Profile Picture */}
                 <div className="text-center">
                   <div className="relative inline-block">
@@ -562,7 +573,7 @@ export default function FarmerProfile() {
                   </div>
                 )}
                 {/* Logout Button */}
-                <div className="text-center pt-6 pb-24 md:pb-6">
+                <div className="text-center pt-6 pb-10 md:pb-6">
                   <button
                     onClick={async () => {
                       await logout();

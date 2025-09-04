@@ -11,8 +11,10 @@ import {
   Info,
   User,
 } from "lucide-react";
+
 import { useToast } from "../contexts/ToastContext";
 import BackToHomeButton from "../components/BackToHomeButton";
+import { getGeminiSoilAnalysis } from "../services/soil_analyse";
 // Soil texture options
 const soilTextures = [
   "Sandy",
@@ -39,7 +41,7 @@ const cropRecommendations = {
 export default function SoilAnalysis() {
   // ...existing code...
   // Removed i18n translation
-
+  const GEMINI_API_KEY =  "YOUR_API_KEY_HERE";
   const [activeTab, setActiveTab] = useState("upload"); // 'upload' or 'manual'
   const [uploadedFile, setUploadedFile] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -47,6 +49,7 @@ export default function SoilAnalysis() {
   const [showForm, setShowForm] = useState(false); // controls if the rest of the form is shown
   const [showExtendedForm, setShowExtendedForm] = useState(false); // controls if the extended form is shown
   const [aiResult, setAiResult] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
   const { showToast } = useToast();
 
   // Form data for manual input
@@ -134,6 +137,20 @@ export default function SoilAnalysis() {
       setAnalysisComplete(true);
       setIsAnalyzing(false);
     }, 2000);
+  };
+
+  // AI-powered analysis using Gemini
+  const handleGeminiAnalysis = async () => {
+    setAiLoading(true);
+    setAiResult("");
+    try {
+      const result = await getGeminiSoilAnalysis(soilData, GEMINI_API_KEY);
+      setAiResult(result);
+    } catch (error) {
+      setAiResult("Error getting AI analysis. Please try again.");
+      showToast("Gemini API error: " + error.message, "error");
+    }
+    setAiLoading(false);
   };
 
   // Generate analysis based on soil data
@@ -327,6 +344,9 @@ export default function SoilAnalysis() {
       fertilizerRecommendations: [],
       irrigationNotes: "",
     });
+    setShowForm(false);
+    setShowExtendedForm(false);
+    setAiResult("");
   };
 
   return (
@@ -846,9 +866,27 @@ export default function SoilAnalysis() {
               </div>
             )}
 
-            {/* ...existing code... */}
+            {/* Gemini AI Analysis Button & Result */}
+            <div className="text-center mt-8">
+              <button
+                onClick={handleGeminiAnalysis}
+                className="px-6 py-3 border border-green-500 text-green-700 rounded-lg hover:bg-green-50 transition-colors duration-200 font-medium bg-white shadow"
+                disabled={aiLoading}
+              >
+                {aiLoading
+                  ? "Analyzing with Gemini..."
+                  : "Get AI Recommendations (Gemini)"}
+              </button>
+              {aiResult && (
+                <div className="mt-4 bg-green-50 border border-green-200 rounded-xl p-4 text-left text-green-900 shadow">
+                  <h4 className="font-bold mb-2">Gemini AI Recommendations:</h4>
+                  <div>{aiResult}</div>
+                </div>
+              )}
+            </div>
+
             {/* Reset Button */}
-            <div className="text-center">
+            <div className="text-center mt-4">
               <button
                 onClick={resetForm}
                 className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium bg-green-500"

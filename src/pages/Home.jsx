@@ -101,43 +101,24 @@ export default function HomePage() {
       <div className="bg-white/80 backdrop-blur-sm sticky top-0 z-40 border-b border-green-100">
         <div className="flex justify-between items-center px-4 py-4 md:px-8">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-            Sprout <span className="text-green-600">🌱</span>
+            Sprout <span className="text-green-600 text-2xl">🌱</span>
           </h1>
           <div className="flex items-center space-x-4">
-            {isAuthenticated ? (
-              <>
-                {/* Notification Icon */}
-                <button
-                  className="relative p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100"
-                  onClick={() => navigate("/notifications")}
-                >
-                  <Bell className="w-5 h-5 text-white" />
-                  <span className="absolute top-2 right-2 h-3 w-3 bg-white rounded-full animate-pulse border border-green-600" />
-                </button>
-                {/* Profile Icon */}
-                <button
-                  className="p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100 ml-2"
-                  onClick={() => navigate("/profile")}
-                >
-                  <User className="w-6 h-6 text-white" title="Profile" />
-                </button>
-              </>
-            ) : (
-              <>
-                <NavLink
-                  to="/login"
-                  className="px-4 py-2 text-green-600 hover:text-green-700 font-medium transition-colors duration-200"
-                >
-                  {t("home.signIn")}
-                </NavLink>
-                <NavLink
-                  to="/signup"
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
-                >
-                  {t("home.getStarted")}
-                </NavLink>
-              </>
-            )}
+            {/* Notification Icon - always visible */}
+            <button
+              className="relative p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100"
+              onClick={() => navigate("/notifications")}
+            >
+              <Bell className="w-5 h-5 text-white" />
+              <span className="absolute top-2 right-2 h-3 w-3 bg-white rounded-full animate-pulse border border-green-600" />
+            </button>
+            {/* Profile Icon - always visible */}
+            <button
+              className="p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100 ml-2"
+              onClick={() => navigate("/profile")}
+            >
+              <User className="w-6 h-6 text-white" title="Profile" />
+            </button>
           </div>
         </div>
       </div>
@@ -146,8 +127,8 @@ export default function HomePage() {
       <div className="px-4 py-6 md:px-8">
         <div className="max-w-2xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-center md:gap-6">
-            <div className="mb-2 md:mb-0 md:w-1/3 flex-shrink-0">
-              <h2 className="text-5xl md:text-xl font-bold text-gray-900">
+            <div className="mb-2 md:mb-0 md:w-1/3 flex">
+              <h2 className="text-lg md:text-xl font-bold text-gray-900  ">
                 Welcome {user?.name || "Farmer"}
               </h2>
             </div>
@@ -193,7 +174,7 @@ export default function HomePage() {
                   {t("home.uploadSoilReport")}
                 </NavLink>
                 <NavLink
-                  to="/soil-analysis"
+                  to="/learn-more"
                   className="px-8 py-4 border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-green-600 transition-colors duration-200 text-center"
                 >
                   {t("home.learnMore")}
@@ -366,7 +347,7 @@ export default function HomePage() {
               <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center mb-1">
                 <User className="w-3 h-3 text-white" />
               </div>
-              <span className="text-xs text-green-600">Profile</span>
+              <span className="text-sm text-green-600">Profile</span>
             </button>
             <button
               className="flex flex-col items-center font-medium"
@@ -375,7 +356,7 @@ export default function HomePage() {
               <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center mb-1">
                 <Bell className="w-3 h-3 text-white" />
               </div>
-              <span className="text-xs text-green-600">Notifications</span>
+              <span className="text-sm text-green-600">Notifications</span>
             </button>
           </>
         ) : (
@@ -384,13 +365,13 @@ export default function HomePage() {
               to="/login"
               className="flex flex-col items-center text-green-600 font-medium"
             >
-              <span className="text-xs">Sign In</span>
+              <span className="text-sm">Sign In</span>
             </NavLink>
             <NavLink
               to="/signup"
               className="flex flex-col items-center text-green-600 font-medium"
             >
-              <span className="text-xs">Get Started</span>
+              <span className="text-sm">Get Started</span>
             </NavLink>
           </>
         )}

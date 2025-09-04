@@ -233,12 +233,20 @@ export default function CropManagement() {
               <p className="text-gray-600">{t("cropManagement.subtitle")}</p>
             </div>
           </div>
+          {/* Desktop: regular button, Mobile: circular icon button */}
           <button
             onClick={openAddModal}
-            className="px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-200 font-medium flex items-center"
+            className="hidden md:flex px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-200 font-medium items-center"
           >
             <Plus className="w-5 h-5 mr-2" />
             {t("cropManagement.addNew")}
+          </button>
+          <button
+            onClick={openAddModal}
+            className="md:hidden flex items-center justify-center bg-green-600 text-white rounded-full shadow-lg hover:bg-green-700 transition-colors duration-200 w-12 h-12"
+            aria-label="Add New Crop"
+          >
+            <Plus className="w-6 h-6" />
           </button>
         </div>
 

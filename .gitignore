@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+========    GEMINI API KEYS ========
+REACT_APP_GEMINI_KEY_CHAT= AIzaSyDrn4aI-V1tzCclCewAvblKwDcDFtWTdN4
+REACT_APP_GEMINI_KEY_ANALYSIS = AIzaSyBHTB-gkR-EOXN-hD_2BB3cb0hqi6AxSV0
