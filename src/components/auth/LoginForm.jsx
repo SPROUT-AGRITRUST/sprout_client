@@ -78,12 +78,13 @@ export default function LoginForm() {
       provider.setCustomParameters({ prompt: "select_account" });
       const result = await signInWithPopup(auth, provider);
       console.log("Google login successful:", result.user);
-
+      navigate("/");
+      showInfo("Login successful");
       // Notify Apps Script after successful login
       try {
         const idToken = await result.user.getIdToken();
         const resp = await fetch(
-          "https://script.google.com/macros/s/AKfycby7F0wAQGisMApg4aqv5T0KCzngJs_185v5e5ZqtEo/exec",
+          "https://script.google.com/macros/s/AKfycbwf-kN50dYFevosIzY49ghWsgS8E-X3xHVfo5ySWBvIQshKsrhqS3dcv7hhVjvDkmzM0g/exec",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
