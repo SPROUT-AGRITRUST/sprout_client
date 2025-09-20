@@ -3,12 +3,12 @@
   "name": "Sprout",
   "icons": [
     {
-      "src": "https://static.vecteezy.com/system/resources/previews/028/238/901/non_2x/plant-3d-icon-illustration-free-png.png",
+      "src": "https://res.cloudinary.com/duvr3z2z0/image/upload/v1758372567/SPROUT-LOGO-1_yqcvvl.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://static.vecteezy.com/system/resources/previews/028/238/901/non_2x/plant-3d-icon-illustration-free-png.png",
+      "src": "https://res.cloudinary.com/duvr3z2z0/image/upload/v1758372567/SPROUT-LOGO-1_yqcvvl.png",
       "sizes": "512x512",
       "type": "image/png"
     }
@@ -16,5 +16,6 @@
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#1976d2"
+  "theme_color": "#1976d2",
+  "orientation": "portrait"
 }
