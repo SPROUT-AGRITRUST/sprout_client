@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 //const DEFAULT_CITY = "Hyderabad";
 
-const WeatherBox = () => {
+const WeatherBox = ({ horizontalMobile = false }) => {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -78,28 +78,36 @@ const WeatherBox = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col md:flex-row gap-0 md:gap-0 justify-end items-stretch my-2">
+    <div
+      className={`w-full flex ${
+        horizontalMobile ? "flex-row overflow-x-auto" : "flex-col md:flex-row"
+      } gap-0 md:gap-0 justify-end items-stretch my-2`}
+    >
       {/* Weather Info Box */}
-      <div className="bg-green-50 border border-green-200 rounded-l-2xl px-4 py-2 flex flex-col items-start justify-center min-w-[140px] max-w-[180px] h-16 md:h-20 shadow-md">
+      <div
+        className={`bg-green-50 border border-green-200 rounded-l-2xl px-4 py-3 flex flex-col items-start justify-center ${
+          horizontalMobile ? "min-w-[160px]" : "min-w-[140px] max-w-[180px]"
+        } h-24 md:h-28 shadow-md`}
+      >
         {loading ? (
           <div className="text-green-700 text-sm">Loading weather...</div>
         ) : error ? (
           <div className="text-red-600 text-sm">{error}</div>
         ) : weather ? (
           <>
-            <div className="font-semibold text-green-800 text-sm mb-1">
+            <div className="font-semibold text-green-800 text-sm md:text-base mb-2">
               Location:{" "}
               <span className="font-normal text-gray-700">
                 {weather.location}
               </span>
             </div>
-            <div className="font-semibold text-green-800 text-sm mb-1">
+            <div className="font-semibold text-green-800 text-sm md:text-base mb-2">
               Temperature:{" "}
               <span className="font-normal text-gray-700">
                 {weather.temp}°C
               </span>
             </div>
-            <div className="font-semibold text-green-800 text-sm flex items-center">
+            <div className="font-semibold text-green-800 text-sm md:text-base flex items-center">
               Weather:{" "}
               <span className="font-normal text-gray-700 ml-1">
                 {weather.condition}
@@ -108,7 +116,7 @@ const WeatherBox = () => {
                 <img
                   src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
                   alt={weather.condition}
-                  className="w-5 h-5 ml-2 inline-block align-middle"
+                  className="w-6 h-6 ml-2 inline-block align-middle"
                 />
               )}
             </div>
@@ -117,8 +125,12 @@ const WeatherBox = () => {
       </div>
       {/* More Info Box */}
       {/* link to the weather board */}
-      <div className="bg-gradient-to-br from-blue-500 to-blue-700 border-t border-b border-r border-blue-700 rounded-r-2xl px-4 py-2 flex flex-col items-center justify-center min-w-[100px] max-w-[160px] h-16 md:h-20 shadow-md">
-        <span className="text-white text-lg md:text-xl font-bold tracking-wide">
+      <div
+        className={`bg-gradient-to-br from-blue-500 to-blue-700 border-t border-b border-r border-blue-700 rounded-r-2xl px-4 py-3 flex flex-col items-center justify-center ${
+          horizontalMobile ? "min-w-[120px]" : "min-w-[100px] max-w-[160px]"
+        } h-24 md:h-28 shadow-md`}
+      >
+        <span className="text-white text-lg md:text-xl font-bold tracking-wide whitespace-nowrap">
           {/* link to the weather board */}
           <a href="/weather" className="underline">
             Weather Board

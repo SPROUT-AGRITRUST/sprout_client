@@ -133,7 +133,7 @@ export default function HomePage() {
                 Welcome {user?.name || "Farmer"}
               </h2>
             </div>
-          {/* <div className="relative w-full">
+            {/* <div className="relative w-full">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-gray-400" />
               </div>
@@ -146,10 +146,11 @@ export default function HomePage() {
                 {t("home.searchButton", "Search")}
               </button>
             </div> */}
-            {/* Weather Box to the right of search bar */}
-            <div className="mt-4 md:mt-0 md:ml-6 flex-shrink-0">
-              <WeatherBox />
-            </div>
+          </div>
+
+          {/* Weather Box - Horizontally displayed on mobile */}
+          <div className="mt-4 md:mt-0 overflow-x-auto">
+            <WeatherBox horizontalMobile={true} />
           </div>
         </div>
       </div>
