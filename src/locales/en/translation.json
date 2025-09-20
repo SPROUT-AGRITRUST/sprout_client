@@ -115,6 +115,19 @@
     "listProduce": "List Produce",
     "searchPlaceholder": "Search products, farmers, or locations..."
   },
+  "seedMarketplace": {
+    "title": "Seed Marketplace",
+    "subtitle": "Find high-quality seeds for your farm",
+    "buyNow": "Buy Now",
+    "purchaseConfirmation": "You've selected to purchase",
+    "seedQuality": "Premium Quality",
+    "filterByType": "Filter by seed type",
+    "sortBy": "Sort by",
+    "addToCart": "Add to Cart",
+    "viewDetails": "View Details",
+    "availableSeeds": "Available Seeds",
+    "recommendedSeeds": "Recommended Based on Soil Analysis"
+  },
   "carousel1": {
     "title": "Smart Farming Solutions",
     "subtitle": "AI-powered insights for better crop management"
@@ -138,4 +151,4 @@
     "english": "English",
     "telugu": "Telugu"
   }
-} 
+}

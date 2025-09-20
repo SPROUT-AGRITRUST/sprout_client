@@ -1,74 +1,143 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Eye, EyeOff, Leaf, Mail, Lock } from "lucide-react";
+import React, { useState } from "react";
+import { Leaf } from "lucide-react";
 import {
-  signInWithEmailAndPassword,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
   signInWithPopup,
   GoogleAuthProvider,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
-import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../contexts/ToastContext";
 
 export default function LoginForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [showPassword, setShowPassword] = useState(false);
+  const [mobile, setMobile] = useState("");
+  const [otp, setOtp] = useState("");
+  const [confirmationResult, setConfirmationResult] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [countryCode, setCountryCode] = useState("+91");
+  const [formattedMobile, setFormattedMobile] = useState("");
+  const [otpError, setOtpError] = useState("");
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
   const { showError, showInfo } = useToast();
 
-  // Redirect if already logged in
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  // Local testing - no actual reCAPTCHA verification
+  const setupRecaptcha = () => {
+    // In local development, we don't need to set up actual reCAPTCHA
+    console.log("Local development: bypassing reCAPTCHA setup");
+    // Normally this would set up Firebase reCAPTCHA verification
   };
 
-  const handleSubmit = async (e) => {
+  // Format and validate phone number
+  const formatPhoneNumber = (phone, code) => {
+    // Remove any non-digit characters
+    const cleaned = phone.replace(/\D/g, "");
+    // Check for valid phone number (adjust for your requirements)
+    if (cleaned.length < 10) {
+      return { isValid: false, formatted: "" };
+    }
+    return {
+      isValid: true,
+      formatted: `${code}${cleaned}`,
+    };
+  };
+
+  // Local development - simulate sending OTP
+  const handleSendOtp = async (e) => {
     e.preventDefault();
+    setOtpError("");
+
+    const { isValid, formatted } = formatPhoneNumber(mobile, countryCode);
+    if (!isValid) {
+      showError("Please enter a valid phone number");
+      return;
+    }
+
+    setFormattedMobile(formatted);
     setIsSubmitting(true);
 
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-      console.log("Login successful:", userCredential.user);
-      showInfo("Login successful");
-      // Navigation will be handled by the useEffect above
-    } catch (error) {
-      console.error("Login error:", error);
-      let errorMessage = "An error occurred during login. Please try again.";
+    // Simulate API delay
+    setTimeout(() => {
+      // For local development, we'll use a dummy confirmation object
+      setConfirmationResult({
+        confirm: (enteredOtp) => {
+          // Local verification - check if OTP is 123456
+          return new Promise((resolve, reject) => {
+            if (enteredOtp === "123456") {
+              resolve({
+                user: {
+                  uid: "local-dev-uid-" + Date.now(),
+                  phoneNumber: formatted,
+                  displayName: "Local Test User",
+                  getIdToken: () => Promise.resolve("dummy-token"),
+                },
+              });
+            } else {
+              reject({ code: "auth/invalid-verification-code" });
+            }
+          });
+        },
+      });
 
-      if (error.code === "auth/user-not-found") {
-        errorMessage = "No account found with this email address.";
-      } else if (error.code === "auth/wrong-password") {
-        errorMessage = "Incorrect password. Please try again.";
-      } else if (error.code === "auth/invalid-email") {
-        errorMessage = "Please enter a valid email address.";
-      } else if (error.code === "auth/too-many-requests") {
-        errorMessage = "Too many failed attempts. Please try again later.";
-      }
+      showInfo(`Dev mode: OTP sent to ${formatted} (use 123456)`);
+    }, 1000); // 1 second delay to simulate network request
 
-      showError(errorMessage);
-    } finally {
+    setTimeout(() => {
       setIsSubmitting(false);
+    }, 1200);
+  };
+
+  // Verify OTP - local development version
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setOtpError("");
+
+    if (!otp || otp.length < 6) {
+      setOtpError("Please enter a valid 6-digit OTP");
+      setIsSubmitting(false);
+      return;
     }
+
+    try {
+      // This works with our dummy confirmation object
+      const userCredential = await confirmationResult.confirm(otp);
+      // User signed in successfully
+      const user = userCredential.user;
+      console.log("DEV MODE: User signed in:", user);
+      showInfo("Login successful! Welcome back.");
+
+      // Set user data in local storage or context if needed
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          uid: user.uid,
+          phoneNumber: user.phoneNumber,
+          displayName: user.displayName || "",
+        })
+      );
+
+      // In development, simulate successful login
+      console.log("DEV MODE: Redirecting to home page");
+      navigate("/");
+    } catch (error) {
+      console.error("OTP verification error:", error);
+      if (error.code === "auth/invalid-verification-code") {
+        setOtpError("Invalid verification code. Use 123456 for testing.");
+      } else if (error.code === "auth/code-expired") {
+        setOtpError("Verification code has expired. Please request a new one.");
+        setConfirmationResult(null);
+      } else {
+        setOtpError(
+          "Failed to verify OTP: " + (error.message || "Unknown error")
+        );
+      }
+      showError("Verification failed");
+    }
+    setIsSubmitting(false);
   };
 
   const handleGoogleLogin = async () => {
@@ -78,13 +147,12 @@ export default function LoginForm() {
       provider.setCustomParameters({ prompt: "select_account" });
       const result = await signInWithPopup(auth, provider);
       console.log("Google login successful:", result.user);
-      navigate("/");
-      showInfo("Login successful");
+
       // Notify Apps Script after successful login
       try {
         const idToken = await result.user.getIdToken();
         const resp = await fetch(
-          "https://script.google.com/macros/s/AKfycbwf-kN50dYFevosIzY49ghWsgS8E-X3xHVfo5ySWBvIQshKsrhqS3dcv7hhVjvDkmzM0g/exec",
+          "https://script.google.com/macros/s/AKfycby7F0wAQGisMApg4aqv5T0KCzngJs_185v5e5ZqtEo/exec",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -96,7 +164,7 @@ export default function LoginForm() {
       } catch (notifyErr) {
         console.error("Sign-in or notify failed:", notifyErr);
       }
-      // Navigation will be handled by the useEffect above
+      navigate("/");
     } catch (error) {
       console.error("Google login error:", error);
       let errorMessage =
@@ -116,11 +184,10 @@ export default function LoginForm() {
       setIsGoogleLoading(false);
     }
   };
+
   return (
     <div className="w-full">
-      {/* Card Container */}
       <div className="bg-white rounded-2xl shadow-xl border border-green-100 p-8">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
@@ -188,131 +255,135 @@ export default function LoginForm() {
           </div>
           <div className="relative flex justify-center text-sm">
             <span className="px-2 bg-white text-gray-500">
-              Or continue with email
+              Or continue with mobile
             </span>
           </div>
         </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email Address */}
+        <form
+          onSubmit={confirmationResult ? handleVerifyOtp : handleSendOtp}
+          className="space-y-6"
+        >
           <div>
             <label
-              htmlFor="email"
+              htmlFor="mobile"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Email Address *
+              Mobile Number *
             </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                placeholder="Enter your email address"
-                autoComplete="email"
-              />
-            </div>
-          </div>
-
-          {/* Password */}
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Password *
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                placeholder="Enter your password"
-                autoComplete="current-password"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+            <div className="flex">
+              <select
+                className="px-3 py-3 border border-gray-300 rounded-l-lg bg-gray-50 text-gray-800 font-medium"
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
+                disabled={!!confirmationResult}
               >
-                {showPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Remember Me & Forgot Password */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
+                <option value="+91">+91 (IN)</option>
+                <option value="+1">+1 (US)</option>
+                <option value="+44">+44 (UK)</option>
+                <option value="+61">+61 (AU)</option>
+                <option value="+65">+65 (SG)</option>
+                <option value="+971">+971 (UAE)</option>
+              </select>
               <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                type="tel"
+                id="mobile"
+                name="mobile"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors duration-200"
+                placeholder="Enter mobile number (10 digits)"
+                disabled={!!confirmationResult}
+                pattern="[0-9]{10}"
+                maxLength="10"
               />
+            </div>
+            {!confirmationResult && (
+              <p className="text-xs text-gray-500 mt-1">
+                You'll receive a one-time verification code
+              </p>
+            )}
+          </div>
+          {confirmationResult && (
+            <div>
               <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-700"
+                htmlFor="otp"
+                className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Remember me
+                Enter 6-digit OTP (use 123456 for testing)
               </label>
+              <input
+                type="text"
+                id="otp"
+                name="otp"
+                value={otp}
+                onChange={(e) =>
+                  setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                required
+                className={`w-full px-4 py-3 border ${
+                  otpError
+                    ? "border-red-300 focus:ring-red-500 focus:border-red-500"
+                    : "border-gray-300 focus:ring-green-500 focus:border-green-500"
+                } rounded-lg transition-colors duration-200 text-center tracking-widest text-xl`}
+                placeholder="••••••"
+                maxLength="6"
+                pattern="[0-9]{6}"
+                inputMode="numeric"
+              />
+              {otpError && (
+                <p className="mt-1 text-sm text-red-600">{otpError}</p>
+              )}
+              <div className="flex justify-between items-center mt-2">
+                <p className="text-xs text-gray-500">
+                  OTP sent to {formattedMobile}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setConfirmationResult(null);
+                    setOtp("");
+                    setOtpError("");
+                  }}
+                  className="text-xs text-green-600 hover:text-green-800"
+                >
+                  Resend OTP
+                </button>
+              </div>
             </div>
-            <div className="text-sm">
-              <a
-                href="/forgot-password"
-                className="text-green-600 hover:text-green-700 font-medium"
-              >
-                Forgot password?
-              </a>
-            </div>
-          </div>
-
-          {/* Submit Button */}
+          )}
+          {/* Recaptcha container removed for local testing */}
+          <div id="recaptcha-container" style={{ display: "none" }}></div>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700 transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <div className="flex items-center justify-center">
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                Signing In...
+                {confirmationResult ? "Verifying..." : "Sending OTP..."}
               </div>
+            ) : confirmationResult ? (
+              "Verify & Sign In"
             ) : (
-              "Sign In"
+              "Send OTP"
             )}
           </button>
-        </form>
 
-        {/* Sign Up Link */}
-        <div className="text-center mt-8 pt-6 border-t border-gray-200">
-          <p className="text-gray-600">
-            Don't have an account?{" "}
-            <a
-              href="/signup"
-              className="text-green-600 hover:text-green-700 font-medium underline"
-            >
-              Sign Up
-            </a>
-          </p>
-        </div>
+          {/* Sign up link */}
+          <div className="mt-4 text-center">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{" "}
+              <a
+                href="/signup"
+                className="text-green-600 hover:text-green-800 font-medium"
+              >
+                Create Account
+              </a>
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -134,7 +134,7 @@ export default function Resources() {
             <Users className="w-5 h-5" /> Experiences
           </button>
         </div>
-
+        
         {/* Tab Content */}
         {activeTab === "news" && (
           <div className="space-y-6">
@@ -156,7 +156,6 @@ export default function Resources() {
             ))}
           </div>
         )}
-
         {activeTab === "tips" && (
           <div>
             {/* Tip of the Week & Audio */}
@@ -176,7 +175,6 @@ export default function Resources() {
                 </span>
               </div>
             </div>
-
             {/* Accordions */}
             <Accordion title="Best Practices for Farming" defaultOpen>
               <ul className="list-disc list-inside text-green-900 space-y-2">

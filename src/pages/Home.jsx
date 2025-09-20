@@ -12,6 +12,7 @@ import {
   Users,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import WeatherBox from "../components/WeatherBox";
 
 import { useTranslation } from "react-i18next";
 
@@ -132,7 +133,7 @@ export default function HomePage() {
                 Welcome {user?.name || "Farmer"}
               </h2>
             </div>
-            <div className="relative w-full">
+          {/* <div className="relative w-full">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Search className="h-5 w-5 text-gray-400" />
               </div>
@@ -144,6 +145,10 @@ export default function HomePage() {
               <button className="absolute inset-y-0 right-0 px-6 bg-green-600 text-white rounded-r-2xl hover:bg-green-700 transition-colors duration-200 font-medium">
                 {t("home.searchButton", "Search")}
               </button>
+            </div> */}
+            {/* Weather Box to the right of search bar */}
+            <div className="mt-4 md:mt-0 md:ml-6 flex-shrink-0">
+              <WeatherBox />
             </div>
           </div>
         </div>

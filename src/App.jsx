@@ -9,16 +9,17 @@ import SoilAnalysis from "./pages/SoilAnalysis";
 import FarmerProfile from "./pages/FarmerProfile";
 import Marketplace from "./pages/Marketplace";
 import Notifications from "./pages/Notifications";
-
+import SeedMarketplace from "./pages/SeedMarketplace";
 import LoadingScreen from "./components/LoadingScreen";
 import BottomNavBar from "./components/BottomNavBar";
-
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ToastProvider } from "./contexts/ToastContext";
 import ErrorPage from "./pages/error_page";
 import LearnMore from "./pages/LearnMore";
-
+import WeatherBoard from "./pages/WeatherBoard";
+import SeedPlace from "./pages/SeedPlace";
+import Payment from "./pages/Payment";
 const App = () => {
   const [loading, setLoading] = useState(true);
 
@@ -33,12 +34,11 @@ const App = () => {
 
   return (
     <>
-      <AIChatBot />
+      {/*  <AIChatBot /> */}
       <ToastProvider>
         <AuthProvider>
           <Routes>
             <Route path="/" element={<HomePage />} />
-
             <Route path="*" element={<ErrorPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -49,6 +49,9 @@ const App = () => {
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/learn-more" element={<LearnMore />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/weather" element={<WeatherBoard />} />
+            <Route path="/seed-place" element={<SeedPlace />} />
+            <Route path="/payment" element={<Payment />} />
           </Routes>
           <BottomNavBar />
         </AuthProvider>
@@ -57,5 +60,4 @@ const App = () => {
   );
 };
 
-import AIChatBot from "./components/AIChatBot";
 export default App;

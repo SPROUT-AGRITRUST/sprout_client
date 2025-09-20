@@ -11,8 +11,8 @@ const ChatBot = () => {
   const [loading, setLoading] = useState(false);
 
   // ⚠️ Warning: Never expose real API keys in frontend code in production
-  const GEMINI_API_KEY = "YOUR_API_KEY_HERE";
-
+  const GEMINI_API_KEY = import.meta.env.VITE_CHAT_BOT;
+  
   const handleSend = async () => {
     if (!input.trim() || loading) return;
     // You can replace 'Farmer' with a dynamic name variable if available
@@ -113,6 +113,14 @@ const ChatBot = () => {
                 </div>
               </div>
             ))}
+            {/* Chatbot thinking animation */}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="flex items-center gap-1 px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-green-100 text-green-900 max-w-[80vw] sm:max-w-xs text-sm">
+                  <span className="dot-typing"></span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Input */}
@@ -151,6 +159,38 @@ const ChatBot = () => {
             border-radius: 0 !important;
             border-left: none !important;
           }
+        }
+        /* Chatbot thinking animation */
+        .dot-typing {
+          position: relative;
+          width: 2em;
+          height: 1em;
+        }
+        .dot-typing::before, .dot-typing::after, .dot-typing span {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          width: 0.5em;
+          height: 0.5em;
+          background: #22c55e;
+          border-radius: 50%;
+          animation: blink 1.4s infinite both;
+        }
+        .dot-typing::before {
+          left: 0;
+          animation-delay: 0s;
+        }
+        .dot-typing span {
+          left: 0.7em;
+          animation-delay: 0.2s;
+        }
+        .dot-typing::after {
+          left: 1.4em;
+          animation-delay: 0.4s;
+        }
+        @keyframes blink {
+          0%, 80%, 100% { opacity: 0.2; }
+          40% { opacity: 1; }
         }
       `}</style>
     </>

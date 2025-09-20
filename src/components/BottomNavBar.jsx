@@ -1,12 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FaHome, FaSeedling, FaStore, FaUser } from "react-icons/fa";
+import { FaHome, FaSeedling, FaStore, FaUser, FaSpa } from "react-icons/fa";
 import { MdQrCodeScanner } from "react-icons/md";
 import "./BottomNavBar.css";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
+
 const BottomNavBar = () => {
   const { t } = useTranslation();
+
   return (
     <nav className="fixed bottom-4 left-4 right-4 z-50 bg-white/90 glass-nav shadow-2xl rounded-3xl md:hidden border border-gray-100">
       <div className="flex flex-row justify-between items-center px-2 py-4 relative">
@@ -81,6 +83,20 @@ const BottomNavBar = () => {
           >
             <FaStore className="w-6 h-6 mb-1" />
             <span className="text-[8px] font-medium">Market</span>
+          </NavLink>
+
+          <NavLink
+            to="/seed-marketplace"
+            className={({ isActive }) =>
+              `nav-item flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-300 hover:scale-110 ${
+                isActive
+                  ? "nav-item-active text-green-600 bg-green-100 shadow-lg ring-2 ring-green-200"
+                  : "text-gray-600 hover:text-green-500 hover:bg-green-50"
+              }`
+            }
+          >
+            <FaSpa className="w-6 h-6 mb-1" />
+            <span className="text-[8px] font-medium">Seeds</span>
           </NavLink>
 
           <NavLink

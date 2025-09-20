@@ -1,4 +1,21 @@
 import React, { useState, useEffect } from "react";
+// Cookie helper
+function setCookie(name, value, days = 365) {
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  document.cookie =
+    name +
+    "=" +
+    encodeURIComponent(value) +
+    "; expires=" +
+    expires +
+    "; path=/";
+}
+function getCookie(name) {
+  return document.cookie.split("; ").reduce((r, v) => {
+    const parts = v.split("=");
+    return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+  }, "");
+}
 import { getAuth } from "firebase/auth";
 import { app, db } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
@@ -104,12 +121,27 @@ export default function FarmerProfile() {
   const [profileData, setProfileData] = useState(initialProfile);
   const [profileImage, setProfileImage] = useState(null);
 
-  // Fetch user details from Firebase Auth and Firestore
+  // Fetch user details from Firebase Auth, Firestore, localStorage, and cookies
   useEffect(() => {
+    // Try localStorage first
+    const local = localStorage.getItem("farmerProfile");
+    if (local) {
+      try {
+        setProfileData(JSON.parse(local));
+      } catch {}
+    } else {
+      // Try cookies next
+      const cookie = getCookie("farmerProfile");
+      if (cookie) {
+        try {
+          setProfileData(JSON.parse(cookie));
+        } catch {}
+      }
+    }
+    // Then Firebase
     const auth = getAuth(app);
     const user = auth.currentUser;
     if (user) {
-      // First, set basic info from Auth
       setProfileData((prev) => ({
         ...prev,
         fullName: user.displayName || "",
@@ -117,7 +149,6 @@ export default function FarmerProfile() {
         profilePicture: user.photoURL || null,
         phoneNumber: user.phoneNumber || "",
       }));
-      // Then, fetch profile from Firestore
       const fetchProfile = async () => {
         try {
           const profileRef = doc(db, "farmers", user.uid);
@@ -221,7 +252,7 @@ export default function FarmerProfile() {
     }
   };
 
-  // Save profile changes to Firestore
+  // Save profile changes to Firestore, localStorage, and cookies
   const saveProfile = async () => {
     try {
       const auth = getAuth(app);
@@ -232,6 +263,9 @@ export default function FarmerProfile() {
       }
       const profileRef = doc(db, "farmers", user.uid);
       await setDoc(profileRef, profileData, { merge: true });
+      // Save to localStorage and cookies
+      localStorage.setItem("farmerProfile", JSON.stringify(profileData));
+      setCookie("farmerProfile", JSON.stringify(profileData));
       setIsEditing(false);
       showToast("Profile updated successfully!", "success");
     } catch (err) {
