@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import BackToHomeButton from "../components/BackToHomeButton";
-import { useNavigate } from "react-router-dom";// Example trusted seed industry data (replace with real API/data in production)
+import { useNavigate } from "react-router-dom"; // Example trusted seed industry data (replace with real API/data in production)
 const trustedIndustries = [
   {
     id: 1,
@@ -27,36 +27,36 @@ const trustedIndustries = [
   },
 ];
 const SeedPlace = () => {
-const [cart, setCart] = useState([]);
-const [message, setMessage] = useState("");
-const navigate = useNavigate();
+  const [cart, setCart] = useState([]);
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
-const addToCart = (industry, seed) => {
-  setCart((prev) => [...prev, { ...seed, industry: industry.name }]);
-  setMessage(`${seed.name} added to cart!`);
-  setTimeout(() => setMessage(""), 2000);
-};
+  const addToCart = (industry, seed) => {
+    setCart((prev) => [...prev, { ...seed, industry: industry.name }]);
+    setMessage(`${seed.name} added to cart!`);
+    setTimeout(() => setMessage(""), 2000);
+  };
 
-const handleCheckout = () => {
-  // Store cart information in localStorage to persist it across pages
-  localStorage.setItem('seedCart', JSON.stringify(cart));
-  
-  // Display success message
-  setMessage("Proceeding to checkout...");
-  
-  // Navigate to payment page
-  setTimeout(() => {
-    navigate("/payment", { 
-      state: { 
-        cart: cart,
-        totalAmount: cart.reduce((sum, item) => sum + item.price, 0),
-        orderType: "seeds"
-      } 
-    });
-  }, 1000);
-};
+  const handleCheckout = () => {
+    // Store cart information in localStorage to persist it across pages
+    localStorage.setItem("seedCart", JSON.stringify(cart));
+
+    // Display success message
+    setMessage("Proceeding to checkout...");
+
+    // Navigate to payment page
+    setTimeout(() => {
+      navigate("/payment", {
+        state: {
+          cart: cart,
+          totalAmount: cart.reduce((sum, item) => sum + item.price, 0),
+          orderType: "seeds",
+        },
+      });
+    }, 1000);
+  };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 p-4 md:p-8 pb-32 md:pb-8">
       <div className="mb-4">
         <BackToHomeButton />
       </div>
@@ -138,8 +138,8 @@ const handleCheckout = () => {
       </div>
       {/* Cart Section */}
       {cart.length > 0 && (
-        <div className="fixed bottom-4 right-4 bg-white border border-green-200 rounded-xl shadow-lg p-4 w-72 z-50">
-          <h3 className="font-bold text-green-800 mb-2">Cart</h3>
+        <div className="mt-8 mx-auto max-w-md bg-white border border-green-200 rounded-xl shadow-lg p-6 mb-8 md:mb-4">
+          <h3 className="font-bold text-green-800 mb-3 text-center">Cart</h3>
           <ul className="mb-2 max-h-40 overflow-y-auto">
             {cart.map((item, idx) => (
               <li
@@ -162,8 +162,9 @@ const handleCheckout = () => {
               ₹{cart.reduce((sum, item) => sum + item.price, 0)}
             </span>
           </div>
-          <button className="w-full mt-3 bg-green-700 text-white py-2 rounded-lg font-semibold hover:bg-green-800 transition-colors duration-200" 
-          onClick={handleCheckout}
+          <button
+            className="w-full mt-3 bg-green-700 text-white py-2 rounded-lg font-semibold hover:bg-green-800 transition-colors duration-200"
+            onClick={handleCheckout}
           >
             Proceed to Checkout
           </button>

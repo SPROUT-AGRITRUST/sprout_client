@@ -20,6 +20,7 @@ import LearnMore from "./pages/LearnMore";
 import WeatherBoard from "./pages/WeatherBoard";
 import SeedPlace from "./pages/SeedPlace";
 import Payment from "./pages/Payment";
+import LanguageSettings from "./pages/LanguageSettings";
 const App = () => {
   const [loading, setLoading] = useState(true);
 
@@ -52,6 +53,7 @@ const App = () => {
             <Route path="/weather" element={<WeatherBoard />} />
             <Route path="/seed-place" element={<SeedPlace />} />
             <Route path="/payment" element={<Payment />} />
+            <Route path="/language-settings" element={<LanguageSettings />} />
           </Routes>
           <BottomNavBar />
         </AuthProvider>

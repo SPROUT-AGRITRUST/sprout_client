@@ -110,10 +110,11 @@ const BottomNavBar = () => {
             }
           >
             <FaUser className="w-6 h-6 mb-1" />
-            <span className="text-[8px] font-medium">Profile</span>
+            <span className="text-[8px] font-medium">
+              {t("bottomNav.profile", "Profile")}
+            </span>
           </NavLink>
         </div>
-        {/* Language Switcher at the end, spaced with extra margin */}
       </div>
     </nav>
   );

@@ -8,6 +8,12 @@
     "searchPlaceholder": "Search for crops, farming tips, market prices...",
     "getStarted": "Get Started",
     "signIn": "Sign In",
+    "farmer": "Farmer",
+    "affordableSeeds": "Affordable Quality Seeds",
+    "affordableSeedsDescription": "High-quality seeds at competitive prices to ensure a bountiful harvest.",
+    "community": "Community & Resource",
+    "communityDescription": "Connect with local agricultural communities and resources, share knowledge, and access support networks.",
+    "notifications": "Notifications",
     "soilBannerTitle": "Get Personalized Crop Suggestions",
     "soilBannerDesc": "Upload your soil report and receive AI-powered recommendations for the best crops to plant, optimal planting times, and yield optimization strategies.",
     "uploadSoilReport": "Upload Soil Report",
@@ -82,7 +88,27 @@
     "addFirstCrop": "Add Your First Crop",
     "editCrop": "Edit Crop",
     "unknown": "Unknown",
-    "deleteConfirm": "Are you sure you want to delete this crop?"
+    "deleteConfirm": "Are you sure you want to delete this crop?",
+    "cropName": "Crop Name",
+    "enterCropName": "Enter crop name",
+    "enterFieldName": "Enter field/plot name",
+    "selectCropType": "Select crop type",
+    "addNotes": "Add notes about your crop here",
+    "cancel": "Cancel",
+    "updateCrop": "Update Crop",
+    "addCrop": "Add Crop",
+    "edit": "Edit",
+    "editButton": "Edit",
+    "plantedOn": "Planted",
+    "harvestOn": "Harvest",
+    "cropTypes": {
+      "cereal": "Cereal",
+      "vegetable": "Vegetable",
+      "fruit": "Fruit",
+      "legume": "Legume",
+      "rootcrop": "Root Crop",
+      "herb": "Herb"
+    }
   },
   "soilAnalysis": {
     "title": "Soil Analysis",
@@ -91,11 +117,60 @@
       "upload": "Upload",
       "manualEntry": "Manual Entry"
     },
+    "uploadSection": {
+      "instructions": "Upload your soil analysis report for AI recommendations",
+      "dragAndDrop": "Drag and drop your file here",
+      "orText": "or",
+      "browseButton": "Browse Files",
+      "supportedFormats": "Supported formats: JPG, PNG, PDF (up to 10MB)",
+      "fileUploaded": "File uploaded successfully!",
+      "analyzing": "Analyzing your soil report...",
+      "removeFile": "Remove File"
+    },
     "manualForm": {
+      "instructions": "Enter your soil test values for personalized recommendations",
       "soilTextureLabel": "Soil Texture",
       "selectSoilTexture": "Select Soil Texture",
       "continueButton": "Continue",
-      "moreInputsButton": "I can provide more inputs"
+      "moreInputsButton": "I can provide more inputs",
+      "phLabel": "Soil pH",
+      "phPlaceholder": "Enter soil pH (e.g., 6.5)",
+      "nitrogenLabel": "Nitrogen (N)",
+      "nitrogenPlaceholder": "Enter nitrogen ppm",
+      "phosphorusLabel": "Phosphorus (P)",
+      "phosphorusPlaceholder": "Enter phosphorus ppm",
+      "potassiumLabel": "Potassium (K)",
+      "potassiumPlaceholder": "Enter potassium ppm",
+      "organicMatterLabel": "Organic Matter",
+      "organicMatterPlaceholder": "Enter organic matter %",
+      "analyzeButton": "Analyze Soil",
+      "analyzingText": "Analyzing Soil..."
+    },
+    "results": {
+      "yourResults": "Your Soil Analysis Results",
+      "recommendedCrops": "Recommended Crops",
+      "soilHealth": "Soil Health",
+      "fertilizers": "Recommended Fertilizers",
+      "irrigation": "Irrigation Notes",
+      "downloadReport": "Download Report",
+      "viewDetails": "View Details",
+      "aiAnalysis": "AI Soil Report Analysis:",
+      "aiRecommendations": "AI Soil Recommendations:",
+      "goToSeedPlace": "Go to Seed Place"
+    },
+    "status": {
+      "low": "Low",
+      "high": "High",
+      "optimal": "Optimal",
+      "notAnalyzed": "Not Analyzed"
+    },
+    "errors": {
+      "aiAnalysis": "Error getting AI analysis. Please try again.",
+      "geminiApi": "Gemini API error: ",
+      "jsonParse": "Error parsing JSON file:",
+      "loginRequired": "Please log in to upload soil data.",
+      "uploadFailed": "Upload failed. Please try again.",
+      "processingFailed": "Error processing image. Please try again."
     }
   },
   "farmerProfile": {
@@ -149,6 +224,38 @@
   },
   "language": {
     "english": "English",
-    "telugu": "Telugu"
+    "telugu": "Telugu",
+    "switch": "Language",
+    "en": "English",
+    "te": "Telugu",
+    "settings": "Language Settings",
+    "selectLanguage": "Select Your Language",
+    "more": "More",
+    "helpTranslate": "Help us translate Sprout into more languages!"
+  },
+  "common": {
+    "close": "✕",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add"
+  },
+  "weather": {
+    "loading": "Loading weather...",
+    "loadError": "Could not load weather info",
+    "location": "Location",
+    "temperature": "Temperature",
+    "condition": "Weather",
+    "board": "Weather Board"
+  },
+  "weatherBoard": {
+    "title": "Weather Dashboard",
+    "currentWeatherIn": "Current Weather in",
+    "forecastFor": "5-Day Forecast",
+    "errorCurrent": "Could not load current weather.",
+    "errorForecast": "Could not load forecast.",
+    "errorLocationDenied": "Location permission denied.",
+    "errorGeolocation": "Geolocation not supported."
   }
 }

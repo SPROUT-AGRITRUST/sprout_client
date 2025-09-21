@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-// const OPENWEATHER_API_KEY = "d6ddb3a31c34d60d3b545cf70d6ede5a"; // <--
 const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
-//const DEFAULT_CITY = "Hyderabad";
+const DEFAULT_CITY = "Hyderabad";
 
 const WeatherBox = ({ horizontalMobile = false }) => {
+  const { t } = useTranslation();
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -90,25 +91,27 @@ const WeatherBox = ({ horizontalMobile = false }) => {
         } h-24 md:h-28 shadow-md`}
       >
         {loading ? (
-          <div className="text-green-700 text-sm">Loading weather...</div>
+          <div className="text-green-700 text-sm">
+            {t("weather.loading", "Loading weather...")}
+          </div>
         ) : error ? (
           <div className="text-red-600 text-sm">{error}</div>
         ) : weather ? (
           <>
             <div className="font-semibold text-green-800 text-sm md:text-base mb-2">
-              Location:{" "}
+              {t("weather.location", "Location")}:{" "}
               <span className="font-normal text-gray-700">
                 {weather.location}
               </span>
             </div>
             <div className="font-semibold text-green-800 text-sm md:text-base mb-2">
-              Temperature:{" "}
+              {t("weather.temperature", "Temperature")}:{" "}
               <span className="font-normal text-gray-700">
                 {weather.temp}°C
               </span>
             </div>
             <div className="font-semibold text-green-800 text-sm md:text-base flex items-center">
-              Weather:{" "}
+              {t("weather.condition", "Weather")}:{" "}
               <span className="font-normal text-gray-700 ml-1">
                 {weather.condition}
               </span>
@@ -133,7 +136,7 @@ const WeatherBox = ({ horizontalMobile = false }) => {
         <span className="text-white text-lg md:text-xl font-bold tracking-wide whitespace-nowrap">
           {/* link to the weather board */}
           <a href="/weather" className="underline">
-            Weather Board
+            {t("weather.board", "Weather Board")}
           </a>
         </span>
       </div>

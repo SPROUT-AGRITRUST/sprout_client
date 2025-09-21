@@ -13,14 +13,27 @@ import {
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import WeatherBox from "../components/WeatherBox";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 import { useTranslation } from "react-i18next";
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentTagline, setCurrentTagline] = useState(0);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  // Inspiring taglines for farmers
+  const taglines = [
+    { text: "🌱 Every seed planted is a hope for tomorrow", emoji: "🌱" },
+    { text: "🚜 Smart farming for a sustainable future", emoji: "🚜" },
+    { text: "🌾 From soil to success, we grow together", emoji: "🌾" },
+    { text: "💚 Technology meets tradition in agriculture", emoji: "💚" },
+    { text: "🌿 Cultivating dreams, harvesting success", emoji: "🌿" },
+    { text: "🔬 Data-driven decisions for better yields", emoji: "🔬" },
+    { text: "🌍 Growing food, growing the future", emoji: "🌍" },
+  ];
 
   // Move quickActions and carouselData here so t is defined
   const quickActions = [
@@ -81,6 +94,14 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, []);
 
+  // Auto-advance taglines with alternating animations
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTagline((prev) => (prev + 1) % taglines.length);
+    }, 3000); // Change every 3 seconds
+    return () => clearInterval(timer);
+  }, []);
+
   const handleLogout = async () => {
     await logout();
     navigate("/login");
@@ -97,7 +118,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-white pb-32 md:pb-0">
       {/* Header */}
       <div className="bg-white/80 backdrop-blur-sm sticky top-0 z-40 border-b border-green-100">
         <div className="flex justify-between items-center px-4 py-4 md:px-8">
@@ -105,6 +126,27 @@ export default function HomePage() {
             Sprout <span className="text-green-600 text-2xl">🌱</span>
           </h1>
           <div className="flex items-center space-x-4">
+            {/* Language Switcher - visible on desktop */}
+            <div className="hidden md:flex items-center">
+              <LanguageSwitcher variant="minimal" />
+            </div>
+
+            {/* More Link - visible on desktop */}
+            <a
+              href="/language-settings"
+              className="hidden md:flex items-center px-3 py-2 text-green-600 hover:text-green-800 text-sm font-medium underline hover:no-underline transition-all duration-200"
+            >
+              {t("language.more", "More")}
+            </a>
+
+            {/* Profile Icon - visible on desktop */}
+            <button
+              className="hidden md:flex p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100"
+              onClick={() => navigate("/profile")}
+            >
+              <User className="w-6 h-6 text-white" title="Profile" />
+            </button>
+
             {/* Notification Icon - always visible */}
             <button
               className="relative p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100"
@@ -113,44 +155,132 @@ export default function HomePage() {
               <Bell className="w-5 h-5 text-white" />
               <span className="absolute top-2 right-2 h-3 w-3 bg-white rounded-full animate-pulse border border-green-600" />
             </button>
-            {/* Profile Icon - always visible */}
-            <button
-              className="p-3 bg-green-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100 ml-2"
-              onClick={() => navigate("/profile")}
-            >
-              <User className="w-6 h-6 text-white" title="Profile" />
-            </button>
+            {/* Language Switcher - mobile only */}
+            <div className="flex items-center md:hidden">
+              <LanguageSwitcher variant="minimal" />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Search Bar with Welcome */}
       <div className="px-4 py-6 md:px-8">
-        <div className="max-w-2xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-center md:gap-6">
-            <div className="mb-2 md:mb-0 md:w-1/3 flex">
-              <h2 className="text-lg md:text-xl font-bold text-gray-900  ">
-                Welcome {user?.name || "Farmer"}
+        <div className="max-w-7xl mx-auto">
+          {/* Mobile Layout - Vertical Stack */}
+          <div className="flex flex-col md:hidden gap-6">
+            {/* Welcome Box - Mobile */}
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-4 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300">
+              <h2 className="text-base text-gray-600 mb-2 font-medium">
+                {t("home.welcome", "Welcome back")} 👋
               </h2>
+              <h1 className="text-2xl font-black text-transparent bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text font-serif tracking-tight leading-tight">
+                {user?.name || t("home.farmer", "Farmer")}
+              </h1>
+              <p className="text-sm text-gray-500 mt-2 font-light italic">
+                Ready to grow something amazing today? 🌱
+              </p>
             </div>
-            {/* <div className="relative w-full">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                placeholder={t("home.searchPlaceholder")}
-                className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
-              />
-              <button className="absolute inset-y-0 right-0 px-6 bg-green-600 text-white rounded-r-2xl hover:bg-green-700 transition-colors duration-200 font-medium">
-                {t("home.searchButton", "Search")}
-              </button>
-            </div> */}
+
+            {/* Animated Taglines Section - Mobile */}
+            <div className="relative h-16 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-100/30 to-transparent rounded-xl"></div>
+              {taglines.map((tagline, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ease-in-out ${
+                    index === currentTagline
+                      ? "translate-y-0 opacity-100"
+                      : index % 2 === 0
+                      ? "-translate-y-full opacity-0"
+                      : "translate-y-full opacity-0"
+                  }`}
+                >
+                  <div className="text-center px-4">
+                    <p className="text-lg font-semibold text-transparent bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text tracking-wide">
+                      {tagline.text}
+                    </p>
+                    <div className="flex justify-center mt-2">
+                      <div className="flex space-x-1">
+                        {taglines.map((_, i) => (
+                          <div
+                            key={i}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                              i === currentTagline
+                                ? "bg-green-600 w-6"
+                                : "bg-green-200"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Weather Box - Mobile */}
+            <div className="overflow-x-auto">
+              <WeatherBox horizontalMobile={true} />
+            </div>
           </div>
 
-          {/* Weather Box - Horizontally displayed on mobile */}
-          <div className="mt-4 md:mt-0 overflow-x-auto">
-            <WeatherBox horizontalMobile={true} />
+          {/* Desktop Layout - Horizontal Row */}
+          <div className="hidden md:grid md:grid-cols-12 gap-6 items-start">
+            {/* Welcome Box - Desktop */}
+            <div className="col-span-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300 h-full">
+              <h2 className="text-lg text-gray-600 mb-3 font-medium">
+                {t("home.welcome", "Welcome back")} 👋
+              </h2>
+              <h1 className="text-3xl font-black text-transparent bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text font-serif tracking-tight leading-tight mb-3">
+                {user?.name || t("home.farmer", "Farmer")}
+              </h1>
+              <p className="text-base text-gray-500 font-light italic">
+                Ready to grow something amazing today? 🌱
+              </p>
+            </div>
+
+            {/* Animated Taglines Section - Desktop (Wider) */}
+            <div className="col-span-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300 h-full flex items-center">
+              <div className="relative h-20 w-full overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-100/30 to-transparent rounded-xl"></div>
+                {taglines.map((tagline, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 flex items-center justify-center transition-all duration-1000 ease-in-out ${
+                      index === currentTagline
+                        ? "translate-y-0 opacity-100"
+                        : index % 2 === 0
+                        ? "-translate-y-full opacity-0"
+                        : "translate-y-full opacity-0"
+                    }`}
+                  >
+                    <div className="text-center px-4">
+                      <p className="text-xl font-semibold text-transparent bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text tracking-wide">
+                        {tagline.text}
+                      </p>
+                      <div className="flex justify-center mt-2">
+                        <div className="flex space-x-1">
+                          {taglines.map((_, i) => (
+                            <div
+                              key={i}
+                              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                i === currentTagline
+                                  ? "bg-green-600 w-6"
+                                  : "bg-green-200"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Weather Box - Desktop */}
+            <div className="col-span-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300 h-full">
+              <WeatherBox horizontalMobile={false} />
+            </div>
           </div>
         </div>
       </div>
@@ -227,9 +357,9 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="px-4 py-6 md:px-8">
+      <div className="px-4 py-6 md:px-8 mb-8 md:mb-0">
         {/* Services Section */}
-        <div className="mb-16">
+        <div className="mb-16 md:mb-16">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               {t("home.ourServices")}
@@ -247,11 +377,13 @@ export default function HomePage() {
                 <ShoppingCart className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Affordable Quality Seeds
+                {t("home.affordableSeeds", "Affordable Quality Seeds")}
               </h3>
               <p className="text-gray-600 text-sm hidden md:inline">
-                High-quality seeds at competitive prices to ensure a bountiful
-                harvest.
+                {t(
+                  "home.affordableSeedsDescription",
+                  "High-quality seeds at competitive prices to ensure a bountiful harvest."
+                )}
               </p>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
@@ -282,11 +414,13 @@ export default function HomePage() {
                 <Users className="w-6 h-6 text-white" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Community & Resource
+                {t("home.community", "Community & Resource")}
               </h3>
               <p className="text-gray-600 text-sm hidden md:inline">
-                Connect with local agricultural communities and resources, share
-                knowledge, and access support networks.
+                {t(
+                  "home.communityDescription",
+                  "Connect with local agricultural communities and resources, share knowledge, and access support networks."
+                )}
               </p>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
@@ -340,47 +474,6 @@ export default function HomePage() {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-green-100 shadow-lg flex justify-around py-2 md:hidden z-50">
-        {isAuthenticated ? (
-          <>
-            <button
-              className="flex flex-col items-center font-medium"
-              onClick={() => navigate("/profile")}
-            >
-              <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center mb-1">
-                <User className="w-3 h-3 text-white" />
-              </div>
-              <span className="text-sm text-green-600">Profile</span>
-            </button>
-            <button
-              className="flex flex-col items-center font-medium"
-              onClick={() => navigate("/notifications")}
-            >
-              <div className="w-5 h-5 bg-green-600 rounded-full flex items-center justify-center mb-1">
-                <Bell className="w-3 h-3 text-white" />
-              </div>
-              <span className="text-sm text-green-600">Notifications</span>
-            </button>
-          </>
-        ) : (
-          <>
-            <NavLink
-              to="/login"
-              className="flex flex-col items-center text-green-600 font-medium"
-            >
-              <span className="text-sm">Sign In</span>
-            </NavLink>
-            <NavLink
-              to="/signup"
-              className="flex flex-col items-center text-green-600 font-medium"
-            >
-              <span className="text-sm">Get Started</span>
-            </NavLink>
-          </>
-        )}
       </div>
     </div>
   );

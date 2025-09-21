@@ -47,6 +47,7 @@ const mockCrops = [
   },
 ];
 
+// Define static crop types - we'll translate them inside the component
 const cropTypes = [
   "Cereal",
   "Vegetable",
@@ -348,11 +349,13 @@ export default function CropManagement() {
                     </div>
                     <div className="flex items-center text-sm text-gray-600">
                       <Calendar className="w-4 h-4 mr-2" />
-                      Planted: {formatDate(crop.plantingDate)}
+                      {t("cropManagement.plantedOn", "Planted")}:{" "}
+                      {formatDate(crop.plantingDate)}
                     </div>
                     <div className="flex items-center text-sm text-gray-600">
                       <Calendar className="w-4 h-4 mr-2" />
-                      Harvest: {formatDate(crop.expectedHarvestDate)}
+                      {t("cropManagement.harvestOn", "Harvest")}:{" "}
+                      {formatDate(crop.expectedHarvestDate)}
                     </div>
                   </div>
 
@@ -372,7 +375,7 @@ export default function CropManagement() {
                       className="flex-1 px-3 py-2 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors duration-200 flex items-center justify-center"
                     >
                       <Edit className="w-4 h-4 mr-1" />
-                      {t("cropManagement.edit")}
+                      {t("cropManagement.editButton", "Edit")}
                     </button>
                     <button
                       onClick={() => deleteCrop(crop.id)}
@@ -424,7 +427,7 @@ export default function CropManagement() {
                   onClick={closeModal}
                   className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
                 >
-                  ✕
+                  {t("common.close", "✕")}
                 </button>
               </div>
 
@@ -435,7 +438,7 @@ export default function CropManagement() {
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-700 mb-2"
                   >
-                    {t("cropManagement.cropName")} *
+                    {t("cropManagement.cropName", "Crop Name")} *
                   </label>
                   <input
                     type="text"
@@ -445,7 +448,10 @@ export default function CropManagement() {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder={t("cropManagement.enterCropName")}
+                    placeholder={t(
+                      "cropManagement.enterCropName",
+                      "Enter crop name"
+                    )}
                   />
                 </div>
 
@@ -465,7 +471,10 @@ export default function CropManagement() {
                     onChange={handleInputChange}
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200"
-                    placeholder={t("cropManagement.enterFieldName")}
+                    placeholder={t(
+                      "cropManagement.enterFieldName",
+                      "Enter field/plot name"
+                    )}
                   />
                 </div>
 
@@ -486,13 +495,17 @@ export default function CropManagement() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200 bg-white"
                   >
                     <option value="">
-                      {t("cropManagement.selectCropType")}
+                      {t("cropManagement.selectCropType", "Select crop type")}
                     </option>
-                    {cropTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {type}
-                      </option>
-                    ))}
+                    {cropTypes.map((type) => {
+                      // Transform type to lowercase and remove spaces for use as a translation key
+                      const typeKey = type.toLowerCase().replace(/\s+/g, "");
+                      return (
+                        <option key={type} value={type}>
+                          {t(`cropManagement.cropTypes.${typeKey}`, type)}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
 
@@ -549,7 +562,10 @@ export default function CropManagement() {
                     onChange={handleInputChange}
                     rows="3"
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200 resize-none"
-                    placeholder={t("cropManagement.addNotes")}
+                    placeholder={t(
+                      "cropManagement.addNotes",
+                      "Add notes about your crop here"
+                    )}
                   />
                 </div>
 
@@ -560,15 +576,15 @@ export default function CropManagement() {
                     onClick={closeModal}
                     className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200 font-medium"
                   >
-                    {t("cropManagement.cancel")}
+                    {t("cropManagement.cancel", "Cancel")}
                   </button>
                   <button
                     type="submit"
                     className="flex-1 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium"
                   >
                     {editingCrop
-                      ? t("cropManagement.updateCrop")
-                      : t("cropManagement.addCrop")}
+                      ? t("cropManagement.updateCrop", "Update Crop")
+                      : t("cropManagement.addCrop", "Add Crop")}
                   </button>
                 </div>
               </form>

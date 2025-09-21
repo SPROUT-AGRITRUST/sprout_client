@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import {
   Upload,
   FileText,
@@ -43,6 +44,7 @@ const cropRecommendations = {
 
 export default function SoilAnalysis() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   // ...existing code...
   // const GEMINI_API_KEY = "AIzaSyAb0qSksdFMjjMqaePYPeGYi2xSIOyNflE";
   const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
@@ -150,7 +152,12 @@ Output only valid JSON in this structure. Do not include any text or explanation
       };
       reader.readAsDataURL(uploadedImage);
     } catch (error) {
-      setAiImageResult("Error processing image. Please try again.");
+      setAiImageResult(
+        t(
+          "soilAnalysis.uploadSection.errorProcessing",
+          "Error processing image. Please try again."
+        )
+      );
       setAiImageLoading(false);
     }
   };
@@ -176,7 +183,13 @@ Output only valid JSON in this structure. Do not include any text or explanation
     //check whether the user is logged in
     const user = localStorage.getItem("user");
     if (!user) {
-      showToast("Please log in to upload soil data.", "warning");
+      showToast(
+        t(
+          "soilAnalysis.errors.loginRequired",
+          "Please log in to upload soil data."
+        ),
+        "warning"
+      );
       return;
     }
     const file = event.target.files[0];
@@ -198,7 +211,10 @@ Output only valid JSON in this structure. Do not include any text or explanation
               soilTexture: jsonData.soilTexture || "",
             });
           } catch (error) {
-            console.error("Error parsing JSON file:", error);
+            console.error(
+              t("soilAnalysis.errors.jsonParse", "Error parsing JSON file:"),
+              error
+            );
           }
         };
         reader.readAsText(file);
@@ -260,25 +276,25 @@ Output only valid JSON in this structure. Do not include any text or explanation
         return {
           icon: <AlertTriangle className="w-4 h-4" />,
           color: "bg-red-100 text-red-800 border-red-200",
-          text: "Low",
+          text: t("soilAnalysis.status.low", "Low"),
         };
       case "high":
         return {
           icon: <AlertTriangle className="w-4 h-4" />,
           color: "bg-orange-100 text-orange-800 border-orange-200",
-          text: "High",
+          text: t("soilAnalysis.status.high", "High"),
         };
       case "optimal":
         return {
           icon: <CheckCircle className="w-4 h-4" />,
           color: "bg-green-100 text-green-800 border-green-200",
-          text: "Optimal",
+          text: t("soilAnalysis.status.optimal", "Optimal"),
         };
       default:
         return {
           icon: <Info className="w-4 h-4" />,
           color: "bg-gray-100 text-gray-800 border-gray-200",
-          text: "Not Analyzed",
+          text: t("soilAnalysis.status.notAnalyzed", "Not Analyzed"),
         };
     }
   };
@@ -313,7 +329,7 @@ Output only valid JSON in this structure. Do not include any text or explanation
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8 relative">
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-white p-4 md:p-8 pb-32 md:pb-8 relative">
         <div className="max-w-7xl mx-auto">
           {/* Sticky Header with Home button, titles, and Profile Icon */}
           <div className="flex items-center gap-4 mb-8 sticky top-0 bg-gradient-to-br from-green-50 to-white z-40 py-4">
@@ -322,10 +338,13 @@ Output only valid JSON in this structure. Do not include any text or explanation
             </div>
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Soil Analysis
+                {t("soilAnalysis.title", "Soil Analysis")}
               </h1>
               <p className="text-gray-600">
-                Analyze your soil and get recommendations
+                {t(
+                  "soilAnalysis.subtitle",
+                  "Analyze your soil and get recommendations"
+                )}
               </p>
             </div>
             <div className="ml-auto flex items-center">
@@ -348,7 +367,7 @@ Output only valid JSON in this structure. Do not include any text or explanation
                 }`}
               >
                 <Upload className="w-5 h-5 inline mr-2" />
-                Upload Soil Data
+                {t("soilAnalysis.tabs.upload", "Upload Soil Data")}
               </button>
               <button
                 onClick={() => setActiveTab("manual")}
@@ -359,7 +378,7 @@ Output only valid JSON in this structure. Do not include any text or explanation
                 }`}
               >
                 <Edit3 className="w-5 h-5 inline mr-2" />
-                Manual Entry
+                {t("soilAnalysis.tabs.manualEntry", "Manual Entry")}
               </button>
             </div>
 
@@ -370,11 +389,16 @@ Output only valid JSON in this structure. Do not include any text or explanation
                   <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 hover:border-green-400 transition-colors duration-200 mb-6">
                     <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Upload Soil Report or Image
+                      {t(
+                        "soilAnalysis.uploadSection.instructions",
+                        "Upload your soil analysis report for AI recommendations"
+                      )}
                     </h3>
                     <p className="text-gray-600 mb-4">
-                      Upload a PDF, CSV, JSON file with your soil data, or a
-                      photo of your soil report/sample (JPG, PNG).
+                      {t(
+                        "soilAnalysis.uploadSection.supportedFormats",
+                        "Supported formats: JPG, PNG, PDF (up to 10MB)"
+                      )}
                     </p>
                     <input
                       type="file"
@@ -397,7 +421,10 @@ Output only valid JSON in this structure. Do not include any text or explanation
                       htmlFor="combined-upload"
                       className="inline-flex items-center px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 cursor-pointer"
                     >
-                      Choose File or Image
+                      {t(
+                        "soilAnalysis.uploadSection.browseButton",
+                        "Browse Files"
+                      )}
                     </label>
                     {/* Show file or image preview */}
                     {uploadedFile && (
@@ -425,14 +452,20 @@ Output only valid JSON in this structure. Do not include any text or explanation
                     {/* Show loading state for image analysis */}
                     {uploadedImage && aiImageLoading && (
                       <div className="mt-4 text-green-700 font-medium">
-                        Analyzing Image...
+                        {t(
+                          "soilAnalysis.uploadSection.analyzing",
+                          "Analyzing your soil report..."
+                        )}
                       </div>
                     )}
                     {/* Show AI image result */}
                     {aiImageResult && (
                       <div className="mt-4 bg-green-50 border border-green-200 rounded-xl p-4 text-left text-green-900 shadow">
                         <h4 className="font-bold mb-2">
-                          AI Soil Report Analysis:
+                          {t(
+                            "soilAnalysis.results.aiAnalysis",
+                            "AI Soil Report Analysis:"
+                          )}
                         </h4>
                         <div>{aiImageResult}</div>
                       </div>
@@ -449,7 +482,11 @@ Output only valid JSON in this structure. Do not include any text or explanation
                         htmlFor="soilTexture"
                         className="block text-sm font-medium text-gray-700 mb-2"
                       >
-                        Soil Texture<span className="text-red-500">*</span>
+                        {t(
+                          "soilAnalysis.manualForm.soilTextureLabel",
+                          "Soil Texture"
+                        )}
+                        <span className="text-red-500">*</span>
                       </label>
                       <select
                         id="soilTexture"
@@ -459,7 +496,12 @@ Output only valid JSON in this structure. Do not include any text or explanation
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors duration-200 bg-white"
                         required
                       >
-                        <option value="">Select Soil Texture</option>
+                        <option value="">
+                          {t(
+                            "soilAnalysis.manualForm.selectSoilTexture",
+                            "Select Soil Texture"
+                          )}
+                        </option>
                         {soilTextures.map((texture) => (
                           <option key={texture} value={texture}>
                             {texture}
@@ -473,7 +515,10 @@ Output only valid JSON in this structure. Do not include any text or explanation
                           onClick={() => setShowForm(true)}
                           type="button"
                         >
-                          Continue
+                          {t(
+                            "soilAnalysis.manualForm.continueButton",
+                            "Continue"
+                          )}
                         </button>
                         <button
                           className="w-full px-4 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors duration-200 font-medium"
@@ -481,7 +526,10 @@ Output only valid JSON in this structure. Do not include any text or explanation
                           onClick={() => setShowExtendedForm(true)}
                           type="button"
                         >
-                          {"moreInputs"}
+                          {t(
+                            "soilAnalysis.manualForm.moreInputsButton",
+                            "I can provide more inputs"
+                          )}
                         </button>
                       </div>
                     </div>
@@ -493,7 +541,10 @@ Output only valid JSON in this structure. Do not include any text or explanation
                         onClick={analyzeSoil}
                         className="px-8 py-4 bg-green-600 text-white rounded-xl hover:bg-green-700 transition-colors duration-200 font-medium"
                       >
-                        Analyze Soil
+                        {t(
+                          "soilAnalysis.manualForm.analyzeButton",
+                          "Analyze Soil"
+                        )}
                       </button>
                     </div>
                   )}
@@ -506,7 +557,7 @@ Output only valid JSON in this structure. Do not include any text or explanation
                             htmlFor="pH"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
-                            Soil pH
+                            {t("soilAnalysis.manualForm.pHLabel", "Soil pH")}
                           </label>
                           <input
                             type="number"
@@ -527,7 +578,10 @@ Output only valid JSON in this structure. Do not include any text or explanation
                             htmlFor="nitrogen"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
-                            Nitrogen (mg/kg)
+                            {t(
+                              "soilAnalysis.manualForm.nitrogenLabel",
+                              "Nitrogen (mg/kg)"
+                            )}
                           </label>
                           <input
                             type="number"
@@ -546,7 +600,10 @@ Output only valid JSON in this structure. Do not include any text or explanation
                             htmlFor="phosphorus"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
-                            Phosphorus (mg/kg)
+                            {t(
+                              "soilAnalysis.manualForm.phosphorusLabel",
+                              "Phosphorus (mg/kg)"
+                            )}
                           </label>
                           <input
                             type="number"
@@ -565,7 +622,10 @@ Output only valid JSON in this structure. Do not include any text or explanation
                             htmlFor="potassium"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
-                            Potassium (mg/kg)
+                            {t(
+                              "soilAnalysis.manualForm.potassiumLabel",
+                              "Potassium (mg/kg)"
+                            )}
                           </label>
                           <input
                             type="number"
@@ -584,7 +644,10 @@ Output only valid JSON in this structure. Do not include any text or explanation
                             htmlFor="organicMatter"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
-                            Organic Matter (%)
+                            {t(
+                              "soilAnalysis.manualForm.organicMatterLabel",
+                              "Organic Matter (%)"
+                            )}
                           </label>
                           <input
                             type="number"
@@ -616,10 +679,18 @@ Output only valid JSON in this structure. Do not include any text or explanation
                           {isAnalyzing ? (
                             <div className="flex items-center">
                               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                              Analyzing Soil...
+                              {t(
+                                "soilAnalysis.manualForm.analyzingText",
+                                "Analyzing Soil..."
+                              )}
                             </div>
                           ) : (
-                            <span>Analyze Soil</span>
+                            <span>
+                              {t(
+                                "soilAnalysis.manualForm.analyzeButton",
+                                "Analyze Soil"
+                              )}
+                            </span>
                           )}
                         </button>
                       </div>
@@ -634,7 +705,12 @@ Output only valid JSON in this structure. Do not include any text or explanation
           {aiResult && (
             <>
               <div className="mt-4 bg-green-50 border border-green-200 rounded-xl p-4 text-left text-green-900 shadow">
-                <h4 className="font-bold mb-2">AI Soil Recommendations:</h4>
+                <h4 className="font-bold mb-2">
+                  {t(
+                    "soilAnalysis.results.yourResults",
+                    "Your Soil Analysis Results"
+                  )}
+                </h4>
                 <div>{aiResult}</div>
               </div>
 
@@ -645,7 +721,8 @@ Output only valid JSON in this structure. Do not include any text or explanation
                   className="bg-green-700 text-white px-10 py-5 rounded-2xl font-extrabold text-2xl shadow-lg hover:bg-green-800 transition-colors duration-200 border-4 border-green-300 focus:outline-none focus:ring-4 focus:ring-green-400"
                   style={{ minWidth: "320px" }}
                 >
-                  🌱 Go to Seed Place
+                  🌱{" "}
+                  {t("soilAnalysis.results.goToSeedPlace", "Go to Seed Place")}
                 </button>
               </div>
             </>
@@ -659,7 +736,7 @@ Output only valid JSON in this structure. Do not include any text or explanation
                 className="bg-green-700 text-white px-10 py-5 rounded-2xl font-extrabold text-2xl shadow-lg hover:bg-green-800 transition-colors duration-200 border-4 border-green-300 focus:outline-none focus:ring-4 focus:ring-green-400"
                 style={{ minWidth: "320px" }}
               >
-                🌱 Go to Seed Place
+                🌱 {t("soilAnalysis.results.goToSeedPlace", "Go to Seed Place")}
               </button>
             </div>
           )}
