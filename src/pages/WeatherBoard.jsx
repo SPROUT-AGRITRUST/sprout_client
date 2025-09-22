@@ -155,62 +155,80 @@ const WeatherBoard = () => {
       ) : (
         <>
           {current && (
-            <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-xl mx-auto mb-8">
-              <h2 className="text-xl font-bold text-blue-800 mb-4 text-center">
+            <div className="bg-white rounded-2xl shadow-lg p-4 md:p-6 w-full max-w-4xl mx-auto mb-8">
+              <h2 className="text-lg md:text-xl font-bold text-blue-800 mb-4 text-center truncate">
                 {t("weatherBoard.currentWeatherIn", "Current Weather in")}{" "}
                 {current.name}, {current.country}
               </h2>
-              <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-between">
-                <div className="text-5xl">{getWeatherIcon(current.main)}</div>
-                <div className="text-center md:text-left">
-                  <div className="text-3xl font-bold">{current.temp}°C</div>
-                  <div className="capitalize text-blue-600">
+              <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-between md:items-start">
+                <div className="text-4xl md:text-5xl flex-shrink-0">
+                  {getWeatherIcon(current.main)}
+                </div>
+                <div className="text-center md:text-left flex-shrink-0">
+                  <div className="text-2xl md:text-3xl font-bold">
+                    {current.temp}°C
+                  </div>
+                  <div className="capitalize text-blue-600 text-sm md:text-base">
                     {current.description}
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-sm text-blue-700 justify-self-center md:justify-self-auto">
-                  <div>Feels Like: {current.feels_like}°C</div>
-                  <div>Humidity: {current.humidity}%</div>
-                  <div>Pressure: {current.pressure} hPa</div>
-                  <div>Wind: {current.wind_speed} m/s</div>
-                  <div>Visibility: {current.visibility / 1000} km</div>
-                  <div>Sunrise: {formatTime(current.sunrise)}</div>
-                  <div>Sunset: {formatTime(current.sunset)}</div>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2 text-xs md:text-sm text-blue-700 max-w-full">
+                  <div className="truncate">Feels: {current.feels_like}°C</div>
+                  <div className="truncate">Humidity: {current.humidity}%</div>
+                  <div className="truncate">
+                    Pressure: {Math.round(current.pressure)} hPa
+                  </div>
+                  <div className="truncate">Wind: {current.wind_speed} m/s</div>
+                  <div className="truncate">
+                    Visibility: {Math.round(current.visibility / 1000)} km
+                  </div>
+                  <div className="truncate">
+                    Sunrise: {formatTime(current.sunrise)}
+                  </div>
+                  <div className="truncate md:col-span-1">
+                    Sunset: {formatTime(current.sunset)}
+                  </div>
                 </div>
               </div>
             </div>
           )}
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-4xl mx-auto">
-            <h2 className="text-xl font-semibold text-blue-800 mb-4 text-center">
+          <div className="bg-white rounded-2xl shadow-lg p-4 md:p-6 w-full max-w-6xl mx-auto">
+            <h2 className="text-lg md:text-xl font-semibold text-blue-800 mb-4 text-center">
               {t("weatherBoard.forecastFor", "5-Day Forecast")}
             </h2>
-            <div className="flex flex-col items-center md:grid md:grid-cols-5 gap-4">
+            <div className="flex flex-col items-center md:grid md:grid-cols-5 gap-3 md:gap-4">
               {forecast.map((day) => (
                 <div
                   key={day.date}
-                  className="bg-blue-50 rounded-xl p-4 text-center shadow border border-blue-200 w-full max-w-sm md:max-w-none"
+                  className="bg-blue-50 rounded-xl p-3 md:p-4 text-center shadow border border-blue-200 w-full max-w-sm md:max-w-none min-h-[180px] md:min-h-[200px] flex flex-col justify-between"
                 >
-                  <div className="text-2xl">{getWeatherIcon(day.main)}</div>
-                  <div className="font-bold text-blue-900 mt-2">
+                  <div className="text-xl md:text-2xl">
+                    {getWeatherIcon(day.main)}
+                  </div>
+                  <div className="font-bold text-blue-900 mt-2 text-xs md:text-sm truncate">
                     {new Date(day.date).toLocaleDateString(undefined, {
                       weekday: "short",
                       month: "short",
                       day: "numeric",
                     })}
                   </div>
-                  <div className="text-lg text-blue-700">{day.temp}°C</div>
-                  <div className="capitalize text-blue-600 text-sm">
+                  <div className="text-base md:text-lg text-blue-700 font-semibold">
+                    {day.temp}°C
+                  </div>
+                  <div className="capitalize text-blue-600 text-xs md:text-sm truncate px-1">
                     {day.desc}
                   </div>
-                  <div className="text-xs mt-2 text-blue-800">
-                    Humidity: {day.humidity}%
-                  </div>
-                  <div className="text-xs text-blue-800">
-                    Wind: {day.wind_speed} m/s
-                  </div>
-                  <div className="text-xs text-blue-800">
-                    Pressure: {day.pressure} hPa
+                  <div className="mt-2 space-y-0.5">
+                    <div className="text-xs text-blue-800 truncate">
+                      Humidity: {day.humidity}%
+                    </div>
+                    <div className="text-xs text-blue-800 truncate">
+                      Wind: {Math.round(day.wind_speed * 10) / 10} m/s
+                    </div>
+                    <div className="text-xs text-blue-800 truncate">
+                      Pressure: {Math.round(day.pressure)} hPa
+                    </div>
                   </div>
                 </div>
               ))}

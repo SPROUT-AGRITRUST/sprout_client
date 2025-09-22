@@ -86,40 +86,44 @@ const WeatherBox = ({ horizontalMobile = false }) => {
     >
       {/* Weather Info Box */}
       <div
-        className={`bg-green-50 border border-green-200 rounded-l-2xl px-4 py-3 flex flex-col items-start justify-center ${
-          horizontalMobile ? "min-w-[160px]" : "min-w-[140px] max-w-[180px]"
-        } h-24 md:h-28 shadow-md`}
+        className={`bg-green-50 border border-green-200 rounded-l-2xl px-3 py-2 flex flex-col items-start justify-center ${
+          horizontalMobile
+            ? "min-w-[160px] max-w-[200px]"
+            : "min-w-[200px] max-w-[280px] flex-1"
+        } h-24 md:h-32 shadow-md overflow-hidden`}
       >
         {loading ? (
-          <div className="text-green-700 text-sm">
+          <div className="text-green-700 text-xs md:text-sm">
             {t("weather.loading", "Loading weather...")}
           </div>
         ) : error ? (
-          <div className="text-red-600 text-sm">{error}</div>
+          <div className="text-red-600 text-xs md:text-sm truncate w-full">
+            {error}
+          </div>
         ) : weather ? (
           <>
-            <div className="font-semibold text-green-800 text-sm md:text-base mb-2">
+            <div className="font-semibold text-green-800 text-xs md:text-sm mb-1 w-full">
               {t("weather.location", "Location")}:{" "}
-              <span className="font-normal text-gray-700">
+              <span className="font-normal text-gray-700 truncate inline-block max-w-[120px] md:max-w-[150px]">
                 {weather.location}
               </span>
             </div>
-            <div className="font-semibold text-green-800 text-sm md:text-base mb-2">
+            <div className="font-semibold text-green-800 text-xs md:text-sm mb-1">
               {t("weather.temperature", "Temperature")}:{" "}
               <span className="font-normal text-gray-700">
                 {weather.temp}°C
               </span>
             </div>
-            <div className="font-semibold text-green-800 text-sm md:text-base flex items-center">
+            <div className="font-semibold text-green-800 text-xs md:text-sm flex items-center w-full">
               {t("weather.condition", "Weather")}:{" "}
-              <span className="font-normal text-gray-700 ml-1">
+              <span className="font-normal text-gray-700 ml-1 truncate max-w-[80px] md:max-w-[100px]">
                 {weather.condition}
               </span>
               {weather.icon && (
                 <img
                   src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`}
                   alt={weather.condition}
-                  className="w-6 h-6 ml-2 inline-block align-middle"
+                  className="w-5 h-5 md:w-6 md:h-6 ml-1 flex-shrink-0"
                 />
               )}
             </div>
@@ -129,11 +133,13 @@ const WeatherBox = ({ horizontalMobile = false }) => {
       {/* More Info Box */}
       {/* link to the weather board */}
       <div
-        className={`bg-gradient-to-br from-blue-500 to-blue-700 border-t border-b border-r border-blue-700 rounded-r-2xl px-4 py-3 flex flex-col items-center justify-center ${
-          horizontalMobile ? "min-w-[120px]" : "min-w-[100px] max-w-[160px]"
-        } h-24 md:h-28 shadow-md`}
+        className={`bg-gradient-to-br from-blue-500 to-blue-700 border-t border-b border-r border-blue-700 rounded-r-2xl px-3 py-2 flex flex-col items-center justify-center ${
+          horizontalMobile
+            ? "min-w-[100px] max-w-[120px]"
+            : "min-w-[120px] max-w-[150px]"
+        } h-24 md:h-32 shadow-md`}
       >
-        <span className="text-white text-lg md:text-xl font-bold tracking-wide whitespace-nowrap">
+        <span className="text-white text-sm md:text-base font-bold tracking-wide text-center leading-tight">
           {/* link to the weather board */}
           <a href="/weather" className="underline">
             {t("weather.board", "Weather Board")}
