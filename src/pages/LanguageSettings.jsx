@@ -27,6 +27,9 @@ const LanguageSettings = () => {
         setLanguages([
           { code: "en", name: t("language.english") },
           { code: "te", name: t("language.telugu") },
+          { code: "ta", name: t("language.tamil") },
+          { code: "hi", name: t("language.hindi") },
+          { code: "bn", name: t("language.bengali") },
         ]);
       }
     };

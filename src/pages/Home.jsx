@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import WeatherBox from "../components/WeatherBox";
+import MobileWeatherBox from "../components/MobileWeatherBox";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 
 import { useTranslation } from "react-i18next";
@@ -169,13 +170,13 @@ export default function HomePage() {
           <div className="flex flex-col md:hidden gap-6">
             {/* Welcome Box - Mobile */}
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-4 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300">
-              <h2 className="text-base text-gray-600 mb-2 font-medium">
+              <h2 className="text-lg text-gray-600 mb-2 font-medium">
                 {t("home.welcome", "Welcome back")} 👋
               </h2>
-              <h1 className="text-2xl font-black text-transparent bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text font-serif tracking-tight leading-tight">
+              <h1 className="text-3xl font-black text-transparent bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text font-serif tracking-tight leading-tight">
                 {user?.name || t("home.farmer", "Farmer")}
               </h1>
-              <p className="text-sm text-gray-500 mt-2 font-light italic">
+              <p className="text-base text-gray-500 mt-2 font-light italic">
                 Ready to grow something amazing today? 🌱
               </p>
             </div>
@@ -218,30 +219,29 @@ export default function HomePage() {
             </div>
 
             {/* Weather Box - Mobile */}
-            <div className="overflow-x-auto">
-              <WeatherBox horizontalMobile={true} />
+            <div>
+              <MobileWeatherBox />
             </div>
           </div>
 
-          {/* Desktop Layout - Horizontal Row */}
-          <div className="hidden md:grid md:grid-cols-12 gap-6 items-start">
+          <div className="hidden md:grid md:grid-cols-12 gap-3 items-stretch">
             {/* Welcome Box - Desktop */}
-            <div className="col-span-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300 h-full">
-              <h2 className="text-lg text-gray-600 mb-3 font-medium">
+            <div className="col-span-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-center min-h-[100px  ]">
+              <h2 className="text-lg text-gray-600 mb-1 font-medium text-center">
                 {t("home.welcome", "Welcome back")} 👋
               </h2>
-              <h1 className="text-3xl font-black text-transparent bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text font-serif tracking-tight leading-tight mb-3">
+              <h1 className="text-3xl font-black text-transparent bg-gradient-to-r from-green-600 via-emerald-600 to-green-700 bg-clip-text font-serif tracking-tight leading-tight mb-1 text-center">
                 {user?.name || t("home.farmer", "Farmer")}
               </h1>
-              <p className="text-base text-gray-500 font-light italic">
-                Ready to grow something amazing today? 🌱
+              <p className="text-base text-gray-500 font-light italic text-center">
+                Ready to grow! 🌱
               </p>
             </div>
 
             {/* Animated Taglines Section - Desktop (Wider) */}
-            <div className="col-span-6 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300 h-full flex items-center">
-              <div className="relative h-20 w-full overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-100/30 to-transparent rounded-xl"></div>
+            <div className="col-span-5 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-center min-h-[120px]">
+              <div className="relative h-10 w-full overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-100/30 to-transparent rounded-md"></div>
                 {taglines.map((tagline, index) => (
                   <div
                     key={index}
@@ -253,18 +253,18 @@ export default function HomePage() {
                         : "translate-y-full opacity-0"
                     }`}
                   >
-                    <div className="text-center px-4">
-                      <p className="text-xl font-semibold text-transparent bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text tracking-wide">
+                    <div className="text-center px-3">
+                      <p className="text-lg font-semibold text-transparent bg-gradient-to-r from-green-700 via-emerald-600 to-green-800 bg-clip-text tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">
                         {tagline.text}
                       </p>
-                      <div className="flex justify-center mt-2">
+                      <div className="flex justify-center mt-1">
                         <div className="flex space-x-1">
                           {taglines.map((_, i) => (
                             <div
                               key={i}
-                              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
                                 i === currentTagline
-                                  ? "bg-green-600 w-6"
+                                  ? "bg-green-600 w-4"
                                   : "bg-green-200"
                               }`}
                             />
@@ -278,8 +278,13 @@ export default function HomePage() {
             </div>
 
             {/* Weather Box - Desktop */}
-            <div className="col-span-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300 h-full">
-              <WeatherBox horizontalMobile={false} />
+            <div className="col-span-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-2 border border-green-200 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col min-h-[30px]">
+              <h3 className="text-xs font-semibold text-gray-800 mb-1 text-center">
+                {t("weather.title", "Weather Info")} 🌤️
+              </h3>
+              <div className="flex-1">
+                <WeatherBox fullHeight={false} />
+              </div>
             </div>
           </div>
         </div>
@@ -371,12 +376,12 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <ShoppingCart className="w-6 h-6 text-white" />
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 hover:shadow-lg transition-all duration-300">
+              <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center mb-3">
+                <ShoppingCart className="w-5 h-5 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base font-semibold text-gray-900 mb-2">
                 {t("home.affordableSeeds", "Affordable Quality Seeds")}
               </h3>
               <p className="text-gray-600 text-sm hidden md:inline">
@@ -386,11 +391,11 @@ export default function HomePage() {
                 )}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <Leaf className="w-6 h-6 text-white" />
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 hover:shadow-lg transition-all duration-300">
+              <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center mb-3">
+                <Leaf className="w-5 h-5 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base font-semibold text-gray-900 mb-2">
                 {t("home.cropPlanning")}
               </h3>
               <p className="text-gray-600 text-sm hidden md:inline">
@@ -398,22 +403,22 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <Search className="w-6 h-6 text-white" />
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 hover:shadow-lg transition-all duration-300">
+              <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center mb-3">
+                <Search className="w-5 h-5 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base font-semibold text-gray-900 mb-2">
                 {t("home.soilAnalysis")}
               </h3>
               <p className="text-gray-600 text-sm hidden md:inline">
                 {t("home.soilAnalysisDescription")}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <Users className="w-6 h-6 text-white" />
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 hover:shadow-lg transition-all duration-300">
+              <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center mb-3">
+                <Users className="w-5 h-5 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base font-semibold text-gray-900 mb-2">
                 {t("home.community", "Community & Resource")}
               </h3>
               <p className="text-gray-600 text-sm hidden md:inline">
@@ -423,11 +428,11 @@ export default function HomePage() {
                 )}
               </p>
             </div>
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <ShoppingCart className="w-6 h-6 text-white" />
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 hover:shadow-lg transition-all duration-300">
+              <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center mb-3">
+                <ShoppingCart className="w-5 h-5 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base font-semibold text-gray-900 mb-2">
                 {t("home.marketAccess")}
               </h3>
               <p className="text-gray-600 text-sm hidden md:inline">
@@ -435,11 +440,11 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200 hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
-                <Bot className="w-6 h-6 text-white" />
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 hover:shadow-lg transition-all duration-300">
+              <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center mb-3">
+                <Bot className="w-5 h-5 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base font-semibold text-gray-900 mb-2">
                 {t("home.aiConsulting")}
               </h3>
               <p className="text-gray-600 text-sm hidden md:inline">
@@ -462,9 +467,9 @@ export default function HomePage() {
               <NavLink
                 key={action.label}
                 to={action.link}
-                className="group flex flex-col items-center justify-center p-6 bg-white border border-green-100 rounded-2xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:border-green-200"
+                className="group flex flex-col items-center justify-center p-4 bg-white border border-green-100 rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-green-200"
               >
-                <div className="bg-gradient-to-br from-green-100 to-emerald-100 p-4 rounded-2xl text-green-600 mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="bg-gradient-to-br from-green-100 to-emerald-100 p-3 rounded-xl text-green-600 mb-3 group-hover:scale-105 transition-transform duration-300">
                   {action.icon}
                 </div>
                 <span className="text-sm text-center font-semibold text-gray-800 group-hover:text-green-700 transition-colors duration-300">

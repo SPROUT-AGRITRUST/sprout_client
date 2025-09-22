@@ -1,0 +1,268 @@
+{
+  "home": {
+    "welcome": "স্বাগতম",
+    "logout": "লগ আউট",
+    "searchButton": "অনুসন্ধান",
+    "title": "Sprout এ স্বাগতম",
+    "subtitle": "প্রযুক্তির সাথে কৃষকদের ক্ষমতায়ন",
+    "searchPlaceholder": "ফসল, কৃষি টিপস, বাজার মূল্য অনুসন্ধান করুন...",
+    "getStarted": "শুরু করুন",
+    "signIn": "সাইন ইন করুন",
+    "farmer": "কৃষক",
+    "affordableSeeds": "সাশ্রয়ী মানসম্পন্ন বীজ",
+    "affordableSeedsDescription": "প্রচুর ফসলের গ্যারান্টি দেওয়ার জন্য প্রতিযোগিতামূলক মূল্যে উচ্চ মানের বীজ।",
+    "community": "সম্প্রদায় ও সম্পদ",
+    "communityDescription": "স্থানীয় কৃষি সম্প্রদায় এবং সম্পদের সাথে সংযুক্ত হন, জ্ঞান ভাগ করুন এবং সহায়তা নেটওয়ার্ক অ্যাক্সেস করুন।",
+    "notifications": "বিজ্ঞপ্তি",
+    "soilBannerTitle": "ব্যক্তিগত ফসল পরামর্শ পান",
+    "soilBannerDesc": "আপনার মাটির রিপোর্ট আপলোড করুন এবং সেরা ফসল, রোপণের সময় এবং ফলন অপ্টিমাইজেশন কৌশলের জন্য AI-চালিত সুপারিশ পান।",
+    "uploadSoilReport": "মাটির রিপোর্ট আপলোড করুন",
+    "learnMore": "আরও জানুন",
+    "featuresTitle": "কেন Sprout বেছে নেবেন?",
+    "featuresDesc": "টেকসই কৃষির জন্য অত্যাধুনিক প্রযুক্তি এবং ডেটা-চালিত অন্তর্দৃষ্টি দিয়ে কৃষকদের ক্ষমতায়ন",
+    "quickActions": {
+      "title": "দ্রুত কার্য",
+      "soil": "মাটি বিশ্লেষণ",
+      "crops": "ফসল ব্যবস্থাপনা",
+      "profile": "আমার প্রোফাইল",
+      "market": "বাজার স্থান"
+    },
+    "marketAccess": "বাজার অ্যাক্সেস",
+    "marketAccessDescription": "ক্রেতাদের সাথে সরাসরি সংযোগ করুন এবং আপনার পণ্যের জন্য রিয়েল-টাইম বাজার মূল্য পান।",
+    "smartAnalytics": "স্মার্ট বিশ্লেষণ",
+    "smartAnalyticsDescription": "AI-চালিত ফসল বিশ্লেষণ এবং মাটির স্বাস্থ্য নিরীক্ষণের সাথে আপনার কৃষি সিদ্ধান্তগুলি অপ্টিমাইজ করুন এবং ফলন সর্বোচ্চ করুন।",
+    "whyChooseSprout": "কেন Sprout বেছে নেবেন?",
+    "whyChooseSproutDescription": "টেকসই কৃষির জন্য অত্যাধুনিক প্রযুক্তি এবং ডেটা-চালিত অন্তর্দৃষ্টি দিয়ে কৃষকদের ক্ষমতায়ন",
+    "ourServices": "আমাদের সেবা",
+    "ourServicesDescription": "আপনার কৃষি কার্যক্রম আধুনিকীকরণ এবং অপ্টিমাইজ করার জন্য ডিজাইন করা ব্যাপক সমাধান",
+    "cropPlanning": "ফসল পরিকল্পনা",
+    "cropPlanningDescription": "মাটির অবস্থা এবং বাজারের চাহিদার ভিত্তিতে আপনার ফসল নির্বাচন এবং রোপণের সময়সূচী অপ্টিমাইজ করুন।",
+    "soilAnalysis": "মাটি বিশ্লেষণ",
+    "soilAnalysisDescription": "উন্নতির জন্য বিস্তারিত সুপারিশ সহ ব্যাপক মাটির স্বাস্থ্য মূল্যায়ন।",
+    "aiConsulting": "AI পরামর্শ",
+    "aiConsultingDescription": "কীটপতঙ্গ নিয়ন্ত্রণ, সেচ এবং ফসল ব্যবস্থাপনার জন্য ব্যক্তিগত AI সুপারিশ।",
+    "expertSupport": "বিশেষজ্ঞ সহায়তা",
+    "expertSupportDescription": "কৃষি বিশেষজ্ঞদের কাছে 24/7 অ্যাক্সেস এবং প্রতিটি কৃষি চ্যালেঞ্জের জন্য AI-চালিত সুপারিশ।",
+    "marketConnect": "বাজার সংযোগ",
+    "marketConnectDescription": "ক্রেতাদের সরাসরি অ্যাক্সেস, ন্যায্য মূল্য নির্ধারণ এবং আপনার পণ্যের সেরা মূল্য পেতে স্বচ্ছ বাজার তথ্য।",
+    "aiAnalysis": "AI বিশ্লেষণ",
+    "instantResults": "তাৎক্ষণিক ফলাফল",
+    "soilReportDescription": "আপনার মাটির রিপোর্ট আপলোড করুন এবং সেরা ফসল, রোপণের সময় এবং ফলন অপ্টিমাইজেশন কৌশলের জন্য AI-চালিত সুপারিশ পান।",
+    "soilAnalysisAlt": "মাটি বিশ্লেষণ চিত্র",
+    "soilReportTitle": "ব্যক্তিগত ফসল পরামর্শ পান"
+  },
+  "login": {
+    "welcome": "আবার স্বাগতম",
+    "subtitle": "নির্ভুল কৃষিতে আপনার যাত্রা অব্যাহত রাখুন"
+  },
+  "signup": {
+    "quote": "ডেটা চাষ, সাফল্য ফসল।",
+    "subtitle": "নির্ভুল কৃষির ভবিষ্যতে যোগ দিন"
+  },
+  "form": {
+    "email": "ইমেইল ঠিকানা",
+    "password": "পাসওয়ার্ড",
+    "login": "সাইন ইন করুন",
+    "signup": "সাইন আপ করুন"
+  },
+  "dashboard": {
+    "greeting": "হ্যালো, {{name}}!",
+    "overview": "আপনার খামার পর্যালোচনা"
+  },
+  "cropManagement": {
+    "title": "ফসল ব্যবস্থাপনা",
+    "subtitle": "আপনার ফসল পরিচালনা করুন এবং তাদের বৃদ্ধির অগ্রগতি ট্র্যাক করুন",
+    "addNew": "নতুন ফসল যোগ করুন",
+    "totalCrops": "মোট ফসল",
+    "growing": "বাড়ছে",
+    "nearingHarvest": "ফসল কাটার কাছে",
+    "needsAttention": "মনোযোগ প্রয়োজন",
+    "fieldName": "ক্ষেত/প্লট নাম",
+    "cropType": "ফসলের ধরন",
+    "plantingDate": "রোপণ তারিখ",
+    "expectedHarvestDate": "প্রত্যাশিত ফসল কাটার তারিখ",
+    "notes": "নোট",
+    "actions": "কার্য",
+    "emptyTitle": "এখনও কোন ফসল নেই",
+    "emptyDescription": "এর অগ্রগতি ট্র্যাক করতে আপনার প্রথম ফসল যোগ করে শুরু করুন",
+    "addFirstCrop": "আপনার প্রথম ফসল যোগ করুন",
+    "editCrop": "ফসল সম্পাদনা করুন",
+    "unknown": "অজানা",
+    "deleteConfirm": "আপনি কি সত্যিই এই ফসলটি মুছে ফেলতে চান?",
+    "cropName": "ফসলের নাম",
+    "enterCropName": "ফসলের নাম লিখুন",
+    "enterFieldName": "ক্ষেত/প্লট নাম লিখুন",
+    "selectCropType": "ফসলের ধরন নির্বাচন করুন",
+    "addNotes": "এখানে আপনার ফসল সম্পর্কে নোট যোগ করুন",
+    "cancel": "বাতিল",
+    "updateCrop": "ফসল আপডেট করুন",
+    "addCrop": "ফসল যোগ করুন",
+    "edit": "সম্পাদনা",
+    "editButton": "সম্পাদনা",
+    "plantedOn": "রোপিত",
+    "harvestOn": "ফসল",
+    "cropTypes": {
+      "cereal": "শস্য",
+      "vegetable": "সবজি",
+      "fruit": "ফল",
+      "legume": "ডাল",
+      "rootcrop": "মূল ফসল",
+      "herb": "ভেষজ"
+    }
+  },
+  "soilAnalysis": {
+    "title": "মাটি বিশ্লেষণ",
+    "subtitle": "আপনার খামারের জন্য ব্যক্তিগত সুপারিশ পেতে আপনার মাটির রিপোর্ট আপলোড করুন বা ম্যানুয়ালি মান প্রবেশ করুন।",
+    "tabs": {
+      "upload": "আপলোড",
+      "manualEntry": "ম্যানুয়াল এন্ট্রি"
+    },
+    "uploadSection": {
+      "instructions": "AI সুপারিশের জন্য আপনার মাটি বিশ্লেষণ রিপোর্ট আপলোড করুন",
+      "dragAndDrop": "আপনার ফাইল এখানে টেনে আনুন এবং ছেড়ে দিন",
+      "orText": "অথবা",
+      "browseButton": "ফাইল ব্রাউজ করুন",
+      "supportedFormats": "সমর্থিত ফরম্যাট: JPG, PNG, PDF (10MB পর্যন্ত)",
+      "fileUploaded": "ফাইল সফলভাবে আপলোড হয়েছে!",
+      "analyzing": "আপনার মাটির রিপোর্ট বিশ্লেষণ করা হচ্ছে...",
+      "removeFile": "ফাইল সরান"
+    },
+    "manualForm": {
+      "instructions": "ব্যক্তিগত সুপারিশের জন্য আপনার মাটি পরীক্ষার মান প্রবেশ করুন",
+      "soilTextureLabel": "মাটির গঠন",
+      "selectSoilTexture": "মাটির গঠন নির্বাচন করুন",
+      "continueButton": "চালিয়ে যান",
+      "moreInputsButton": "আমি আরও ইনপুট প্রদান করতে পারি",
+      "phLabel": "মাটির pH",
+      "phPlaceholder": "মাটির pH প্রবেশ করুন (যেমন, 6.5)",
+      "nitrogenLabel": "নাইট্রোজেন (N)",
+      "nitrogenPlaceholder": "নাইট্রোজেন ppm প্রবেশ করুন",
+      "phosphorusLabel": "ফসফরাস (P)",
+      "phosphorusPlaceholder": "ফসফরাস ppm প্রবেশ করুন",
+      "potassiumLabel": "পটাশিয়াম (K)",
+      "potassiumPlaceholder": "পটাশিয়াম ppm প্রবেশ করুন",
+      "organicMatterLabel": "জৈব পদার্থ",
+      "organicMatterPlaceholder": "জৈব পদার্থ % প্রবেশ করুন",
+      "analyzeButton": "মাটি বিশ্লেষণ করুন",
+      "analyzingText": "মাটি বিশ্লেষণ করা হচ্ছে..."
+    },
+    "results": {
+      "yourResults": "আপনার মাটি বিশ্লেষণের ফলাফল",
+      "recommendedCrops": "প্রস্তাবিত ফসল",
+      "soilHealth": "মাটির স্বাস্থ্য",
+      "fertilizers": "প্রস্তাবিত সার",
+      "irrigation": "সেচ নোট",
+      "downloadReport": "রিপোর্ট ডাউনলোড করুন",
+      "viewDetails": "বিস্তারিত দেখুন",
+      "aiAnalysis": "AI মাটি রিপোর্ট বিশ্লেষণ:",
+      "aiRecommendations": "AI মাটি সুপারিশ:",
+      "goToSeedPlace": "বীজ স্থানে যান"
+    },
+    "status": {
+      "low": "কম",
+      "high": "বেশি",
+      "optimal": "সর্বোত্তম",
+      "notAnalyzed": "বিশ্লেষিত নয়"
+    },
+    "errors": {
+      "aiAnalysis": "AI বিশ্লেষণ পেতে ত্রুটি। অনুগ্রহ করে আবার চেষ্টা করুন।",
+      "geminiApi": "Gemini API ত্রুটি: ",
+      "jsonParse": "JSON ফাইল পার্স করতে ত্রুটি:",
+      "loginRequired": "মাটির ডেটা আপলোড করতে অনুগ্রহ করে লগ ইন করুন।",
+      "uploadFailed": "আপলোড ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন।",
+      "processingFailed": "ছবি প্রক্রিয়াকরণে ত্রুটি। অনুগ্রহ করে আবার চেষ্টা করুন।"
+    }
+  },
+  "farmerProfile": {
+    "title": "কৃষক প্রোফাইল ও ড্যাশবোর্ড",
+    "subtitle": "আপনার প্রোফাইল পরিচালনা করুন এবং আপনার কৃষি কার্যক্রম ট্র্যাক করুন",
+    "profile": "প্রোফাইল",
+    "dashboard": "ড্যাশবোর্ড",
+    "personalInfo": "ব্যক্তিগত তথ্য",
+    "editProfile": "প্রোফাইল সম্পাদনা করুন",
+    "saveChanges": "পরিবর্তন সংরক্ষণ করুন"
+  },
+  "marketplace": {
+    "title": "বাজার",
+    "buyProduce": "পণ্য কিনুন",
+    "sellProduce": "পণ্য বিক্রি করুন",
+    "myListings": "আমার তালিকা",
+    "listProduce": "পণ্য তালিকাভুক্ত করুন",
+    "searchPlaceholder": "পণ্য, কৃষক বা স্থান অনুসন্ধান করুন..."
+  },
+  "seedMarketplace": {
+    "title": "বীজ বাজার",
+    "subtitle": "আপনার খামারের জন্য উচ্চ মানের বীজ খুঁজুন",
+    "buyNow": "এখনই কিনুন",
+    "purchaseConfirmation": "আপনি কিনতে নির্বাচন করেছেন",
+    "seedQuality": "প্রিমিয়াম মান",
+    "filterByType": "বীজের ধরন অনুযায়ী ফিল্টার করুন",
+    "sortBy": "এই অনুযায়ী সাজান",
+    "addToCart": "কার্টে যোগ করুন",
+    "viewDetails": "বিস্তারিত দেখুন",
+    "availableSeeds": "উপলব্ধ বীজ",
+    "recommendedSeeds": "মাটি বিশ্লেষণের ভিত্তিতে প্রস্তাবিত"
+  },
+  "carousel1": {
+    "title": "স্মার্ট কৃষি সমাধান",
+    "subtitle": "ভাল ফসল ব্যবস্থাপনার জন্য AI-চালিত অন্তর্দৃষ্টি"
+  },
+  "carousel2": {
+    "title": "বাজার সংযোগ",
+    "subtitle": "ক্রেতাদের সরাসরি অ্যাক্সেস এবং ন্যায্য মূল্য নির্ধারণ"
+  },
+  "carousel3": {
+    "title": "বিশেষজ্ঞ নির্দেশনা",
+    "subtitle": "কৃষি বিশেষজ্ঞদের কাছ থেকে 24/7 সহায়তা"
+  },
+  "bottomNav": {
+    "home": "হোম",
+    "crop": "ফসল",
+    "scan": "স্ক্যান",
+    "market": "বাজার",
+    "profile": "প্রোফাইল"
+  },
+  "language": {
+    "english": "ইংরেজি",
+    "telugu": "তেলুগু",
+    "tamil": "তামিল",
+    "hindi": "হিন্দি",
+    "bengali": "বাংলা",
+    "switch": "ভাষা",
+    "en": "ইংরেজি",
+    "te": "তেলুগু",
+    "ta": "তামিল",
+    "hi": "হিন্দি",
+    "bn": "বাংলা",
+    "settings": "ভাষা সেটিংস",
+    "selectLanguage": "আপনার ভাষা নির্বাচন করুন",
+    "more": "আরও",
+    "helpTranslate": "Sprout কে আরও ভাষায় অনুবাদ করতে আমাদের সাহায্য করুন!"
+  },
+  "common": {
+    "close": "✕",
+    "save": "সংরক্ষণ",
+    "cancel": "বাতিল",
+    "delete": "মুছুন",
+    "edit": "সম্পাদনা",
+    "add": "যোগ করুন"
+  },
+  "weather": {
+    "loading": "আবহাওয়া লোড হচ্ছে...",
+    "loadError": "আবহাওয়ার তথ্য লোড করা যায়নি",
+    "location": "অবস্থান",
+    "temperature": "তাপমাত্রা",
+    "condition": "আবহাওয়া",
+    "board": "আবহাওয়া বোর্ড",
+    "title": "আবহাওয়ার তথ্য"
+  },
+  "weatherBoard": {
+    "title": "আবহাওয়া ড্যাশবোর্ড",
+    "currentWeatherIn": "বর্তমান আবহাওয়া",
+    "forecastFor": "5-দিনের পূর্বাভাস",
+    "errorCurrent": "বর্তমান আবহাওয়া লোড করা যায়নি।",
+    "errorForecast": "পূর্বাভাস লোড করা যায়নি।",
+    "errorLocationDenied": "অবস্থানের অনুমতি প্রত্যাখ্যাত।",
+    "errorGeolocation": "ভৌগোলিক অবস্থান সমর্থিত নয়।"
+  }
+}

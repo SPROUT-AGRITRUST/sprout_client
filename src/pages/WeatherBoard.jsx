@@ -41,7 +41,7 @@ const WeatherBoard = () => {
       );
     }
   };
-
+  
   // Fetch 5-day forecast data
   const fetchForecast = async (lat, lon) => {
     try {

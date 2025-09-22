@@ -8,6 +8,9 @@ export default function LanguageSwitcher({ variant = "default" }) {
   const [languages, setLanguages] = useState([
     { code: "en", label: t("language.english") },
     { code: "te", label: t("language.telugu") },
+    { code: "ta", label: t("language.tamil") },
+    { code: "hi", label: t("language.hindi") },
+    { code: "bn", label: t("language.bengali") },
   ]);
   const [isOpen, setIsOpen] = useState(false);
 
