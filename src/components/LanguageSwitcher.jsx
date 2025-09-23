@@ -5,13 +5,17 @@ import { Globe } from "lucide-react";
 
 export default function LanguageSwitcher({ variant = "default" }) {
   const { i18n, t } = useTranslation();
-  const [languages, setLanguages] = useState([
-    { code: "en", label: t("language.english") },
-    { code: "te", label: t("language.telugu") },
-    { code: "ta", label: t("language.tamil") },
-    { code: "hi", label: t("language.hindi") },
-    { code: "bn", label: t("language.bengali") },
-  ]);
+
+  // Static language names in their respective native scripts
+  const staticLanguages = [
+    { code: "en", label: "English" },
+    { code: "te", label: "తెలుగు" },
+    { code: "ta", label: "தமிழ்" },
+    { code: "hi", label: "हिन्दी" },
+    { code: "bn", label: "বাংলা" },
+  ];
+
+  const [languages, setLanguages] = useState(staticLanguages);
   const [isOpen, setIsOpen] = useState(false);
 
   // Fetch available languages from the server
@@ -20,20 +24,27 @@ export default function LanguageSwitcher({ variant = "default" }) {
       try {
         const availableLanguages = await getAllLanguages();
         if (availableLanguages && availableLanguages.length > 0) {
-          const mappedLanguages = availableLanguages.map((lang) => ({
-            code: lang.code,
-            label: t(`language.${lang.code}`) || lang.name,
-          }));
+          const mappedLanguages = availableLanguages.map((lang) => {
+            // Find the static label or use the server name
+            const staticLang = staticLanguages.find(
+              (sl) => sl.code === lang.code
+            );
+            return {
+              code: lang.code,
+              label: staticLang ? staticLang.label : lang.name,
+            };
+          });
           setLanguages(mappedLanguages);
         }
       } catch (error) {
         console.error("Failed to load languages:", error);
-        // Fall back to default languages if API fails
+        // Fall back to static languages if API fails
+        setLanguages(staticLanguages);
       }
     };
 
     fetchLanguages();
-  }, [t]);
+  }, []); // Removed 't' dependency since we're using static labels
 
   const handleLanguageChange = (langCode) => {
     i18n.changeLanguage(langCode);
